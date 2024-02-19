@@ -1,0 +1,65 @@
+#include "window.h"
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
+#include <iostream>
+
+#include "renderer.h"
+
+Window::Window(int width, int height, const char* title) {
+    glfwSetErrorCallback(Window::errorCallback);
+
+    if (!glfwInit()) {
+        std::cerr << "Could not initialize GLFW!" << std::endl;
+    }
+
+    glfwDefaultWindowHints();
+    glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+
+    handle = glfwCreateWindow(width, height, title, NULL, NULL);
+
+    if (handle == NULL) {
+        std::cerr << "Could not create window!" << std::endl;
+    }
+
+    int windowWitdh;
+    int windowHeight;
+    glfwGetWindowSize(handle, &windowWitdh, &windowHeight);
+
+    const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+    if (videoMode) {
+        int xPosition = (videoMode->width - windowWitdh) / 2;
+        int yPosition = (videoMode->height - windowHeight) / 2;
+        glfwSetWindowPos(handle, xPosition, yPosition);
+    }
+
+    glfwMakeContextCurrent(handle);
+
+    glfwShowWindow(handle);
+}
+
+Window::~Window() {
+    glfwSetErrorCallback(NULL);
+    glfwDestroyWindow(handle);
+
+    glfwTerminate();
+}
+
+void Window::errorCallback(int errorCode, const char* description) {
+    std::cerr << "Error" << errorCode << ": " << description;
+}
+
+void Window::swapBuffers() const {
+    glfwSwapBuffers(handle);
+}
+
+void Window::pollEvents() const {
+    glfwPollEvents();
+}
+
+bool Window::shouldClose() const {
+    return glfwWindowShouldClose(handle);
+}
