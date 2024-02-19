@@ -1,6 +1,6 @@
 ### Running
 
 ```sh
-$ cmake -S src -B build
+$ cmake -S . -B build
 $ cmake --build build
 ```
