@@ -1,7 +1,6 @@
 #include "renderer.h"
 
 #include <glad/glad.h>
-
 #include <iostream>
 #include <vec4.hpp>
 

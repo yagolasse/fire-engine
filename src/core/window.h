@@ -1,5 +1,7 @@
 #pragma once
 
+struct GLFWwindow;
+
 class Window {
    private:
     GLFWwindow* handle;
@@ -10,11 +12,11 @@ class Window {
     Window(int width, int height, const char* name);
     ~Window();
 
-    inline GLFWwindow* getHandle() const {
-        return handle;
-    }
-
     void swapBuffers() const;
     void pollEvents() const;
     bool shouldClose() const;
+
+    inline GLFWwindow* getHandle() const {
+        return handle;
+    }
 };
