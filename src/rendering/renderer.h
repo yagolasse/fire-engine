@@ -5,4 +5,5 @@ class Renderer {
     static void init();
     static void setClearColor();
     static void clear();
+    static void draw();
 };

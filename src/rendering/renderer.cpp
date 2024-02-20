@@ -11,9 +11,13 @@ void Renderer::init() {
 }
 
 void Renderer::setClearColor() {
-    glClearColor(1.0, 0.0, 0.0, 1.0);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
 }
 
 void Renderer::clear() {
     glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Renderer::draw() {
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }

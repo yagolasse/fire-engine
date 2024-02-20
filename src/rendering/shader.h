@@ -7,11 +7,8 @@ class Shader {
     GLuint handle;
 
    public:
-    Shader(GLenum type, const char* source);
+    Shader(GLenum type, const GLchar* source);
     ~Shader();
-
-    void bind() const;
-    void unbind() const;
 
     inline GLuint getHandle() const {
         return handle;
