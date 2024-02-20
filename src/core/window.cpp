@@ -5,14 +5,13 @@
 
 #include <iostream>
 
+#include "assertion.h"
 #include "renderer.h"
 
 Window::Window(int width, int height, const char* title) {
     glfwSetErrorCallback(Window::errorCallback);
 
-    if (!glfwInit()) {
-        std::cerr << "Could not initialize GLFW!" << std::endl;
-    }
+    ASSERT_MSG(glfwInit(), "Could not initialize GLFW!");
 
     glfwDefaultWindowHints();
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
@@ -24,9 +23,7 @@ Window::Window(int width, int height, const char* title) {
 
     handle = glfwCreateWindow(width, height, title, NULL, NULL);
 
-    if (handle == NULL) {
-        std::cerr << "Could not create window!" << std::endl;
-    }
+    ASSERT_MSG(handle, "Could not create window!");
 
     int windowWitdh;
     int windowHeight;

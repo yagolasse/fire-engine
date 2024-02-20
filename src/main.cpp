@@ -2,23 +2,28 @@
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 
-#include <memory>
 #include <fstream>
+#include <memory>
 #include <sstream>
 
-#include "core/window.h"
-#include "rendering/renderer.h"
-#include "rendering/shader.h"
-#include "rendering/shader_program.h"
-#include "rendering/vertex_buffer.h"
+#include "assertion.h"
+#include "renderer.h"
+#include "shader.h"
+#include "shader_program.h"
+#include "vertex_array_buffer.h"
+#include "vertex_buffer.h"
+#include "window.h"
 
 int main(int argc, char* argv[]) {
     Window window(1280, 720, "Hello Window");
 
     Renderer::init();
 
-    std::ifstream fragFileStream("/Users/yagolasse/Documents/Projects/fire-engine/resources/frag.glsl");
-    std::ifstream vertFileStream("/Users/yagolasse/Documents/Projects/fire-engine/resources/vert.glsl");
+    std::ifstream fragFileStream("../resources/frag.glsl");
+    std::ifstream vertFileStream("../resources/vert.glsl");
+
+    ASSERT_MSG(!fragFileStream.fail(), "Failed to open fragment shader");
+    ASSERT_MSG(!vertFileStream.fail(), "Failed to open fragment shader");
 
     std::stringstream fragStringBuffer;
     std::stringstream vertStringBuffer;
@@ -34,17 +39,19 @@ int main(int argc, char* argv[]) {
 
     auto shader = std::make_unique<ShaderProgram>(std::move(vertexShader), std::move(fragmentShader));
 
-    float vertices[] = {
-        -0.5f, -0.5f, 0.0f, 
-        0.5f, -0.5f, 0.0f, 
-        0.0f, 0.5f, 0.0f
-    };
+    float vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
+
+    VertexArrayBuffer vertexArrayBuffer;
+
+    vertexArrayBuffer.bind();
 
     VertexBuffer vertexBuffer;
 
     vertexBuffer.bind();
 
     vertexBuffer.bufferData(vertices, sizeof(vertices));
+
+    vertexArrayBuffer.setupAttributePointer(0, 3);
 
     Renderer::setClearColor();
 

@@ -21,15 +21,17 @@ FetchContent_MakeAvailable(
     glfw3 glm
 )
 
+if(APPLE AND UNIX)
 target_compile_options(glm PRIVATE
     -Wno-c++98-compat 
     -Wno-c++98-compat-pedantic
 )
+endif()
 
 file(GLOB CORE_SOURCE src/core/*.cpp)
 file(GLOB RENDERING_SOURCE src/rendering/*.cpp)
 
-add_executable(fire-engine src/main.cpp ${RENDERING_SOURCE} ${CORE_SOURCE} vendor/glad/src/glad.c)
+add_executable(fire-engine vendor/glad/src/glad.c ${CORE_SOURCE} ${RENDERING_SOURCE} src/main.cpp)
 
 target_include_directories(fire-engine PRIVATE vendor/glad/include)
 

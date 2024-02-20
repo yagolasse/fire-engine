@@ -1,13 +1,15 @@
 #include "renderer.h"
 
 #include <glad/glad.h>
+
 #include <iostream>
 #include <vec4.hpp>
 
+#include "assertion.h"
+
+
 void Renderer::init() {
-    if (!gladLoadGL()) {
-        std::cerr << "Could not initialize Glad/load GL!" << std::endl;
-    }
+    ASSERT_MSG(gladLoadGL(), "Could not initialize Glad/load GL!");
 }
 
 void Renderer::setClearColor() {
