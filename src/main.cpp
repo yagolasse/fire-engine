@@ -7,6 +7,7 @@
 #include <sstream>
 
 #include "assertion.h"
+#include "element_array_buffer.h"
 #include "renderer.h"
 #include "shader.h"
 #include "shader_program.h"
@@ -38,23 +39,43 @@ int main(int argc, char* argv[]) {
     fragFileStream.close();
     vertFileStream.close();
 
-    auto shader = std::make_unique<ShaderProgram>(std::move(vertexShader), std::move(fragmentShader));
+    ShaderProgram shader(std::move(vertexShader), std::move(fragmentShader));
 
     float vertices[] = {
         -0.5f, -0.5f, 0.0f, // Left bottom 
         0.5f, -0.5f, 0.0f, // Right bottom
-        0.0f, 0.5f, 0.0f // Top center
+        0.5f, 0.5f, 0.0f, // Top Right
+        -0.5f, 0.5f, 0.0f, // Top Left
+    };
+
+    float colors[] = {
+        0.0f, 0.0f, 0.0f, // Left bottom 
+        1.0f, 0.0f, 0.0f, // Right bottom
+        0.0f, 1.0f, 0.0f, // Top Right
+        0.0f, 0.0f, 1.0f, // Top Left
+    };
+
+    unsigned int indices[] = {
+        0, 1, 2,
+        2, 3, 0,
     };
 
     float texCoords[] = {
         0.0f, 0.0f,  // lower-left corner
         1.0f, 0.0f,  // lower-right corner
-        0.5f, 1.0f   // top-center corner
+        1.0f, 1.0f,  // top-right corner
+        0.0f, 1.0f,  // top-left corner
     };
 
     VertexArrayBuffer vertexArrayBuffer;
 
     vertexArrayBuffer.bind();
+
+    ElementArrayBuffer elementArrayBuffer;
+
+    elementArrayBuffer.bind();
+
+    elementArrayBuffer.bufferData(indices, sizeof(indices));
 
     VertexBuffer vertexBuffer;
 
@@ -64,19 +85,27 @@ int main(int argc, char* argv[]) {
 
     vertexArrayBuffer.setupAttributePointer(0, 3);
 
+    VertexBuffer colorVertexBuffer;
+
+    colorVertexBuffer.bind();
+
+    colorVertexBuffer.bufferData(colors, sizeof(colors));
+
+    vertexArrayBuffer.setupAttributePointer(1, 3);
+
     VertexBuffer textureCoordinateBuffer;
 
     textureCoordinateBuffer.bind();
 
     textureCoordinateBuffer.bufferData(texCoords, sizeof(texCoords));
 
-    vertexArrayBuffer.setupAttributePointer(1, 2);
+    vertexArrayBuffer.setupAttributePointer(2, 2);
 
     Texture texture("../resources/container-texture.jpg");
 
     Renderer::setClearColor();
 
-    shader->bind();
+    shader.bind();
 
     while (!window.shouldClose()) {
         Renderer::clear();
