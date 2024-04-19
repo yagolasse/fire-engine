@@ -20,6 +20,7 @@ class ShaderProgram {
     void setBool(const char* name, bool value) const;
     void setInt(const char* name, int value) const;
     void setFloat(const char* name, float value) const;
+    void setMat4(const char* name, float* value) const;
 
     inline GLuint getHandle() const {
         return handle;

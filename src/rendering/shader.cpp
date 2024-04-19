@@ -12,9 +12,9 @@ Shader::Shader(GLenum type, const GLchar* source) {
     GLint success;
     glGetShaderiv(handle, GL_COMPILE_STATUS, &success);
 
-    if(!success) {
+    if (!success) {
         char infoLog[512];
-        glGetShaderInfoLog(handle, 512, NULL, infoLog);        
+        glGetShaderInfoLog(handle, 512, NULL, infoLog);
         std::cerr << "Error compiling shader: " << infoLog << std::endl;
     }
 }

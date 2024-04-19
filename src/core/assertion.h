@@ -18,32 +18,32 @@ class Logger {
     static void reportAssertionFailure(const char* expression, const char* message, const char* file, int line);
 };
 
-#define ASSERT(expr)                                               \
-    {                                                              \
-        if (expr) {                                                \
-        } else {                                                   \
+#define ASSERT(expr)                                                       \
+    {                                                                      \
+        if (expr) {                                                        \
+        } else {                                                           \
             Logger::reportAssertionFailure(#expr, "", __FILE__, __LINE__); \
-            debugBreak();                                          \
-        }                                                          \
+            debugBreak();                                                  \
+        }                                                                  \
     }
 
-#define ASSERT_MSG(expr, message)                                       \
-    {                                                                   \
-        if (expr) {                                                     \
-        } else {                                                        \
+#define ASSERT_MSG(expr, message)                                               \
+    {                                                                           \
+        if (expr) {                                                             \
+        } else {                                                                \
             Logger::reportAssertionFailure(#expr, message, __FILE__, __LINE__); \
-            debugBreak();                                               \
-        }                                                               \
+            debugBreak();                                                       \
+        }                                                                       \
     }
 
 #ifdef _DEBUG
-#define ASSERT_DEBUG(expr)                                         \
-    {                                                              \
-        if (expr) {                                                \
-        } else {                                                   \
+#define ASSERT_DEBUG(expr)                                                 \
+    {                                                                      \
+        if (expr) {                                                        \
+        } else {                                                           \
             Logger::reportAssertionFailure(#expr, "", __FILE__, __LINE__); \
-            debugBreak();                                          \
-        }                                                          \
+            debugBreak();                                                  \
+        }                                                                  \
     }
 #else
 #define ASSERT_DEBUG(expr)  // Does nothing at all

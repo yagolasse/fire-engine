@@ -3,6 +3,9 @@
 #include <stdio.h>
 
 #include <fstream>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
 #include <memory>
 #include <sstream>
 
@@ -17,6 +20,7 @@
 #include "window.h"
 
 int main(int argc, char* argv[]) {
+    
     Window window(1280, 720, "Hello Window");
 
     Renderer::init();
@@ -41,11 +45,43 @@ int main(int argc, char* argv[]) {
 
     ShaderProgram shader(std::move(vertexShader), std::move(fragmentShader));
 
+    // float vertices[] = {
+    //     -0.5f, -0.5f, 0.0f,  // Left bottom
+    //     0.5f,  -0.5f, 0.0f,  // Right bottom
+    //     0.5f,  0.5f,  0.0f,  // Top Right
+    //     -0.5f, 0.5f,  0.0f,  // Top Left
+    // };
+
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,  // Left bottom
-        0.5f,  -0.5f, 0.0f,  // Right bottom
-        0.5f,  0.5f,  0.0f,  // Top Right
-        -0.5f, 0.5f,  0.0f,  // Top Left
+        -0.5f, -0.5f, -0.5f,
+        0.5f, -0.5f, -0.5f, 
+        0.5f,  0.5f, -0.5f, 
+        -0.5f,  0.5f, -0.5f,
+
+        -0.5f, -0.5f,  0.5f, 
+        0.5f, -0.5f,  0.5f, 
+        0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f,  0.5f,
+
+        -0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f, -0.5f, 
+        -0.5f, -0.5f, -0.5f, 
+        -0.5f, -0.5f,  0.5f,
+
+        0.5f,  0.5f,  0.5f, 
+        0.5f,  0.5f, -0.5f, 
+        0.5f, -0.5f, -0.5f, 
+        0.5f, -0.5f,  0.5f,
+
+        -0.5f, -0.5f, -0.5f,
+        0.5f, -0.5f, -0.5f, 
+        0.5f, -0.5f,  0.5f, 
+        -0.5f, -0.5f,  0.5f, 
+
+        -0.5f,  0.5f, -0.5f, 
+        0.5f,  0.5f, -0.5f,
+        0.5f,  0.5f,  0.5f, 
+        -0.5f,  0.5f,  0.5f,
     };
 
     float colors[] = {
@@ -55,15 +91,57 @@ int main(int argc, char* argv[]) {
         0.0f, 0.0f, 1.0f,  // Top Left
     };
 
-    unsigned int indices[] = {
-        0, 1, 2, 2, 3, 0,
-    };
+    unsigned int indices[36];
 
+    int index = 0;
+    
+    for (int i = 0; i < 36; i += 6) {
+        indices[0 + i] = 0 + index;
+        indices[1 + i] = 1 + index;
+        indices[2 + i] = 2 + index;
+        indices[3 + i] = 2 + index;
+        indices[4 + i] = 3 + index;
+        indices[5 + i] = 0 + index;
+        index += 4;
+    }
+
+    // float texCoords[] = {
+    //     0.0f, 0.0f,  // lower-left corner
+    //     1.0f, 0.0f,  // lower-right corner
+    //     1.0f, 1.0f,  // top-right corner
+    //     0.0f, 1.0f,  // top-left corner
+    // };
+    
     float texCoords[] = {
-        0.0f, 0.0f,  // lower-left corner
-        1.0f, 0.0f,  // lower-right corner
-        1.0f, 1.0f,  // top-right corner
-        0.0f, 1.0f,  // top-left corner
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 0.0f,
+
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 0.0f,
     };
 
     VertexArrayBuffer vertexArrayBuffer;
@@ -100,20 +178,34 @@ int main(int argc, char* argv[]) {
 
     vertexArrayBuffer.setupAttributePointer(2, 2);
 
-    Texture smileTexture("../resources/awesomeface.png");
-
     Texture containerTexture("../resources/container-texture.jpg");
 
+    Texture smileTexture("../resources/awesomeface.png");
+
     Renderer::setClearColor();
+
+    glm::mat4 model(1.0f);
+
+    glm::mat4 view(1.0f);
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+    glm::mat4 projection;
+    projection = glm::perspective(glm::radians(70.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
 
     while (!window.shouldClose()) {
         shader.bind();
 
         smileTexture.bind();
         containerTexture.bind();
-        
+
         shader.setInt("texture1", 0);
         shader.setInt("texture2", 1);
+
+        model = glm::rotate(model, glm::radians(1.0f) * 0.016f, glm::vec3(1.0f, 1.0f, 0.0f));
+
+        shader.setMat4("model", glm::value_ptr(model));
+        shader.setMat4("view", glm::value_ptr(view));
+        shader.setMat4("projection", glm::value_ptr(projection));
 
         Renderer::clear();
 

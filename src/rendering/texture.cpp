@@ -18,7 +18,7 @@ Texture::Texture(const char* path) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    stbi_set_flip_vertically_on_load(true);  
+    stbi_set_flip_vertically_on_load(true);
 
     const stbi_uc* data = stbi_load(path, &width, &height, &channels, 0);
 
@@ -29,7 +29,7 @@ Texture::Texture(const char* path) {
     glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
 
-    index = globalIndex++; // Grabs current global index, increments it
+    index = globalIndex++;  // Grabs current global index, increments it
 
     stbi_image_free((void*)data);
 }

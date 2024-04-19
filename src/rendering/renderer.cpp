@@ -7,6 +7,9 @@
 
 void Renderer::init() {
     ASSERT_MSG(gladLoadGL(), "Could not initialize Glad/load GL!");
+
+    glEnable(GL_DEPTH_TEST);
+
     glDebugMessageCallback([](GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
                               const GLchar* message, const void* userParam) { std::cerr << message << std::endl; },
                            nullptr);
@@ -17,9 +20,9 @@ void Renderer::setClearColor() {
 }
 
 void Renderer::clear() {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Renderer::draw() {
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }
