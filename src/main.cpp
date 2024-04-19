@@ -10,6 +10,7 @@
 #include "renderer.h"
 #include "shader.h"
 #include "shader_program.h"
+#include "texture.h"
 #include "vertex_array_buffer.h"
 #include "vertex_buffer.h"
 #include "window.h"
@@ -23,7 +24,7 @@ int main(int argc, char* argv[]) {
     std::ifstream vertFileStream("../resources/vert.glsl");
 
     ASSERT_MSG(!fragFileStream.fail(), "Failed to open fragment shader");
-    ASSERT_MSG(!vertFileStream.fail(), "Failed to open fragment shader");
+    ASSERT_MSG(!vertFileStream.fail(), "Failed to open vertex shader");
 
     std::stringstream fragStringBuffer;
     std::stringstream vertStringBuffer;
@@ -39,7 +40,17 @@ int main(int argc, char* argv[]) {
 
     auto shader = std::make_unique<ShaderProgram>(std::move(vertexShader), std::move(fragmentShader));
 
-    float vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
+    float vertices[] = {
+        -0.5f, -0.5f, 0.0f, // Left bottom 
+        0.5f, -0.5f, 0.0f, // Right bottom
+        0.0f, 0.5f, 0.0f // Top center
+    };
+
+    float texCoords[] = {
+        0.0f, 0.0f,  // lower-left corner
+        1.0f, 0.0f,  // lower-right corner
+        0.5f, 1.0f   // top-center corner
+    };
 
     VertexArrayBuffer vertexArrayBuffer;
 
@@ -52,6 +63,16 @@ int main(int argc, char* argv[]) {
     vertexBuffer.bufferData(vertices, sizeof(vertices));
 
     vertexArrayBuffer.setupAttributePointer(0, 3);
+
+    VertexBuffer textureCoordinateBuffer;
+
+    textureCoordinateBuffer.bind();
+
+    textureCoordinateBuffer.bufferData(texCoords, sizeof(texCoords));
+
+    vertexArrayBuffer.setupAttributePointer(1, 2);
+
+    Texture texture("../resources/container-texture.jpg");
 
     Renderer::setClearColor();
 

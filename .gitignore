@@ -47,7 +47,7 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
-/build
+build/
 
 ### CMake Patch ###
 # External projects
@@ -73,3 +73,6 @@ _deps
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/cmake,c++,visualstudiocode
+
+# Visual Studio
+.vs/
