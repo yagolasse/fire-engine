@@ -24,7 +24,9 @@ Texture::Texture(const char* path) {
 
     ASSERT_MSG(data, "Failed to load texture");
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    int type = channels == 3 ? GL_RGB : GL_RGBA;
+
+    glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     index = globalIndex++; // Grabs current global index, increments it
@@ -32,7 +34,11 @@ Texture::Texture(const char* path) {
     stbi_image_free((void*)data);
 }
 
+Texture::~Texture() {
+    glDeleteTextures(1, &handle);
+}
+
 void Texture::bind() const {
-    glActiveTexture(GL_TEXTURE + index);
+    glActiveTexture(GL_TEXTURE0 + index);
     glBindTexture(GL_TEXTURE_2D, handle);
 }

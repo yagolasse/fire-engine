@@ -42,22 +42,21 @@ int main(int argc, char* argv[]) {
     ShaderProgram shader(std::move(vertexShader), std::move(fragmentShader));
 
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f, // Left bottom 
-        0.5f, -0.5f, 0.0f, // Right bottom
-        0.5f, 0.5f, 0.0f, // Top Right
-        -0.5f, 0.5f, 0.0f, // Top Left
+        -0.5f, -0.5f, 0.0f,  // Left bottom
+        0.5f,  -0.5f, 0.0f,  // Right bottom
+        0.5f,  0.5f,  0.0f,  // Top Right
+        -0.5f, 0.5f,  0.0f,  // Top Left
     };
 
     float colors[] = {
-        0.0f, 0.0f, 0.0f, // Left bottom 
-        1.0f, 0.0f, 0.0f, // Right bottom
-        0.0f, 1.0f, 0.0f, // Top Right
-        0.0f, 0.0f, 1.0f, // Top Left
+        0.0f, 0.0f, 0.0f,  // Left bottom
+        1.0f, 0.0f, 0.0f,  // Right bottom
+        0.0f, 1.0f, 0.0f,  // Top Right
+        0.0f, 0.0f, 1.0f,  // Top Left
     };
 
     unsigned int indices[] = {
-        0, 1, 2,
-        2, 3, 0,
+        0, 1, 2, 2, 3, 0,
     };
 
     float texCoords[] = {
@@ -101,13 +100,21 @@ int main(int argc, char* argv[]) {
 
     vertexArrayBuffer.setupAttributePointer(2, 2);
 
-    Texture texture("../resources/container-texture.jpg");
+    Texture smileTexture("../resources/awesomeface.png");
+
+    Texture containerTexture("../resources/container-texture.jpg");
 
     Renderer::setClearColor();
 
-    shader.bind();
-
     while (!window.shouldClose()) {
+        shader.bind();
+
+        smileTexture.bind();
+        containerTexture.bind();
+        
+        shader.setInt("texture1", 0);
+        shader.setInt("texture2", 1);
+
         Renderer::clear();
 
         Renderer::draw();

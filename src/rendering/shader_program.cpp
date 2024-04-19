@@ -29,6 +29,18 @@ void ShaderProgram::unbind() const {
     glUseProgram(0);
 }
 
+void ShaderProgram::setBool(const char* name, bool value) const {
+    glUniform1i(glGetUniformLocation(handle, name), (int)value); 
+}
+
+void ShaderProgram::setInt(const char* name, int value) const {
+    glUniform1i(glGetUniformLocation(handle, name), value); 
+}
+
+void ShaderProgram::setFloat(const char* name, float value) const {
+    glUniform1f(glGetUniformLocation(handle, name), value); 
+}
+
 ShaderProgram::~ShaderProgram() {
     glDeleteProgram(handle);
 }
