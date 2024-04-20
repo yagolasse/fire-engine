@@ -1,5 +1,4 @@
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
+
 #include <stdio.h>
 
 #include <fstream>
@@ -24,12 +23,20 @@
 #include "camera.h"
 #include "debug_ui.h"
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 int main(int argc, char* argv[]) {
     
+    std::cout << "Starting..." << std::endl;
+
     Window window(1280, 720, "Hello Window");
 
-    Renderer::init();
+    std::cout << "Window created, initializing GL..." << std::endl;
+
+    Renderer::init((GLADloadproc) glfwGetProcAddress);
+
+    std::cout << "GL initialized, initializing Debug UI..." << std::endl;
 
     DebugUi::init(window.getHandle());
 

@@ -22,6 +22,8 @@
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/",
             "environment": [],
+            "MIMode": "lldb",
+            "preLaunchTask": "Build"
         }
     ]
 }

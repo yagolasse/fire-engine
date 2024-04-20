@@ -5,14 +5,10 @@
 
 #include "assertion.h"
 
-void Renderer::init() {
-    ASSERT_MSG(gladLoadGL(), "Could not initialize Glad/load GL!");
+void Renderer::init(GLADloadproc loadProcedure) {
+    ASSERT_MSG(gladLoadGLLoader(loadProcedure), "Could not initialize Glad/load GL!");
 
     glEnable(GL_DEPTH_TEST);
-
-    glDebugMessageCallback([](GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
-                              const GLchar* message, const void* userParam) { std::cerr << message << std::endl; },
-                           nullptr);
 }
 
 void Renderer::setClearColor() {
