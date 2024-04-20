@@ -3,11 +3,14 @@
 #include <stdio.h>
 
 #include <fstream>
+#include <memory>
+#include <sstream>
+
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
-#include <memory>
-#include <sstream>
+
+#include <imgui.h>
 
 #include "assertion.h"
 #include "element_array_buffer.h"
@@ -19,12 +22,16 @@
 #include "vertex_buffer.h"
 #include "window.h"
 #include "camera.h"
+#include "debug_ui.h"
+
 
 int main(int argc, char* argv[]) {
     
     Window window(1280, 720, "Hello Window");
 
     Renderer::init();
+
+    DebugUi::init(window.getHandle());
 
     std::ifstream fragFileStream("../resources/frag.glsl");
     std::ifstream vertFileStream("../resources/vert.glsl");
@@ -194,6 +201,10 @@ int main(int argc, char* argv[]) {
     projection = glm::perspective(glm::radians(70.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
 
     while (!window.shouldClose()) {
+        window.pollEvents();
+
+        DebugUi::beginFrame();
+
         shader.bind();
 
         smileTexture.bind();
@@ -212,10 +223,12 @@ int main(int argc, char* argv[]) {
 
         Renderer::draw();
 
-        window.pollEvents();
+        DebugUi::draw();
 
         window.swapBuffers();
     }
+
+    DebugUi::dispose();
 
     return 0;
 }

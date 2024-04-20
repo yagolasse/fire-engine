@@ -29,10 +29,13 @@ target_compile_options(glm PRIVATE
 )
 endif()
 
-file(GLOB CORE_SOURCE src/core/*.cpp)
-file(GLOB RENDERING_SOURCE src/rendering/*.cpp)
+set(CORE_SOURCE src/core/application.cpp src/core/assertion.cpp src/core/camera.cpp src/core/debug_ui.cpp src/core/window.cpp)
+set(RENDERING_SOURCE src/rendering/element_array_buffer.cpp src/rendering/renderer.cpp src/rendering/shader_program.cpp src/rendering/shader.cpp src/rendering/texture.cpp src/rendering/vertex_array_buffer.cpp src/rendering/vertex_buffer.cpp)
 
-add_executable(fire-engine vendor/glad/src/glad.c ${CORE_SOURCE} ${RENDERING_SOURCE} src/main.cpp)
+set(IMGUI_BACKEND vendor/imgui/backends/imgui_impl_glfw.cpp vendor/imgui/backends/imgui_impl_opengl3.cpp)
+set(IMGUI_SOURCE vendor/imgui/imgui_demo.cpp vendor/imgui/imgui_draw.cpp vendor/imgui/imgui_tables.cpp vendor/imgui/imgui_widgets.cpp vendor/imgui/imgui.cpp)
+
+add_executable(fire-engine vendor/glad/src/glad.c ${IMGUI_BACKEND} ${IMGUI_SOURCE} ${CORE_SOURCE} ${RENDERING_SOURCE} src/main.cpp)
 
 add_custom_target(copy_resources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -42,6 +45,8 @@ add_custom_target(copy_resources ALL
 )
 
 add_dependencies(fire-engine copy_resources)
+
+target_include_directories(fire-engine PRIVATE vendor/imgui)
 
 target_include_directories(fire-engine PRIVATE vendor/glad/include)
 target_include_directories(fire-engine PRIVATE vendor/stb/include)
