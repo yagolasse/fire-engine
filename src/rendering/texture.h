@@ -15,5 +15,8 @@ class Texture {
     Texture(const char* path);
     ~Texture();
 
+    inline const int getIndex() const {
+        return index;
+    }
     void bind() const;
 };

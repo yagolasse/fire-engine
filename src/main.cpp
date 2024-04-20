@@ -217,8 +217,14 @@ int main(int argc, char* argv[]) {
         smileTexture.bind();
         containerTexture.bind();
 
-        shader.setInt("texture1", 0);
-        shader.setInt("texture2", 1);
+        shader.setInt("texture1", containerTexture.getIndex());
+        shader.setInt("texture2", smileTexture.getIndex());
+
+        const float radius = 10.0f;
+        float cameraZ = glm::cos(glfwGetTime()) * radius;
+        float cameraX = glm::sin(glfwGetTime()) * radius;
+
+        camera.setPosition({cameraX, 0.0f, cameraZ});
 
         glm::mat4 view = camera.getView();
 
