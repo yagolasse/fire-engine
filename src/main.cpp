@@ -18,6 +18,7 @@
 #include "vertex_array_buffer.h"
 #include "vertex_buffer.h"
 #include "window.h"
+#include "camera.h"
 
 int main(int argc, char* argv[]) {
     
@@ -185,9 +186,9 @@ int main(int argc, char* argv[]) {
     Renderer::setClearColor();
 
     glm::mat4 model(1.0f);
+    model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 1.0f, 0.0f));
 
-    glm::mat4 view(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    Camera camera(glm::vec3(0.0f, 0.0f, -3.0f));
 
     glm::mat4 projection;
     projection = glm::perspective(glm::radians(70.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
@@ -201,7 +202,7 @@ int main(int argc, char* argv[]) {
         shader.setInt("texture1", 0);
         shader.setInt("texture2", 1);
 
-        model = glm::rotate(model, glm::radians(1.0f) * 0.016f, glm::vec3(1.0f, 1.0f, 0.0f));
+        glm::mat4 view = camera.getView();
 
         shader.setMat4("model", glm::value_ptr(model));
         shader.setMat4("view", glm::value_ptr(view));
