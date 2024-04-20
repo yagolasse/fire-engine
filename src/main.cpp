@@ -28,15 +28,9 @@
 
 int main(int argc, char* argv[]) {
     
-    std::cout << "Starting..." << std::endl;
-
     Window window(1280, 720, "Hello Window");
 
-    std::cout << "Window created, initializing GL..." << std::endl;
-
     Renderer::init((GLADloadproc) glfwGetProcAddress);
-
-    std::cout << "GL initialized, initializing Debug UI..." << std::endl;
 
     DebugUi::init(window.getHandle());
 
@@ -220,11 +214,11 @@ int main(int argc, char* argv[]) {
         shader.setInt("texture1", containerTexture.getIndex());
         shader.setInt("texture2", smileTexture.getIndex());
 
-        const float radius = 10.0f;
-        float cameraZ = glm::cos(glfwGetTime()) * radius;
-        float cameraX = glm::sin(glfwGetTime()) * radius;
+        // const float radius = 10.0f;
+        // float cameraZ = glm::cos(glfwGetTime()) * radius;
+        // float cameraX = glm::sin(glfwGetTime()) * radius;
 
-        camera.setPosition({cameraX, 0.0f, cameraZ});
+        // camera.setPosition({cameraX, 0.0f, cameraZ});
 
         glm::mat4 view = camera.getView();
 
