@@ -1,6 +1,6 @@
 
 #include <stdio.h>
-
+#include <iostream>
 #include <fstream>
 #include <memory>
 #include <sstream>
@@ -55,7 +55,10 @@ int main(int argc, char* argv[]) {
     fragFileStream.close();
     vertFileStream.close();
 
-    ShaderProgram shader(std::move(vertexShader), std::move(fragmentShader));
+    std::shared_ptr<ShaderProgram> shader = std::make_shared<ShaderProgram>(
+        std::move(vertexShader), 
+        std::move(fragmentShader)
+    );
 
     // float vertices[] = {
     //     -0.5f, -0.5f, 0.0f,  // Left bottom
@@ -64,7 +67,7 @@ int main(int argc, char* argv[]) {
     //     -0.5f, 0.5f,  0.0f,  // Top Left
     // };
 
-    float vertices[] = {
+    float old_vertices[] = {
         -0.5f, -0.5f, -0.5f,
         0.5f, -0.5f, -0.5f, 
         0.5f,  0.5f, -0.5f, 
@@ -103,19 +106,19 @@ int main(int argc, char* argv[]) {
         0.0f, 0.0f, 1.0f,  // Top Left
     };
 
-    unsigned int indices[36];
+    // unsigned int indices[36];
 
-    int index = 0;
+    // int index = 0;
     
-    for (int i = 0; i < 36; i += 6) {
-        indices[0 + i] = 0 + index;
-        indices[1 + i] = 1 + index;
-        indices[2 + i] = 2 + index;
-        indices[3 + i] = 2 + index;
-        indices[4 + i] = 3 + index;
-        indices[5 + i] = 0 + index;
-        index += 4;
-    }
+    // for (int i = 0; i < 36; i += 6) {
+    //     indices[0 + i] = 0 + index;
+    //     indices[1 + i] = 1 + index;
+    //     indices[2 + i] = 2 + index;
+    //     indices[3 + i] = 2 + index;
+    //     indices[4 + i] = 3 + index;
+    //     indices[5 + i] = 0 + index;
+    //     index += 4;
+    // }
 
     // float texCoords[] = {
     //     0.0f, 0.0f,  // lower-left corner
@@ -156,6 +159,15 @@ int main(int argc, char* argv[]) {
         0.0f, 0.0f,
     };
 
+    std::vector<Vertex> vertices = {
+        Vertex { { -0.5f, -0.5f, 0.0f, }, { 0.0f, 0.0f, 0.0f, }, { 0.0f, 0.0f, } },
+        Vertex { { 0.5f,  -0.5f, 0.0f, }, { 1.0f, 0.0f, 0.0f, }, { 1.0f, 0.0f, } },
+        Vertex { { 0.5f,   0.5f, 0.0f, }, { 0.0f, 1.0f, 0.0f, }, { 1.0f, 1.0f, } },
+        Vertex { { -0.5f,  0.5f, 0.0f, }, { 0.0f, 0.0f, 1.0f, }, { 0.0f, 1.0f, } },
+    };
+
+    std::vector<unsigned int> indices = { 0, 1, 2, 2, 3, 0 };
+
     // VertexArrayBuffer vertexArrayBuffer;
 
     // vertexArrayBuffer.bind();
@@ -164,15 +176,19 @@ int main(int argc, char* argv[]) {
 
     // elementArrayBuffer.bind();
 
-    // elementArrayBuffer.bufferData(indices, sizeof(indices));
+    // elementArrayBuffer.bufferData(&indices[0], indices.size() * sizeof(unsigned int));
 
     // VertexBuffer vertexBuffer;
 
     // vertexBuffer.bind();
 
-    // vertexBuffer.bufferData(vertices, sizeof(vertices));
+    // vertexBuffer.bufferData(&vertices[0], vertices.size() * sizeof(Vertex));
 
-    // vertexArrayBuffer.setupAttributePointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)0);
+    // vertexArrayBuffer.setupAttributePointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    // vertexArrayBuffer.setupAttributePointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+    // vertexArrayBuffer.setupAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinate));
+    
+    // vertexArrayBuffer.unbind();
 
     // VertexBuffer colorVertexBuffer;
 
@@ -194,16 +210,16 @@ int main(int argc, char* argv[]) {
 
     Texture smileTexture("../resources/awesomeface.png");
 
+    std::vector<Texture> textures = {
+        smileTexture, containerTexture, 
+    };
+
     Renderer::setClearColor();
 
-    std::vector<Vertex> vertices();
-
-    std::vector<unsigned int> indices = { 0, 1, 2, 2, 3, 0 };
-
-    Mesh* mesh = new Mesh(vertices, indices);
+    Mesh mesh(vertices, textures, indices);
 
     glm::mat4 model(1.0f);
-    model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 1.0f, 0.0f));
+    // model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 1.0f, 0.0f));
 
     Camera camera(glm::vec3(0.0f, 0.0f, -3.0f));
 
@@ -215,13 +231,15 @@ int main(int argc, char* argv[]) {
 
         DebugUi::beginFrame();
 
-        shader.bind();
+        Renderer::clear();
 
-        smileTexture.bind();
-        containerTexture.bind();
+        // shader->bind();
 
-        shader.setInt("texture1", containerTexture.getIndex());
-        shader.setInt("texture2", smileTexture.getIndex());
+        // smileTexture.bind();
+        // containerTexture.bind();
+
+        // shader.setInt("texture1", containerTexture.getIndex());
+        // shader.setInt("texture2", smileTexture.getIndex());
 
         // const float radius = 10.0f;
         // float cameraZ = glm::cos(glfwGetTime()) * radius;
@@ -231,15 +249,25 @@ int main(int argc, char* argv[]) {
 
         glm::mat4 view = camera.getView();
 
-        shader.setMat4("model", glm::value_ptr(model));
-        shader.setMat4("view", glm::value_ptr(view));
-        shader.setMat4("projection", glm::value_ptr(projection));
+        // shader->setMat4("model", glm::value_ptr(model));
+        // shader->setMat4("view", glm::value_ptr(view));
+        // shader->setMat4("projection", glm::value_ptr(projection));
 
-        Renderer::clear();
+        // vertexArrayBuffer.bind();
 
-        Renderer::draw();
+        // Renderer::draw(indices.size());
+
+        // vertexArrayBuffer.unbind();
+
+        mesh.draw(shader);
 
         DebugUi::draw();
+
+        GLenum err;
+        while((err = glGetError()) != GL_NO_ERROR)
+        {
+            std::cerr << err << std::endl;
+        }
 
         window.swapBuffers();
     }

@@ -7,5 +7,6 @@ class Renderer {
     static void init(GLADloadproc loadProcedure);
     static void setClearColor();
     static void clear();
-    static void draw();
+    static void draw(int elementCount);
+    static void makeTextureActive(unsigned int index);
 };

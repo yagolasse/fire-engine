@@ -4,19 +4,18 @@
 
 class Texture {
    private:
-    GLuint handle;
+    unsigned int handle;
     int width;
     int height;
     int channels;
-    int index;
-    static int globalIndex;
 
    public:
     Texture(const char* path);
     ~Texture();
 
-    inline const int getIndex() const {
-        return index;
-    }
     void bind() const;
+
+    inline unsigned int getHandle() const {
+        return handle;
+    }
 };

@@ -83,6 +83,9 @@
         "functional": "cpp",
         "list": "cpp",
         "random": "cpp",
-        "xhash": "cpp"
+        "xhash": "cpp",
+        "deque": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     }
 }
