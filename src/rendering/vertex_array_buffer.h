@@ -12,7 +12,7 @@ class VertexArrayBuffer {
 
     void bind() const;
     void unbind() const;
-    void setupAttributePointer(int index, GLsizei size) const;
+    void setupAttributePointer(int index, int size, int type, int normalized, int stride, const void* pointer) const;
 
     inline GLuint getHandle() const {
         return handle;

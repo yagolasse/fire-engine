@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <iostream>
 
+#include <glad/glad.h>
+
 Shader::Shader(GLenum type, const GLchar* source) {
     handle = glCreateShader(type);
 

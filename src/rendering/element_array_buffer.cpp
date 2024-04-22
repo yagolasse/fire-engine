@@ -1,5 +1,7 @@
 #include "element_array_buffer.h"
 
+#include <glad/glad.h>
+
 ElementArrayBuffer::ElementArrayBuffer() {
     glGenBuffers(1, &handle);
 }

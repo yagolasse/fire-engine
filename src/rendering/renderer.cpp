@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vec4.hpp>
 
+#include <glad/glad.h>
+
 #include "assertion.h"
 
 void Renderer::init(GLADloadproc loadProcedure) {

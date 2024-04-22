@@ -12,7 +12,7 @@ class VertexBuffer {
 
     void bind() const;
     void unbind() const;
-    void bufferData(const float* data, GLsizeiptr size) const;
+    void bufferData(const void* data, GLsizeiptr size) const;
 
     inline GLuint getHandle() const {
         return handle;

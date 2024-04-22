@@ -4,6 +4,7 @@
 #include <fstream>
 #include <memory>
 #include <sstream>
+#include <vector>
 
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
@@ -22,6 +23,8 @@
 #include "window.h"
 #include "camera.h"
 #include "debug_ui.h"
+#include "vertex.h"
+#include "mesh.h"
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -153,45 +156,51 @@ int main(int argc, char* argv[]) {
         0.0f, 0.0f,
     };
 
-    VertexArrayBuffer vertexArrayBuffer;
+    // VertexArrayBuffer vertexArrayBuffer;
 
-    vertexArrayBuffer.bind();
+    // vertexArrayBuffer.bind();
 
-    ElementArrayBuffer elementArrayBuffer;
+    // ElementArrayBuffer elementArrayBuffer;
 
-    elementArrayBuffer.bind();
+    // elementArrayBuffer.bind();
 
-    elementArrayBuffer.bufferData(indices, sizeof(indices));
+    // elementArrayBuffer.bufferData(indices, sizeof(indices));
 
-    VertexBuffer vertexBuffer;
+    // VertexBuffer vertexBuffer;
 
-    vertexBuffer.bind();
+    // vertexBuffer.bind();
 
-    vertexBuffer.bufferData(vertices, sizeof(vertices));
+    // vertexBuffer.bufferData(vertices, sizeof(vertices));
 
-    vertexArrayBuffer.setupAttributePointer(0, 3);
+    // vertexArrayBuffer.setupAttributePointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)0);
 
-    VertexBuffer colorVertexBuffer;
+    // VertexBuffer colorVertexBuffer;
 
-    colorVertexBuffer.bind();
+    // colorVertexBuffer.bind();
 
-    colorVertexBuffer.bufferData(colors, sizeof(colors));
+    // colorVertexBuffer.bufferData(colors, sizeof(colors));
 
-    vertexArrayBuffer.setupAttributePointer(1, 3);
+    // vertexArrayBuffer.setupAttributePointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)0);
 
-    VertexBuffer textureCoordinateBuffer;
+    // VertexBuffer textureCoordinateBuffer;
 
-    textureCoordinateBuffer.bind();
+    // textureCoordinateBuffer.bind();
 
-    textureCoordinateBuffer.bufferData(texCoords, sizeof(texCoords));
+    // textureCoordinateBuffer.bufferData(texCoords, sizeof(texCoords));
 
-    vertexArrayBuffer.setupAttributePointer(2, 2);
+    // vertexArrayBuffer.setupAttributePointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (const void*)0);
 
     Texture containerTexture("../resources/container-texture.jpg");
 
     Texture smileTexture("../resources/awesomeface.png");
 
     Renderer::setClearColor();
+
+    std::vector<Vertex> vertices();
+
+    std::vector<unsigned int> indices = { 0, 1, 2, 2, 3, 0 };
+
+    Mesh* mesh = new Mesh(vertices, indices);
 
     glm::mat4 model(1.0f);
     model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 1.0f, 0.0f));

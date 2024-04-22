@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 // Disable assertions by commenting out the below line.
 #define ASSERTIONS_ENABLED
 

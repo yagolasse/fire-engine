@@ -1,5 +1,7 @@
 #include "vertex_array_buffer.h"
 
+#include <glad/glad.h>
+
 VertexArrayBuffer::VertexArrayBuffer() {
     glGenVertexArrays(1, &handle);
 }
@@ -16,7 +18,7 @@ void VertexArrayBuffer::unbind() const {
     glBindVertexArray(0);
 }
 
-void VertexArrayBuffer::setupAttributePointer(int index, GLsizei size) const {
-    glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, size * sizeof(float), (void *)0);
+void VertexArrayBuffer::setupAttributePointer(int index, int size, int type, int normalized, int stride, const void* pointer) const {
     glEnableVertexAttribArray(index);
+    glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 }
