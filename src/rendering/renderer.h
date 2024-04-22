@@ -8,5 +8,5 @@ class Renderer {
     static void setClearColor();
     static void clear();
     static void draw(int elementCount);
-    static void makeTextureActive(unsigned int index);
+    static void makeTextureActive(int index);
 };

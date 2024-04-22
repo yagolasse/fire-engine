@@ -205,13 +205,11 @@ int main(int argc, char* argv[]) {
     // textureCoordinateBuffer.bufferData(texCoords, sizeof(texCoords));
 
     // vertexArrayBuffer.setupAttributePointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (const void*)0);
-
-    Texture containerTexture("../resources/container-texture.jpg");
-
-    Texture smileTexture("../resources/awesomeface.png");
+    
+    // Texture smileTexture("../resources/awesomeface.png");
 
     std::vector<Texture> textures = {
-        smileTexture, containerTexture, 
+         Texture("../resources/container-texture.jpg"), 
     };
 
     Renderer::setClearColor();

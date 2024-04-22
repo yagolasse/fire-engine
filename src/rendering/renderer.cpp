@@ -25,6 +25,6 @@ void Renderer::draw(int elementCount) {
     glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_INT, 0);
 }
 
-void Renderer::makeTextureActive(unsigned int index) {
+void Renderer::makeTextureActive(int index) {
     glActiveTexture(GL_TEXTURE0 + index);
 }

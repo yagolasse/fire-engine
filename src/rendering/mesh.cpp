@@ -34,10 +34,12 @@ Mesh::~Mesh() {
 void Mesh::draw(std::shared_ptr<ShaderProgram> shader) {
     shader->bind();
 
+
+    vertexArrayBuffer->bind();
     // for (int i = 1; i < textures.size(); i++) {
-        Renderer::makeTextureActive(1);
+        Renderer::makeTextureActive(0);
         textures[0].bind();
-        shader->setInt(("texture" + std::to_string(1)).c_str(), 1);
+        // shader->setInt(("texture" + std::to_string(1)).c_str(), 0);
     // }
 
     vertexArrayBuffer->bind();
