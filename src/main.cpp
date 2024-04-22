@@ -60,13 +60,6 @@ int main(int argc, char* argv[]) {
         std::move(fragmentShader)
     );
 
-    // float vertices[] = {
-    //     -0.5f, -0.5f, 0.0f,  // Left bottom
-    //     0.5f,  -0.5f, 0.0f,  // Right bottom
-    //     0.5f,  0.5f,  0.0f,  // Top Right
-    //     -0.5f, 0.5f,  0.0f,  // Top Left
-    // };
-
     float old_vertices[] = {
         -0.5f, -0.5f, -0.5f,
         0.5f, -0.5f, -0.5f, 
@@ -106,27 +99,6 @@ int main(int argc, char* argv[]) {
         0.0f, 0.0f, 1.0f,  // Top Left
     };
 
-    // unsigned int indices[36];
-
-    // int index = 0;
-    
-    // for (int i = 0; i < 36; i += 6) {
-    //     indices[0 + i] = 0 + index;
-    //     indices[1 + i] = 1 + index;
-    //     indices[2 + i] = 2 + index;
-    //     indices[3 + i] = 2 + index;
-    //     indices[4 + i] = 3 + index;
-    //     indices[5 + i] = 0 + index;
-    //     index += 4;
-    // }
-
-    // float texCoords[] = {
-    //     0.0f, 0.0f,  // lower-left corner
-    //     1.0f, 0.0f,  // lower-right corner
-    //     1.0f, 1.0f,  // top-right corner
-    //     0.0f, 1.0f,  // top-left corner
-    // };
-    
     float texCoords[] = {
         0.0f, 0.0f,
         1.0f, 0.0f,
@@ -168,61 +140,22 @@ int main(int argc, char* argv[]) {
 
     std::vector<unsigned int> indices = { 0, 1, 2, 2, 3, 0 };
 
-    // VertexArrayBuffer vertexArrayBuffer;
-
-    // vertexArrayBuffer.bind();
-
-    // ElementArrayBuffer elementArrayBuffer;
-
-    // elementArrayBuffer.bind();
-
-    // elementArrayBuffer.bufferData(&indices[0], indices.size() * sizeof(unsigned int));
-
-    // VertexBuffer vertexBuffer;
-
-    // vertexBuffer.bind();
-
-    // vertexBuffer.bufferData(&vertices[0], vertices.size() * sizeof(Vertex));
-
-    // vertexArrayBuffer.setupAttributePointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-    // vertexArrayBuffer.setupAttributePointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-    // vertexArrayBuffer.setupAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinate));
-    
-    // vertexArrayBuffer.unbind();
-
-    // VertexBuffer colorVertexBuffer;
-
-    // colorVertexBuffer.bind();
-
-    // colorVertexBuffer.bufferData(colors, sizeof(colors));
-
-    // vertexArrayBuffer.setupAttributePointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (const void*)0);
-
-    // VertexBuffer textureCoordinateBuffer;
-
-    // textureCoordinateBuffer.bind();
-
-    // textureCoordinateBuffer.bufferData(texCoords, sizeof(texCoords));
-
-    // vertexArrayBuffer.setupAttributePointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (const void*)0);
-    
-    // Texture smileTexture("../resources/awesomeface.png");
-
-    std::vector<Texture> textures = {
-         Texture("../resources/container-texture.jpg"), 
+    std::vector<std::shared_ptr<Texture>> textures = { 
+        std::make_shared<Texture>("../resources/container-texture.jpg"),
+        std::make_shared<Texture>("../resources/awesomeface.png"),
     };
 
     Renderer::setClearColor();
 
-    Mesh mesh(vertices, textures, indices);
+    Mesh mesh(vertices, indices, textures);
 
-    glm::mat4 model(1.0f);
-    // model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 1.0f, 0.0f));
-
-    Camera camera(glm::vec3(0.0f, 0.0f, -3.0f));
-
-    glm::mat4 projection;
-    projection = glm::perspective(glm::radians(70.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
+    std::shared_ptr<Camera> camera = std::make_shared<Camera>(
+        glm::vec3 { 0.0f, 0.0f, -3.0f }, 
+        glm::radians(70.0f), 
+        1280.0f / 720.0f, 
+        0.1f, 
+        100.0f
+    );
 
     while (!window.shouldClose()) {
         window.pollEvents();
@@ -231,36 +164,11 @@ int main(int argc, char* argv[]) {
 
         Renderer::clear();
 
-        // shader->bind();
-
-        // smileTexture.bind();
-        // containerTexture.bind();
-
-        // shader.setInt("texture1", containerTexture.getIndex());
-        // shader.setInt("texture2", smileTexture.getIndex());
-
-        // const float radius = 10.0f;
-        // float cameraZ = glm::cos(glfwGetTime()) * radius;
-        // float cameraX = glm::sin(glfwGetTime()) * radius;
-
-        // camera.setPosition({cameraX, 0.0f, cameraZ});
-
-        glm::mat4 view = camera.getView();
-
-        // shader->setMat4("model", glm::value_ptr(model));
-        // shader->setMat4("view", glm::value_ptr(view));
-        // shader->setMat4("projection", glm::value_ptr(projection));
-
-        // vertexArrayBuffer.bind();
-
-        // Renderer::draw(indices.size());
-
-        // vertexArrayBuffer.unbind();
-
-        mesh.draw(shader);
+        mesh.draw(shader, camera);
 
         DebugUi::draw();
 
+        // TODO: Remove error handling
         GLenum err;
         while((err = glGetError()) != GL_NO_ERROR)
         {
