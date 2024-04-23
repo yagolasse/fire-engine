@@ -56,16 +56,73 @@ void Mesh::draw(std::shared_ptr<ShaderProgram> shader, std::shared_ptr<Camera> c
     vertexArrayBuffer->unbind();
 }
 
-std::unique_ptr<Mesh> Mesh::createQuadMesh(std::shared_ptr<Texture> texture) {
+void Mesh::rotate(float angle, glm::vec3 axis) {
+    transform = glm::rotate(transform, glm::radians(angle), axis);
+}
+
+void Mesh::translate(glm::vec3 movement) {
+    transform = glm::translate(transform, movement);
+}
+
+std::unique_ptr<Mesh> Mesh::createQuadMesh(glm::vec3 color, std::shared_ptr<Texture> texture) {
     std::vector<Vertex> vertices = {
-        Vertex { { -0.5f, -0.5f, 0.0f, }, { 0.0f, 0.0f, 0.0f, }, { 0.0f, 0.0f, } },
-        Vertex { { 0.5f,  -0.5f, 0.0f, }, { 1.0f, 0.0f, 0.0f, }, { 1.0f, 0.0f, } },
-        Vertex { { 0.5f,   0.5f, 0.0f, }, { 0.0f, 1.0f, 0.0f, }, { 1.0f, 1.0f, } },
-        Vertex { { -0.5f,  0.5f, 0.0f, }, { 0.0f, 0.0f, 1.0f, }, { 0.0f, 1.0f, } },
+        Vertex { { -0.5f, -0.5f, 0.0f, }, color, { 0.0f, 0.0f, } },
+        Vertex { { 0.5f,  -0.5f, 0.0f, }, color, { 1.0f, 0.0f, } },
+        Vertex { { 0.5f,   0.5f, 0.0f, }, color, { 1.0f, 1.0f, } },
+        Vertex { { -0.5f,  0.5f, 0.0f, }, color, { 0.0f, 1.0f, } },
     };
 
     std::vector<unsigned int> indices = { 0, 1, 2, 2, 3, 0 };
 
-    auto ptr = std::make_unique<Mesh>(vertices, indices, { texture });
-    return std::move();
+    return std::move(std::make_unique<Mesh>(vertices, indices, std::vector { texture }));
+}
+
+std::unique_ptr<Mesh> Mesh::createCubeMesh(glm::vec3 color, std::shared_ptr<Texture> texture) {
+    std::vector<Vertex> vertices = {
+        Vertex { { -0.5f, -0.5f, -0.5f, }, color, { 0.0f, 0.0f, } },
+        Vertex { { 0.5f, -0.5f, -0.5f, }, color, { 1.0f, 0.0f, } },
+        Vertex { { 0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, } },
+        Vertex { { -0.5f,  0.5f, -0.5f, }, color, { 0.0f, 1.0f, } },
+
+        Vertex { { -0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, } },
+        Vertex { { 0.5f, -0.5f,  0.5f, }, color, { 1.0f, 0.0f, } },
+        Vertex { { 0.5f,  0.5f,  0.5f, }, color, { 1.0f, 1.0f, } },
+        Vertex { { -0.5f,  0.5f,  0.5f, }, color, { 0.0f, 1.0f, } },
+
+        Vertex { { -0.5f,  0.5f,  0.5f, }, color, { 1.0f, 0.0f, } },
+        Vertex { { -0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, } },
+        Vertex { { -0.5f, -0.5f, -0.5f, }, color, { 0.0f, 1.0f, } },
+        Vertex { { -0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, } },
+
+        Vertex { { 0.5f,  0.5f,  0.5f, }, color, { 1.0f, 0.0f, } },
+        Vertex { { 0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, } },
+        Vertex { { 0.5f, -0.5f, -0.5f, }, color, { 0.0f, 1.0f, } },
+        Vertex { { 0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, } },
+
+        Vertex { { -0.5f, -0.5f, -0.5f, }, color, { 0.0f, 1.0f, } },
+        Vertex { { 0.5f, -0.5f, -0.5f, }, color, { 1.0f, 1.0f, } },
+        Vertex { { 0.5f, -0.5f,  0.5f, }, color, { 1.0f, 0.0f, } },
+        Vertex { { -0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, } },
+
+        Vertex { { -0.5f,  0.5f, -0.5f, }, color, { 0.0f, 1.0f, } },
+        Vertex { { 0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, } },
+        Vertex { { 0.5f,  0.5f,  0.5f, }, color, { 1.0f, 0.0f, } },
+        Vertex { { -0.5f,  0.5f,  0.5f, }, color, { 0.0f, 0.0f, } },
+    };
+
+    std::vector<unsigned int> indices(36);
+
+    int index = 0;
+
+    for (int i = 0; i < 36; i += 6) {
+        indices[0 + i] = 0 + index;
+        indices[1 + i] = 1 + index;
+        indices[2 + i] = 2 + index;
+        indices[3 + i] = 2 + index;
+        indices[4 + i] = 3 + index;
+        indices[5 + i] = 0 + index;
+        index += 4;
+    }
+
+    return std::move(std::make_unique<Mesh>(vertices, indices, std::vector { texture }));
 }

@@ -147,24 +147,65 @@ int main(int argc, char* argv[]) {
 
     Renderer::setClearColor();
 
-    Mesh mesh(vertices, indices, textures);
+    // Mesh mesh(vertices, indices, textures);
+
+    std::vector<std::unique_ptr<Mesh>> meshes = {};
+
+    int count = 1;
+    int perAxis = 10;
+
+    for (int i = 0; i < count; i++) {
+        meshes.push_back(Mesh::createCubeMesh({ 1.0f, 1.0f, 1.0f }, std::make_shared<Texture>("../resources/container-texture.jpg")));
+    }
+
+    for (int i = 0; i < count; i++) {
+        int x = i / (perAxis * perAxis) %perAxis;
+        int y = i / (perAxis) % perAxis;
+        int z = i % perAxis;
+
+        std::cout << x << ", " << y << ", " << z << std::endl;
+
+        meshes[i]->translate({ x, y, z });
+    }
 
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(
-        glm::vec3 { 0.0f, 0.0f, -3.0f }, 
-        glm::radians(70.0f), 
-        1280.0f / 720.0f, 
-        0.1f, 
-        100.0f
+        glm::vec3 { 0.0f, 0.0f, -1.0f },  0, 1280, 720, 0, 0.1, 1000
     );
 
+    double time = glfwGetTime();
+    double lastFrameTime = time;
+    double frameTime = 0;
+
+    double deltaTime = 0;
+    double slowFrameTime = 0;
+
     while (!window.shouldClose()) {
+
         window.pollEvents();
+
+        // for (int i = 0; i < count; i++) {
+        //     meshes[i]->rotate(1.5 * frameTime, { 0.0f, 1.0f, 1.0f });
+        // }
 
         DebugUi::beginFrame();
 
         Renderer::clear();
 
-        mesh.draw(shader, camera);
+        if(deltaTime > 1) {
+            slowFrameTime = frameTime;
+            deltaTime = 0;
+        } else {
+            deltaTime += frameTime;
+        }
+
+        ImGui::Text("%d FPS", (int)(1.0 / slowFrameTime));
+        ImGui::Text("%.2f ms", slowFrameTime * 1000.0);
+
+        // camera->setPosition(camera->getPosition() + glm::vec3 { 0.0f, 0.5f * frameTime, 0.0f });
+
+        for (int i = 0; i < count; i++) {
+            meshes[i]->draw(shader, camera);
+        }
 
         DebugUi::draw();
 
@@ -176,6 +217,10 @@ int main(int argc, char* argv[]) {
         }
 
         window.swapBuffers();
+
+        time = glfwGetTime();
+        frameTime = time - lastFrameTime;
+        lastFrameTime = time;
     }
 
     DebugUi::dispose();

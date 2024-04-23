@@ -40,6 +40,8 @@ Window::Window(int width, int height, const char* title) {
 
     glfwMakeContextCurrent(handle);
 
+    glfwSwapInterval(1);
+
     glfwShowWindow(handle);
 }
 

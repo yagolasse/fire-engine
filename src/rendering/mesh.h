@@ -30,7 +30,11 @@ class Mesh {
         std::vector<std::shared_ptr<Texture>> textureData
     );
     ~Mesh();
+    
     void draw(std::shared_ptr<ShaderProgram> shader, std::shared_ptr<Camera> camera);
+    void rotate(float angle, glm::vec3 axis);
+    void translate(glm::vec3 movement);
 
-    static std::unique_ptr<Mesh> createQuadMesh(std::shared_ptr<Texture> texture);
+    static std::unique_ptr<Mesh> createQuadMesh(glm::vec3 color, std::shared_ptr<Texture> texture);
+    static std::unique_ptr<Mesh> createCubeMesh(glm::vec3 color, std::shared_ptr<Texture> texture);
 };

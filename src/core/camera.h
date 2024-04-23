@@ -15,10 +15,16 @@ class Camera {
 
    public:
     Camera(glm::vec3 position, float fovRadians, float aspectRatio, float nearClip, float farClip);
+    Camera(glm::vec3 position, float left, float right, float top, float bottom, float near, float far);
     ~Camera();
 
     void setPosition(glm::vec3 newPosition);
-    void updateProjection(float fovRadians, float aspectRatio, float nearClip, float farClip);
+    void updatePerspective(float fovRadians, float aspectRatio, float nearClip, float farClip);
+    void updateOrthographic(float left, float right, float top, float bottom, float near, float far);
+
+    inline const glm::vec3 getPosition() const {
+        return position;
+    }
 
     inline const glm::mat4 getProjection() const {
         return projection;
