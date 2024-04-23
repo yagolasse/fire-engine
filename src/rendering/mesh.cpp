@@ -55,3 +55,17 @@ void Mesh::draw(std::shared_ptr<ShaderProgram> shader, std::shared_ptr<Camera> c
     Renderer::draw(indices.size());
     vertexArrayBuffer->unbind();
 }
+
+std::unique_ptr<Mesh> Mesh::createQuadMesh(std::shared_ptr<Texture> texture) {
+    std::vector<Vertex> vertices = {
+        Vertex { { -0.5f, -0.5f, 0.0f, }, { 0.0f, 0.0f, 0.0f, }, { 0.0f, 0.0f, } },
+        Vertex { { 0.5f,  -0.5f, 0.0f, }, { 1.0f, 0.0f, 0.0f, }, { 1.0f, 0.0f, } },
+        Vertex { { 0.5f,   0.5f, 0.0f, }, { 0.0f, 1.0f, 0.0f, }, { 1.0f, 1.0f, } },
+        Vertex { { -0.5f,  0.5f, 0.0f, }, { 0.0f, 0.0f, 1.0f, }, { 0.0f, 1.0f, } },
+    };
+
+    std::vector<unsigned int> indices = { 0, 1, 2, 2, 3, 0 };
+
+    auto ptr = std::make_unique<Mesh>(vertices, indices, { texture });
+    return std::move();
+}

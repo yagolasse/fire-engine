@@ -31,4 +31,6 @@ class Mesh {
     );
     ~Mesh();
     void draw(std::shared_ptr<ShaderProgram> shader, std::shared_ptr<Camera> camera);
+
+    static std::unique_ptr<Mesh> createQuadMesh(std::shared_ptr<Texture> texture);
 };
