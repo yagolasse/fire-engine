@@ -25,6 +25,7 @@
 #include "debug_ui.h"
 #include "vertex.h"
 #include "mesh.h"
+#include "batch_renderer.h"
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -37,8 +38,8 @@ int main(int argc, char* argv[]) {
 
     DebugUi::init(window.getHandle());
 
-    std::ifstream fragFileStream("../resources/frag.glsl");
-    std::ifstream vertFileStream("../resources/vert.glsl");
+    std::ifstream fragFileStream("../resources/quad_fragment_shader.glsl");
+    std::ifstream vertFileStream("../resources/quad_vertex_shader.glsl");
 
     ASSERT_MSG(!fragFileStream.fail(), "Failed to open fragment shader");
     ASSERT_MSG(!vertFileStream.fail(), "Failed to open vertex shader");
@@ -60,117 +61,26 @@ int main(int argc, char* argv[]) {
         std::move(fragmentShader)
     );
 
-    float old_vertices[] = {
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f, 
-        0.5f,  0.5f, -0.5f, 
-        -0.5f,  0.5f, -0.5f,
-
-        -0.5f, -0.5f,  0.5f, 
-        0.5f, -0.5f,  0.5f, 
-        0.5f,  0.5f,  0.5f, 
-        -0.5f,  0.5f,  0.5f,
-
-        -0.5f,  0.5f,  0.5f, 
-        -0.5f,  0.5f, -0.5f, 
-        -0.5f, -0.5f, -0.5f, 
-        -0.5f, -0.5f,  0.5f,
-
-        0.5f,  0.5f,  0.5f, 
-        0.5f,  0.5f, -0.5f, 
-        0.5f, -0.5f, -0.5f, 
-        0.5f, -0.5f,  0.5f,
-
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f, 
-        0.5f, -0.5f,  0.5f, 
-        -0.5f, -0.5f,  0.5f, 
-
-        -0.5f,  0.5f, -0.5f, 
-        0.5f,  0.5f, -0.5f,
-        0.5f,  0.5f,  0.5f, 
-        -0.5f,  0.5f,  0.5f,
-    };
-
-    float colors[] = {
-        0.0f, 0.0f, 0.0f,  // Left bottom
-        1.0f, 0.0f, 0.0f,  // Right bottom
-        0.0f, 1.0f, 0.0f,  // Top Right
-        0.0f, 0.0f, 1.0f,  // Top Left
-    };
-
-    float texCoords[] = {
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-        0.0f, 0.0f,
-
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-        0.0f, 0.0f,
-    };
-
-    std::vector<Vertex> vertices = {
-        Vertex { { -0.5f, -0.5f, 0.0f, }, { 0.0f, 0.0f, 0.0f, }, { 0.0f, 0.0f, } },
-        Vertex { { 0.5f,  -0.5f, 0.0f, }, { 1.0f, 0.0f, 0.0f, }, { 1.0f, 0.0f, } },
-        Vertex { { 0.5f,   0.5f, 0.0f, }, { 0.0f, 1.0f, 0.0f, }, { 1.0f, 1.0f, } },
-        Vertex { { -0.5f,  0.5f, 0.0f, }, { 0.0f, 0.0f, 1.0f, }, { 0.0f, 1.0f, } },
-    };
-
-    std::vector<unsigned int> indices = { 0, 1, 2, 2, 3, 0 };
-
-    std::vector<std::shared_ptr<Texture>> textures = { 
-        std::make_shared<Texture>("../resources/container-texture.jpg"),
-        std::make_shared<Texture>("../resources/awesomeface.png"),
-    };
-
     Renderer::setClearColor();
 
-    // Mesh mesh(vertices, indices, textures);
-
-    std::vector<std::unique_ptr<Mesh>> meshes = {};
-
-    int count = 1;
-    int perAxis = 10;
-
-    for (int i = 0; i < count; i++) {
-        meshes.push_back(Mesh::createCubeMesh({ 1.0f, 1.0f, 1.0f }, std::make_shared<Texture>("../resources/container-texture.jpg")));
-    }
-
-    for (int i = 0; i < count; i++) {
-        int x = i / (perAxis * perAxis) %perAxis;
-        int y = i / (perAxis) % perAxis;
-        int z = i % perAxis;
-
-        std::cout << x << ", " << y << ", " << z << std::endl;
-
-        meshes[i]->translate({ x, y, z });
-    }
+    float aspectRatio = 720.0f / 1280.f;
 
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(
-        glm::vec3 { 0.0f, 0.0f, -1.0f },  0, 1280, 720, 0, 0.1, 1000
+        // glm::vec3 { 0.0f, 0.0f, 0.0f }, -1.0, 1.0f, -aspectRatio, aspectRatio, -1.0, 1.0
+        glm::vec3 { 0.0f, 0.0f, 0.0f }, 0, 720, 0, 1280, -1.0, 1.0
     );
+
+    Quad quad {
+        Transform {
+            glm::vec2 { 100, 100 },
+            glm::vec2 { 640, 360 },
+        },
+        glm::vec4(1.0f)
+    };
+
+    BatchRenderer batchRenderer;
+    
+    batchRenderer.pushQuad(quad);
 
     double time = glfwGetTime();
     double lastFrameTime = time;
@@ -182,10 +92,6 @@ int main(int argc, char* argv[]) {
     while (!window.shouldClose()) {
 
         window.pollEvents();
-
-        // for (int i = 0; i < count; i++) {
-        //     meshes[i]->rotate(1.5 * frameTime, { 0.0f, 1.0f, 1.0f });
-        // }
 
         DebugUi::beginFrame();
 
@@ -201,20 +107,17 @@ int main(int argc, char* argv[]) {
         ImGui::Text("%d FPS", (int)(1.0 / slowFrameTime));
         ImGui::Text("%.2f ms", slowFrameTime * 1000.0);
 
-        // camera->setPosition(camera->getPosition() + glm::vec3 { 0.0f, 0.5f * frameTime, 0.0f });
+        shader->bind();
 
-        for (int i = 0; i < count; i++) {
-            meshes[i]->draw(shader, camera);
-        }
+        glm::mat4 view = camera->getView();
+        glm::mat4 projection = camera->getProjection();
+
+        shader->setMat4("view", glm::value_ptr(view));
+        shader->setMat4("projection", glm::value_ptr(projection));
+
+        batchRenderer.draw();
 
         DebugUi::draw();
-
-        // TODO: Remove error handling
-        GLenum err;
-        while((err = glGetError()) != GL_NO_ERROR)
-        {
-            std::cerr << err << std::endl;
-        }
 
         window.swapBuffers();
 

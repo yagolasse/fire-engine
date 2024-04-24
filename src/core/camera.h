@@ -20,7 +20,7 @@ class Camera {
 
     void setPosition(glm::vec3 newPosition);
     void updatePerspective(float fovRadians, float aspectRatio, float nearClip, float farClip);
-    void updateOrthographic(float left, float right, float top, float bottom, float near, float far);
+    void updateOrthographic(float left, float right, float bottom, float top, float near, float far);
 
     inline const glm::vec3 getPosition() const {
         return position;

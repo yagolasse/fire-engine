@@ -18,15 +18,17 @@ Camera::~Camera() {
 void Camera::setPosition(glm::vec3 newPosition) {
     position = newPosition;
 
-    glm::vec3 target(0.0f, 0.0f, 0.0f);
-    glm::vec3 direction = glm::normalize(position - target);
+    // glm::vec3 target(0.0f, 0.0f, 0.0f);
+    // glm::vec3 direction = glm::normalize(position - target);
 
-    glm::vec3 up(0.0f, 1.0f, 0.0f);
-    glm::vec3 right = glm::normalize(glm::cross(up, direction));
+    // glm::vec3 up(0.0f, 1.0f, 0.0f);
+    // glm::vec3 right = glm::normalize(glm::cross(up, direction));
 
-    glm::vec3 cameraUp = glm::cross(direction, right);
+    // glm::vec3 cameraUp = glm::cross(direction, right);
 
-    view = glm::lookAt(position, target, cameraUp);
+    // view = glm::lookAt(position, target, cameraUp);
+    view = glm::mat4(1.0f);
+    view = glm::translate(view, newPosition);
 }
 
 void Camera::updatePerspective(float fovRadians, float aspectRatio, float nearClip, float farClip) {
@@ -38,6 +40,6 @@ void Camera::updatePerspective(float fovRadians, float aspectRatio, float nearCl
     projection = glm::perspective(fieldOfViewRadians, aspectRatio, nearClip, farClip);
 }
 
-void Camera::updateOrthographic(float left, float right, float top, float bottom, float near, float far) {
+void Camera::updateOrthographic(float left, float right, float bottom, float top, float near, float far) {
     projection = glm::ortho(left, right, bottom, top, near, far);
 }

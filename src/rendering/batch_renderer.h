@@ -1,11 +1,12 @@
 #pragma once
 
 #include <memory>
+#include <array>
 #include <vector>
 
 #include "camera.h"
 #include "element_array_buffer.h"
-#include "quad_vertex.h"
+#include "quad.h"
 #include "shader_program.h"
 #include "texture.h"
 #include "vertex.h"
@@ -24,4 +25,5 @@ class BatchRenderer {
    public:
     BatchRenderer();
     void pushQuad(Quad quad);
+    void draw();
 };
