@@ -32,6 +32,7 @@ class Mesh {
     ~Mesh();
     
     void draw(std::shared_ptr<ShaderProgram> shader, std::shared_ptr<Camera> camera);
+    void scale(glm::vec3 scale);
     void rotate(float angle, glm::vec3 axis);
     void translate(glm::vec3 movement);
 

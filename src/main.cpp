@@ -38,8 +38,8 @@ int main(int argc, char* argv[]) {
 
     DebugUi::init(window.getHandle());
 
-    std::ifstream fragFileStream("../resources/quad_fragment_shader.glsl");
-    std::ifstream vertFileStream("../resources/quad_vertex_shader.glsl");
+    std::ifstream fragFileStream("../resources/frag.glsl");
+    std::ifstream vertFileStream("../resources/vert.glsl");
 
     ASSERT_MSG(!fragFileStream.fail(), "Failed to open fragment shader");
     ASSERT_MSG(!vertFileStream.fail(), "Failed to open vertex shader");
@@ -63,24 +63,21 @@ int main(int argc, char* argv[]) {
 
     Renderer::setClearColor();
 
-    float aspectRatio = 720.0f / 1280.f;
+    float aspectRatio = 1280.0f / 720.0f;
 
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(
-        // glm::vec3 { 0.0f, 0.0f, 0.0f }, -1.0, 1.0f, -aspectRatio, aspectRatio, -1.0, 1.0
-        glm::vec3 { 0.0f, 0.0f, 0.0f }, 0, 720, 0, 1280, -1.0, 1.0
+        glm::vec3 { 0.0f, 0.0f, -3.0f }, glm::radians(75.0f), aspectRatio, 0.1f, 1000.0f
     );
 
-    Quad quad {
-        Transform {
-            glm::vec2 { 100, 100 },
-            glm::vec2 { 640, 360 },
-        },
-        glm::vec4(1.0f)
-    };
+    std::unique_ptr<Mesh> cubeMesh = Mesh::createCubeMesh({ 1.0f, 0.0f, 0.5f}, std::make_shared<Texture>("../resources/container-texture.jpg"));
 
-    BatchRenderer batchRenderer;
+    cubeMesh->translate({ 2.0f, 0.0f, 0.0f });
+    cubeMesh->rotate(15.0f, { 1.0f, 0.0f, 1.0f });
     
-    batchRenderer.pushQuad(quad);
+    std::unique_ptr<Mesh> lightMesh = Mesh::createCubeMesh({ 1.0f, 1.0f, 1.0f}, std::make_shared<Texture>("../resources/container-texture.jpg"));
+
+    lightMesh->scale(glm::vec3(0.3f));
+    lightMesh->rotate(20.0f, { -1.0f, 0.0f, -1.0f });
 
     double time = glfwGetTime();
     double lastFrameTime = time;
@@ -107,15 +104,19 @@ int main(int argc, char* argv[]) {
         ImGui::Text("%d FPS", (int)(1.0 / slowFrameTime));
         ImGui::Text("%.2f ms", slowFrameTime * 1000.0);
 
+        glm::vec3 ambientLightColor = glm::vec3 { 1.0f, 1.0f, 1.0f };
+
+        static float strength = 1.0f;
+
+        ImGui::SliderFloat("Ambient Light Strenght", &strength, 0.0f, 1.0f);
+
         shader->bind();
 
-        glm::mat4 view = camera->getView();
-        glm::mat4 projection = camera->getProjection();
+        shader->setFloat("ambientLightStrenght", strength);
+        shader->setVec3("ambientLightColor", ambientLightColor);
 
-        shader->setMat4("view", glm::value_ptr(view));
-        shader->setMat4("projection", glm::value_ptr(projection));
-
-        batchRenderer.draw();
+        lightMesh->draw(shader, camera);
+        cubeMesh->draw(shader, camera);
 
         DebugUi::draw();
 

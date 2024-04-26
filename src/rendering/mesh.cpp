@@ -28,6 +28,7 @@ Mesh::Mesh(
     vertexArrayBuffer->setupAttributePointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     vertexArrayBuffer->setupAttributePointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
     vertexArrayBuffer->setupAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinate));
+    vertexArrayBuffer->setupAttributePointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
     vertexArrayBuffer->unbind();
 }
@@ -54,6 +55,10 @@ void Mesh::draw(std::shared_ptr<ShaderProgram> shader, std::shared_ptr<Camera> c
     vertexArrayBuffer->bind();
     Renderer::draw(indices.size());
     vertexArrayBuffer->unbind();
+}
+
+void Mesh::scale(glm::vec3 scale) {
+    transform = glm::scale(transform, scale);
 }
 
 void Mesh::rotate(float angle, glm::vec3 axis) {

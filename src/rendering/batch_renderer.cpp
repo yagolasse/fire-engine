@@ -7,16 +7,22 @@
 #include "quad.h"
 #include "renderer.h"
 
+const int indexPerQuad = 6;
+const int vertexPerQuad = 4;
+const int maxQuadsPerDraw = 100;
+const int maxIndex = indexPerQuad * maxQuadsPerDraw;
+const int maxVertex = vertexPerQuad * maxQuadsPerDraw;
+
 BatchRenderer::BatchRenderer() {
     vertexBuffer = std::make_unique<VertexBuffer>();
     vertexArrayBuffer = std::make_unique<VertexArrayBuffer>();
     elementArrayBuffer = std::make_unique<ElementArrayBuffer>();
 
-    std::array<unsigned int, 6> indices;
+    std::array<unsigned int, maxIndex> indices;
 
     int index = 0;
 
-    for (int i = 0; i < 6; i += 6) {
+    for (int i = 0; i < maxIndex; i += indexPerQuad) {
         indices[0 + i] = 0 + index;
         indices[1 + i] = 1 + index;
         indices[2 + i] = 2 + index;
@@ -32,7 +38,7 @@ BatchRenderer::BatchRenderer() {
     elementArrayBuffer->bufferData(&indices[0], indices.size() * sizeof(unsigned int));
 
     vertexBuffer->bind();
-    vertexBuffer->bufferData(nullptr, 4 * sizeof(QuadVertex)); // TODO: Change
+    vertexBuffer->bufferData(nullptr, maxVertex * sizeof(QuadVertex)); // TODO: Change
 
     vertexArrayBuffer->setupAttributePointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)0);
     vertexArrayBuffer->setupAttributePointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, color));
@@ -45,9 +51,9 @@ void BatchRenderer::pushQuad(Quad quad) {
 }
 
 void BatchRenderer::draw() {
-    std::array<QuadVertex, 4> vertices;
+    std::vector<QuadVertex> vertices(quads.size() * maxVertex);
 
-    std::array<glm::vec2, 4> defaultPositions = {
+    std::array<glm::vec2, vertexPerQuad> defaultPositions = {
         glm::vec2{-0.5f, -0.5f},
         glm::vec2{0.5f, -0.5f},
         glm::vec2{0.5f, 0.5f},
@@ -57,22 +63,14 @@ void BatchRenderer::draw() {
     for (int i = 0; i < quads.size(); i++) {
         Quad quad = quads[i];
 
-        bool isRotated = quad.transform.rotationDegrees != 0;
-
         glm::mat4 transform(1.0f);
 
-        if (isRotated) {
-            transform = glm::translate(transform, {quad.transform.position, 0.0f});
-            transform = glm::rotate(transform, glm::radians(quad.transform.rotationDegrees), {0.0f, 0.0f, 1.0f});
-            transform = glm::scale(transform, {quad.transform.scale, 1.0f});
-        }
+        transform = glm::scale(transform, {quad.transform.scale, 1.0f});
+        transform = glm::rotate(transform, glm::radians(quad.transform.rotationDegrees), {0.0f, 0.0f, 1.0f});
+        transform = glm::translate(transform, {quad.transform.position, 0.0f});
 
         for (int i = 0; i < 4; i++) {
-            glm::vec4 currentPosition(quad.transform.position.x + (defaultPositions[i].x * quad.transform.scale.x),
-                                    quad.transform.position.y + (defaultPositions[i].y * quad.transform.scale.y), 0, 1);
-            if (isRotated) {
-                currentPosition = glm::vec4(defaultPositions[i].x, defaultPositions[i].y, 0, 1) * transform;
-            }
+            glm::vec4 currentPosition = glm::vec4(defaultPositions[i].x, defaultPositions[i].y, 0, 1) * transform;
 
             vertices[i] = QuadVertex{
                 {currentPosition.x, currentPosition.y},
@@ -85,10 +83,12 @@ void BatchRenderer::draw() {
         vertexArrayBuffer->bind();
 
         vertexBuffer->bind();
-        vertexBuffer->bufferSubData(&vertices[0], 0, 4 * sizeof(QuadVertex));
+        vertexBuffer->bufferSubData(&vertices[0], 0, vertexPerQuad * sizeof(QuadVertex));
 
-        Renderer::draw(6);
+        Renderer::draw(indexPerQuad * quads.size());
 
         vertexArrayBuffer->unbind();
     }
+
+    quads.clear();
 }
