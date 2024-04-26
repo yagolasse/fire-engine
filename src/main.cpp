@@ -104,13 +104,14 @@ int main(int argc, char* argv[]) {
         ImGui::Text("%d FPS", (int)(1.0 / slowFrameTime));
         ImGui::Text("%.2f ms", slowFrameTime * 1000.0);
 
-        glm::vec3 ambientLightColor = glm::vec3 { 1.0f, 1.0f, 1.0f };
+        static glm::vec3 ambientLightColor = glm::vec3 { 1.0f, 1.0f, 1.0f };
 
         static glm::vec3 amgientLightPosition = glm::vec3 { 0.0f, 2.0f, 0.0f };
         static float strength = 1.0f;
 
         ImGui::SliderFloat("Ambient Light Strenght", &strength, 0.0f, 1.0f);
         ImGui::DragFloat3("Light Position", &amgientLightPosition[0]);
+        ImGui::ColorPicker3("Ambient Light Color", &ambientLightColor[0]);
 
         shader->bind();
 
