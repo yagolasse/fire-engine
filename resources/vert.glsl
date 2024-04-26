@@ -13,9 +13,13 @@ out vec3 outPos;
 out vec3 outColor;
 out vec2 outTexCoord;
 out vec3 outNormal;
+out vec3 outFragmentPosition;
 
 void main() {
     gl_Position = projection * view * model * vec4(aPos, 1.0);
+
+    outFragmentPosition = vec3(model * vec4(aPos, 1.0));
+
     outPos = aPos;
     outColor = aColor;
     outTexCoord = aTexCoord;

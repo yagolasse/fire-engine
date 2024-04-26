@@ -84,35 +84,35 @@ std::unique_ptr<Mesh> Mesh::createQuadMesh(glm::vec3 color, std::shared_ptr<Text
 
 std::unique_ptr<Mesh> Mesh::createCubeMesh(glm::vec3 color, std::shared_ptr<Texture> texture) {
     std::vector<Vertex> vertices = {
-        Vertex { { -0.5f, -0.5f, -0.5f, }, color, { 0.0f, 0.0f, } },
-        Vertex { { 0.5f, -0.5f, -0.5f, }, color, { 1.0f, 0.0f, } },
-        Vertex { { 0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, } },
-        Vertex { { -0.5f,  0.5f, -0.5f, }, color, { 0.0f, 1.0f, } },
+        Vertex { { -0.5f, -0.5f, -0.5f, }, color, { 0.0f, 0.0f, }, { 0.0f, 0.0f, -1.0f } },
+        Vertex { { 0.5f, -0.5f, -0.5f, }, color, { 1.0f, 0.0f, },  { 0.0f, 0.0f, -1.0f } },
+        Vertex { { 0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, }, { 0.0f, 0.0f, -1.0f } },
+        Vertex { { -0.5f,  0.5f, -0.5f, }, color, { 0.0f, 1.0f, }, { 0.0f, 0.0f, -1.0f }  },
 
-        Vertex { { -0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, } },
-        Vertex { { 0.5f, -0.5f,  0.5f, }, color, { 1.0f, 0.0f, } },
-        Vertex { { 0.5f,  0.5f,  0.5f, }, color, { 1.0f, 1.0f, } },
-        Vertex { { -0.5f,  0.5f,  0.5f, }, color, { 0.0f, 1.0f, } },
+        Vertex { { -0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, },  { 0.0f, 0.0f, 1.0f } },
+        Vertex { { 0.5f, -0.5f,  0.5f, }, color, { 1.0f, 0.0f, }, { 0.0f, 0.0f, 1.0f }  },
+        Vertex { { 0.5f,  0.5f,  0.5f, }, color, { 1.0f, 1.0f, },  { 0.0f, 0.0f, 1.0f } },
+        Vertex { { -0.5f,  0.5f,  0.5f, }, color, { 0.0f, 1.0f, },  { 0.0f, 0.0f, 1.0f } },
 
-        Vertex { { -0.5f,  0.5f,  0.5f, }, color, { 1.0f, 0.0f, } },
-        Vertex { { -0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, } },
-        Vertex { { -0.5f, -0.5f, -0.5f, }, color, { 0.0f, 1.0f, } },
-        Vertex { { -0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, } },
+        Vertex { { -0.5f,  0.5f,  0.5f, }, color, { 1.0f, 0.0f, }, { -1.0f, 0.0f, 0.0f } },
+        Vertex { { -0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, }, { -1.0f, 0.0f, 0.0f } },
+        Vertex { { -0.5f, -0.5f, -0.5f, }, color, { 0.0f, 1.0f, }, { -1.0f, 0.0f, 0.0f }  },
+        Vertex { { -0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, }, { -1.0f, 0.0f, 0.0f }  },
 
-        Vertex { { 0.5f,  0.5f,  0.5f, }, color, { 1.0f, 0.0f, } },
-        Vertex { { 0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, } },
-        Vertex { { 0.5f, -0.5f, -0.5f, }, color, { 0.0f, 1.0f, } },
-        Vertex { { 0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, } },
+        Vertex { { 0.5f,  0.5f,  0.5f, }, color, { 1.0f, 0.0f, }, { 1.0f, 0.0f, 0.0f } },
+        Vertex { { 0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, }, { 1.0f, 0.0f, 0.0f } },
+        Vertex { { 0.5f, -0.5f, -0.5f, }, color, { 0.0f, 1.0f, }, { 1.0f, 0.0f, 0.0f } },
+        Vertex { { 0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, }, { 1.0f, 0.0f, 0.0f }  },
 
-        Vertex { { -0.5f, -0.5f, -0.5f, }, color, { 0.0f, 1.0f, } },
-        Vertex { { 0.5f, -0.5f, -0.5f, }, color, { 1.0f, 1.0f, } },
-        Vertex { { 0.5f, -0.5f,  0.5f, }, color, { 1.0f, 0.0f, } },
-        Vertex { { -0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, } },
+        Vertex { { -0.5f, -0.5f, -0.5f, }, color, { 0.0f, 1.0f, }, { 0.0f, -1.0f, 0.0f } },
+        Vertex { { 0.5f, -0.5f, -0.5f, }, color, { 1.0f, 1.0f, }, { 0.0f, -1.0f, 0.0f }  },
+        Vertex { { 0.5f, -0.5f,  0.5f, }, color, { 1.0f, 0.0f, }, { 0.0f, -1.0f, 0.0f }  },
+        Vertex { { -0.5f, -0.5f,  0.5f, }, color, { 0.0f, 0.0f, }, { 0.0f, -1.0f, 0.0f } },
 
-        Vertex { { -0.5f,  0.5f, -0.5f, }, color, { 0.0f, 1.0f, } },
-        Vertex { { 0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, } },
-        Vertex { { 0.5f,  0.5f,  0.5f, }, color, { 1.0f, 0.0f, } },
-        Vertex { { -0.5f,  0.5f,  0.5f, }, color, { 0.0f, 0.0f, } },
+        Vertex { { -0.5f,  0.5f, -0.5f, }, color, { 0.0f, 1.0f, }, { 0.0f, 1.0f, 0.0f } },
+        Vertex { { 0.5f,  0.5f, -0.5f, }, color, { 1.0f, 1.0f, }, { 0.0f, 1.0f, 0.0f } },
+        Vertex { { 0.5f,  0.5f,  0.5f, }, color, { 1.0f, 0.0f, }, { 0.0f, 1.0f, 0.0f } },
+        Vertex { { -0.5f,  0.5f,  0.5f, }, color, { 0.0f, 0.0f, }, { 0.0f, 1.0f, 0.0f } },
     };
 
     std::vector<unsigned int> indices(36);

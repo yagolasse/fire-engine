@@ -106,13 +106,16 @@ int main(int argc, char* argv[]) {
 
         glm::vec3 ambientLightColor = glm::vec3 { 1.0f, 1.0f, 1.0f };
 
+        static glm::vec3 amgientLightPosition = glm::vec3 { 0.0f, 2.0f, 0.0f };
         static float strength = 1.0f;
 
         ImGui::SliderFloat("Ambient Light Strenght", &strength, 0.0f, 1.0f);
+        ImGui::DragFloat3("Light Position", &amgientLightPosition[0]);
 
         shader->bind();
 
         shader->setFloat("ambientLightStrenght", strength);
+        shader->setVec3("ambientLightPosition", amgientLightPosition);
         shader->setVec3("ambientLightColor", ambientLightColor);
 
         lightMesh->draw(shader, camera);
