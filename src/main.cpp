@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
         glm::vec3 { 0.0f, 0.0f, -3.0f }, glm::radians(75.0f), aspectRatio, 0.1f, 1000.0f
     );
 
-    std::unique_ptr<Mesh> cubeMesh = Mesh::createCubeMesh({ 1.0f, 0.0f, 0.5f}, std::make_shared<Texture>("../resources/container-texture.jpg"));
+    std::unique_ptr<Mesh> cubeMesh = Mesh::createCubeMesh({ 1.0f, 1.0f, 1.0f}, std::make_shared<Texture>("../resources/container-texture.jpg"));
 
     cubeMesh->translate({ 2.0f, 0.0f, 0.0f });
     cubeMesh->rotate(15.0f, { 1.0f, 0.0f, 1.0f });
@@ -118,6 +118,13 @@ int main(int argc, char* argv[]) {
         shader->setFloat("ambientLightStrenght", strength);
         shader->setVec3("ambientLightPosition", amgientLightPosition);
         shader->setVec3("ambientLightColor", ambientLightColor);
+        
+        shader->setVec3("viewPosition", camera->getPosition());
+
+        static float specularStrenght = 0.5f;
+        ImGui::SliderFloat("Specular Strenght", &specularStrenght, 0.0f, 1.0f);
+
+        shader->setFloat("specularStrenght", 0.5f);
 
         lightMesh->draw(shader, camera);
         cubeMesh->draw(shader, camera);
