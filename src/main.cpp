@@ -71,8 +71,8 @@ int main(int argc, char* argv[]) {
 
     std::unique_ptr<Mesh> cubeMesh = Mesh::createCubeMesh({ 1.0f, 1.0f, 1.0f}, std::make_shared<Texture>("../resources/container-texture.jpg"));
 
-    cubeMesh->translate({ 2.0f, 0.0f, 0.0f });
-    cubeMesh->rotate(15.0f, { 1.0f, 0.0f, 1.0f });
+    cubeMesh->translate({ 1.0f, 0.0f, 0.0f });
+    cubeMesh->rotate(35.0f, { 1.0f, 0.0f, 1.0f });
     
     std::unique_ptr<Mesh> lightMesh = Mesh::createCubeMesh({ 1.0f, 1.0f, 1.0f}, std::make_shared<Texture>("../resources/container-texture.jpg"));
 

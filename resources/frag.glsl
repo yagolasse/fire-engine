@@ -27,7 +27,7 @@ void main() {
     // Specular
     vec3 viewDirection = normalize(viewPosition - outFragmentPosition);
     vec3 reflectDirection = reflect(-lightDirection, normal);
-    float specularAmount = pow(max(dot(viewDirection, reflectDirection), 0.0), 2);
+    float specularAmount = pow(max(dot(viewDirection, reflectDirection), 0.0), 32);
     vec3 specular = specularAmount * specularStrenght * ambientLightColor;
 
     // Ambient Light

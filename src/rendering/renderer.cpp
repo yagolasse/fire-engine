@@ -11,8 +11,9 @@ void Renderer::init(GLADloadproc loadProcedure) {
     ASSERT_MSG(gladLoadGLLoader(loadProcedure), "Could not initialize Glad/load GL!");
 
     glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_DITHER);
 
-    glViewport(0, 0, 1280, 720);
+    // glViewport(0, 0, 1280, 720);
 }
 
 void Renderer::setClearColor() {
