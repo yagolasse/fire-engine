@@ -31,7 +31,6 @@
 #include <GLFW/glfw3.h>
 
 int main(int argc, char* argv[]) {
-    
     Window window(1280, 720, "Hello Window");
 
     Renderer::init((GLADloadproc) glfwGetProcAddress);

@@ -1,5 +1,14 @@
 #version 410 core
 
+struct Material {
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    float shineness;
+};
+
+uniform Material material;
+
 out vec4 FragColor;
 
 in vec3 outPos;

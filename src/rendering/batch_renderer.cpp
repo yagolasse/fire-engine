@@ -1,9 +1,10 @@
 #include "batch_renderer.h"
 
-#include <iostream>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
+#include <iostream>
 
+#include "error.h"
 #include "quad.h"
 #include "renderer.h"
 
@@ -38,11 +39,10 @@ BatchRenderer::BatchRenderer() {
     elementArrayBuffer->bufferData(&indices[0], indices.size() * sizeof(unsigned int));
 
     vertexBuffer->bind();
-    vertexBuffer->bufferData(nullptr, maxVertex * sizeof(QuadVertex)); // TODO: Change
+    vertexBuffer->bufferData(nullptr, maxVertex * sizeof(QuadVertex));  // TODO: Change
 
     vertexArrayBuffer->setupAttributePointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)0);
     vertexArrayBuffer->setupAttributePointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, color));
-
     vertexArrayBuffer->unbind();
 }
 
@@ -59,7 +59,7 @@ void BatchRenderer::draw() {
         glm::vec2{0.5f, 0.5f},
         glm::vec2{-0.5f, 0.5f},
     };
-    
+
     for (int i = 0; i < quads.size(); i++) {
         Quad quad = quads[i];
 
@@ -79,12 +79,12 @@ void BatchRenderer::draw() {
         }
     }
 
-    if (quads.size() > 0) { 
+    if (quads.size() > 0) {
         vertexArrayBuffer->bind();
 
         vertexBuffer->bind();
         vertexBuffer->bufferSubData(&vertices[0], 0, vertexPerQuad * sizeof(QuadVertex));
-
+        
         Renderer::draw(indexPerQuad * quads.size());
 
         vertexArrayBuffer->unbind();

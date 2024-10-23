@@ -6,6 +6,7 @@
 #include <glad/glad.h>
 
 #include "shader.h"
+#include "error.h"
 
 ShaderProgram::ShaderProgram(std::unique_ptr<Shader> vertexShader, std::unique_ptr<Shader> fragmentShader) {
     handle = glCreateProgram();
@@ -48,7 +49,7 @@ void ShaderProgram::setVec3(const char* name, glm::vec3 value) const {
     glUniform3f(glGetUniformLocation(handle, name), value.x, value.y, value.z);
 }
 
-void ShaderProgram::setMat4(const char* name, float* value) const {
+void ShaderProgram::setMat4(const char* name, const float* value) const {
     glUniformMatrix4fv(glGetUniformLocation(handle, name), 1, GL_FALSE, value);
 }
 

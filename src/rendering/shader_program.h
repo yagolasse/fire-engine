@@ -22,7 +22,7 @@ class ShaderProgram {
     void setInt(const char* name, int value) const;
     void setFloat(const char* name, float value) const;
     void setVec3(const char* name, glm::vec3 value) const;
-    void setMat4(const char* name, float* value) const;
+    void setMat4(const char* name, const float* value) const;
 
     inline GLuint getHandle() const {
         return handle;
