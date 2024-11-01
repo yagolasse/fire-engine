@@ -17,7 +17,6 @@
 #include "debug_ui.h"
 #include "element_array_buffer.h"
 #include "mesh.h"
-#include "quad.h"
 #include "renderer.h"
 #include "shader.h"
 #include "shader_program.h"
@@ -26,7 +25,6 @@
 #include "vertex_array_buffer.h"
 #include "vertex_buffer.h"
 #include "window.h"
-
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -61,12 +59,22 @@ int main(int argc, char* argv[]) {
 
     Renderer::setClearColor();
 
-    BatchRenderer batchRenderer;
-
     float aspectRatio = 1280.0f / 720.0f;
 
     std::shared_ptr<Camera> camera =
-        std::make_shared<Camera>(glm::vec3{0.0f, 0.0f, -3.0f}, -0.5f, 0.5, -0.5f, 0.5f, 0.01f, 1000.0f);
+        std::make_shared<Camera>(glm::vec3{0.0f, 0.0f, -3.0f}, glm::radians(75.0f), aspectRatio, 0.1f, 1000.0f);
+
+    std::unique_ptr<Mesh> cubeMesh =
+        Mesh::createCubeMesh({1.0f, 1.0f, 1.0f}, std::make_shared<Texture>("../resources/container-texture.jpg"));
+
+    cubeMesh->translate({1.0f, 0.0f, 0.0f});
+    cubeMesh->rotate(35.0f, {1.0f, 0.0f, 1.0f});
+
+    std::unique_ptr<Mesh> lightMesh =
+        Mesh::createCubeMesh({1.0f, 1.0f, 1.0f}, std::make_shared<Texture>("../resources/container-texture.jpg"));
+
+    lightMesh->scale(glm::vec3(0.3f));
+    lightMesh->rotate(20.0f, {-1.0f, 0.0f, -1.0f});
 
     double time = glfwGetTime();
     double lastFrameTime = time;
@@ -74,17 +82,6 @@ int main(int argc, char* argv[]) {
 
     double deltaTime = 0;
     double slowFrameTime = 0;
-
-    Quad quad{
-        {
-            glm::vec2{
-                0.0f,
-                0.0f,
-            },
-            glm::vec2{1.0f, 1.0f}, 0.0f
-        },
-        glm::vec4(1.0f)
-    };
 
     while (!window.shouldClose()) {
         window.pollEvents();
@@ -103,13 +100,30 @@ int main(int argc, char* argv[]) {
         ImGui::Text("%d FPS", (int)(1.0 / slowFrameTime));
         ImGui::Text("%.2f ms", slowFrameTime * 1000.0);
 
-        batchRenderer.pushQuad(quad);
+        static glm::vec3 ambientLightColor = glm::vec3{1.0f, 1.0f, 1.0f};
+
+        static glm::vec3 amgientLightPosition = glm::vec3{0.0f, 2.0f, 0.0f};
+        static float strength = 1.0f;
+
+        ImGui::SliderFloat("Ambient Light Strenght", &strength, 0.0f, 1.0f);
+        ImGui::DragFloat3("Light Position", &amgientLightPosition[0]);
+        ImGui::ColorPicker3("Ambient Light Color", &ambientLightColor[0]);
 
         shader->bind();
-        // shader->setMat4("view", &camera->getView()[0][0]);
-        // shader->setMat4("projection", &camera->getProjection()[0][0]);
 
-        batchRenderer.draw();
+        shader->setFloat("ambientLightStrenght", strength);
+        shader->setVec3("ambientLightPosition", amgientLightPosition);
+        shader->setVec3("ambientLightColor", ambientLightColor);
+
+        shader->setVec3("viewPosition", camera->getPosition());
+
+        static float specularStrenght = 0.5f;
+        ImGui::SliderFloat("Specular Strenght", &specularStrenght, 0.0f, 1.0f);
+
+        shader->setFloat("specularStrenght", 0.5f);
+
+        lightMesh->draw(shader, camera);
+        cubeMesh->draw(shader, camera);
 
         DebugUi::draw();
 

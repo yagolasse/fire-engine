@@ -17,7 +17,7 @@ void Renderer::init(GLADloadproc loadProcedure) {
 }
 
 void Renderer::setClearColor() {
-    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClearColor(0.1, 0.1, 0.1, 1.0);
 }
 
 void Renderer::clear() {

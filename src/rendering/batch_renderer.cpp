@@ -76,6 +76,10 @@ void BatchRenderer::draw() {
                 {currentPosition.x, currentPosition.y},
                 quad.color,
             };
+            // vertices[i] = QuadVertex {
+            //     { defaultPositions[i].x, defaultPositions[i].y },
+            //     quad.color,
+            // };
         }
     }
 

@@ -29,7 +29,7 @@ target_compile_options(glm PRIVATE
 )
 endif()
 
-set(CORE_SOURCE src/core/application.cpp src/core/assertion.cpp src/core/error.cpp src/core/camera.cpp src/core/debug_ui.cpp src/core/window.cpp)
+set(CORE_SOURCE src/core/application.cpp src/core/assertion.cpp src/core/error.cpp src/core/camera.cpp src/core/orthographic_camera.cpp src/core/debug_ui.cpp src/core/window.cpp)
 set(RENDERING_SOURCE src/rendering/batch_renderer.cpp src/rendering/element_array_buffer.cpp src/rendering/mesh.cpp src/rendering/renderer.cpp src/rendering/shader_program.cpp src/rendering/shader.cpp src/rendering/texture.cpp src/rendering/vertex_array_buffer.cpp src/rendering/vertex_buffer.cpp)
 
 set(IMGUI_BACKEND vendor/imgui/backends/imgui_impl_glfw.cpp vendor/imgui/backends/imgui_impl_opengl3.cpp)
