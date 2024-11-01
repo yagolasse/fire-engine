@@ -1,14 +1,11 @@
 #include "orthographic_camera.h"
 
-namespace core {
-OrthographicCamera::OrthographicCamera(glm::vec3 position, float left, float right, float bottom, float top, float near, float far)
-    : position(position), left(left), right(right), bottom(bottom), top(top), near(near), far(far) {
+OrthographicCamera::OrthographicCamera(glm::vec3 position, float left, float right, float bottom, float top, float nearZ, float farZ)
+    : position(position), left(left), right(right), bottom(bottom), top(top), near(nearZ), far(farZ) {
     setPosition(position);
-    updateProjection(left, right, bottom, top, near, far);
+    updateProjection(left, right, bottom, top, nearZ, farZ);
 }
 
-void OrthographicCamera::updateProjection(float left, float right, float bottom, float top, float near, float far) {
-    projection = glm::ortho(left, right, bottom, top, near, far);
+void OrthographicCamera::updateProjection(float left, float right, float bottom, float top, float nearZ, float farZ) {
+    projection = glm::ortho(left, right, bottom, top, nearZ, farZ);
 }
-
-}  // namespace core

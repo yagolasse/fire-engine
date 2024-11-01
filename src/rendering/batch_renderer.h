@@ -13,10 +13,16 @@
 #include "vertex_array_buffer.h"
 #include "vertex_buffer.h"
 
-
 class BatchRenderer {
    private:
+    static const int indexPerQuad = 6;
+    static const int vertexPerQuad = 4;
+    static const int maxQuadsPerDraw = 1000;
+    static const int maxIndex = indexPerQuad * maxQuadsPerDraw;
+    static const int maxVertex = vertexPerQuad * maxQuadsPerDraw;
+    
     std::vector<Quad> quads;
+    std::array<QuadVertex, maxVertex> vertices;
 
     std::unique_ptr<VertexBuffer> vertexBuffer;
     std::unique_ptr<VertexArrayBuffer> vertexArrayBuffer;

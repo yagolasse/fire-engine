@@ -65,8 +65,8 @@ int main(int argc, char* argv[]) {
 
     float aspectRatio = 1280.0f / 720.0f;
 
-    std::shared_ptr<core::OrthographicCamera> camera =
-        std::make_shared<core::OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 720.0f, 0.0f, 0.01f, 1000.0f);
+    std::shared_ptr<OrthographicCamera> camera =
+        std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 720.0f, 0.0f, 0.01f, 1000.0f);
 
     double time = glfwGetTime();
     double lastFrameTime = time;
@@ -77,17 +77,19 @@ int main(int argc, char* argv[]) {
 
     Quad quad{
         {
-            glm::vec2{
-                0.0f,
-                0.0f,
-            },
-            glm::vec2{1.0f, 1.0f}, 0.0f
+            glm::vec2{100.0f, 100.0f}, // Scale
+            glm::vec2{50.0f, 50.0f}, // Position
+            0.0f // Rotation
         },
-        glm::vec4(1.0f)
+        glm::vec4(1.0f) // Color
     };
+
+    float rotation = 0;
 
     while (!window.shouldClose()) {
         window.pollEvents();
+
+        // rotation += deltaTime;
 
         DebugUi::beginFrame();
 
@@ -103,11 +105,23 @@ int main(int argc, char* argv[]) {
         ImGui::Text("%d FPS", (int)(1.0 / slowFrameTime));
         ImGui::Text("%.2f ms", slowFrameTime * 1000.0);
 
-        batchRenderer.pushQuad(quad);
+        for (int i = 0; i < 200; i++) {
+            for (int j = 0; j < 200; j++) {
+                Quad quad1{
+                    {
+                        glm::vec2{5.0f, 5.0f}, // Scale
+                        glm::vec2{j * 8.0f + 10, i * 8.0f + 10}, // Position
+                        rotation // Rotation
+                    },
+                    glm::vec4(glm::vec3((float)i/800.0f , (float)j/200.0f, 0.5f), 1.0f) // Color
+                };
+                batchRenderer.pushQuad(quad1);
+            }
+        }
 
         shader->bind();
-        shader->setMat4("view", &camera->getView()[0][0]);
-        shader->setMat4("projection", &camera->getProjection()[0][0]);
+        shader->setMat4("view", glm::value_ptr(camera->getView()));
+        shader->setMat4("projection", glm::value_ptr(camera->getProjection()));
 
         batchRenderer.draw();
 

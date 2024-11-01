@@ -8,17 +8,17 @@
 #include "quad.h"
 #include "renderer.h"
 
-const int indexPerQuad = 6;
-const int vertexPerQuad = 4;
-const int maxQuadsPerDraw = 100;
-const int maxIndex = indexPerQuad * maxQuadsPerDraw;
-const int maxVertex = vertexPerQuad * maxQuadsPerDraw;
-
 BatchRenderer::BatchRenderer() {
     vertexBuffer = std::make_unique<VertexBuffer>();
     vertexArrayBuffer = std::make_unique<VertexArrayBuffer>();
     elementArrayBuffer = std::make_unique<ElementArrayBuffer>();
 
+    for (int i = 0; i < maxVertex; i++) {
+        vertices[i] = QuadVertex{
+            glm::vec2(),
+            glm::vec4(1.0f),
+        };
+    }
     std::array<unsigned int, maxIndex> indices;
 
     int index = 0;
@@ -42,7 +42,7 @@ BatchRenderer::BatchRenderer() {
     vertexBuffer->bufferData(nullptr, maxVertex * sizeof(QuadVertex));  // TODO: Change
 
     vertexArrayBuffer->setupAttributePointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)0);
-    vertexArrayBuffer->setupAttributePointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, color));
+    vertexArrayBuffer->setupAttributePointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, color));
     vertexArrayBuffer->unbind();
 }
 
@@ -51,8 +51,6 @@ void BatchRenderer::pushQuad(Quad quad) {
 }
 
 void BatchRenderer::draw() {
-    std::vector<QuadVertex> vertices(quads.size() * maxVertex);
-
     std::array<glm::vec2, vertexPerQuad> defaultPositions = {
         glm::vec2{-0.5f, -0.5f},
         glm::vec2{0.5f, -0.5f},
@@ -60,38 +58,43 @@ void BatchRenderer::draw() {
         glm::vec2{-0.5f, 0.5f},
     };
 
-    for (int i = 0; i < quads.size(); i++) {
-        Quad quad = quads[i];
+    int vertexIndex = 0;
 
-        glm::mat4 transform(1.0f);
+    for (int quadIndex = 0; quadIndex < quads.size(); quadIndex++) {
+        Quad quad = quads[quadIndex];
 
-        transform = glm::scale(transform, {quad.transform.scale, 1.0f});
-        transform = glm::rotate(transform, glm::radians(quad.transform.rotationDegrees), {0.0f, 0.0f, 1.0f});
+        glm::mat4 transform = glm::mat4(1.0f);
+
         transform = glm::translate(transform, {quad.transform.position, 0.0f});
+        transform = glm::rotate(transform, glm::radians(quad.transform.rotationDegrees), {0.0f, 0.0f, 1.0f});
+        transform = glm::scale(transform, {quad.transform.scale, 1.0f});
 
         for (int i = 0; i < 4; i++) {
-            glm::vec4 currentPosition = glm::vec4(defaultPositions[i].x, defaultPositions[i].y, 0, 1) * transform;
+            glm::vec4 currentPosition = transform * glm::vec4(defaultPositions[i].x, defaultPositions[i].y, 0, 1);
 
-            vertices[i] = QuadVertex{
-                {currentPosition.x, currentPosition.y},
-                quad.color,
-            };
-            // vertices[i] = QuadVertex {
-            //     { defaultPositions[i].x, defaultPositions[i].y },
-            //     quad.color,
-            // };
-        }
-    }
-
-    if (quads.size() > 0) {
-        vertexArrayBuffer->bind();
-
-        vertexBuffer->bind();
-        vertexBuffer->bufferSubData(&vertices[0], 0, vertexPerQuad * sizeof(QuadVertex));
+            vertices[vertexIndex].position.x = currentPosition.x;
+            vertices[vertexIndex].position.y = currentPosition.y;
         
-        Renderer::draw(indexPerQuad * quads.size());
+            vertices[vertexIndex].color.r = quad.color.r * 255;
+            vertices[vertexIndex].color.g = quad.color.g * 255;
+            vertices[vertexIndex].color.b = quad.color.b * 255;
+            vertices[vertexIndex].color.a = quad.color.a * 255;
 
-        vertexArrayBuffer->unbind();
+            vertexIndex++;
+        }
+
+        if (vertexIndex == maxVertex || quadIndex == quads.size() - 1) {
+            vertexArrayBuffer->bind();
+
+            vertexBuffer->bind();
+            vertexBuffer->bufferSubData(&vertices[0], 0, vertexIndex * sizeof(QuadVertex));
+
+            Renderer::draw(indexPerQuad * vertexIndex / 4);
+
+            vertexArrayBuffer->unbind();
+
+            vertexIndex = 0;
+        }
     }
 
     quads.clear();

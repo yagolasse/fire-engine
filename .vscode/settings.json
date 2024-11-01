@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "C:/Projects/fire-engine/src",
+    "cmake.sourceDirectory": "C:/Projects/fire-engine",
     "files.associations": {
         "*.arb": "json",
         "atomic": "cpp",
