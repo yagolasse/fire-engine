@@ -22,16 +22,7 @@ class OrthographicCamera {
 
     void updateProjection(float left, float right, float bottom, float top,  float near, float far);
 
-    inline void setPosition(glm::vec3 newPosition) {
-        position = newPosition;
-        glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-        glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-        view = glm::lookAt(
-            glm::vec3(position.x, position.y, 20.0f), 
-            cameraFront + glm::vec3(position.x, position.y, 0.0f),
-            cameraUp
-        );
-    }
+    void setPosition(glm::vec3 newPosition);
 
     inline const glm::vec3 getPosition() const {
         return position;
