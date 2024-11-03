@@ -6,6 +6,7 @@
 
 #include "camera.h"
 #include "element_array_buffer.h"
+#include "orthographic_camera.h"
 #include "quad.h"
 #include "shader_program.h"
 #include "texture.h"
@@ -24,6 +25,7 @@ class BatchRenderer {
     std::vector<Quad> quads;
     std::array<QuadVertex, maxVertex> vertices;
 
+    std::unique_ptr<ShaderProgram> shader;
     std::unique_ptr<VertexBuffer> vertexBuffer;
     std::unique_ptr<VertexArrayBuffer> vertexArrayBuffer;
     std::unique_ptr<ElementArrayBuffer> elementArrayBuffer;
@@ -31,5 +33,5 @@ class BatchRenderer {
    public:
     BatchRenderer();
     void pushQuad(Quad quad);
-    void draw();
+    void draw(std::shared_ptr<OrthographicCamera> camera);
 };

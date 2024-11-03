@@ -3,16 +3,15 @@
 #include <memory>
 
 #include "window.h"
+#include "batch_renderer.h"
 
 class Application {
    private:
-    float frameTime;
-    float previousFrameTime;
     std::unique_ptr<Window> window;
+    std::unique_ptr<BatchRenderer> batchRenderer;
 
    public:
     Application();
-    ~Application();
 
     void run();
 };

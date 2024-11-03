@@ -1,17 +1,43 @@
 #include "batch_renderer.h"
 
+#include <fstream>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
 #include <iostream>
+#include <sstream>
 
+#include "assertion.h"
 #include "error.h"
 #include "quad.h"
+#include "shader.h"
 #include "renderer.h"
+
 
 BatchRenderer::BatchRenderer() {
     vertexBuffer = std::make_unique<VertexBuffer>();
     vertexArrayBuffer = std::make_unique<VertexArrayBuffer>();
     elementArrayBuffer = std::make_unique<ElementArrayBuffer>();
+
+    std::ifstream fragFileStream("../resources/quad_fragment_shader.glsl");
+    std::ifstream vertFileStream("../resources/quad_vertex_shader.glsl");
+
+    ASSERT_MSG(!fragFileStream.fail(), "Failed to open fragment shader");
+    ASSERT_MSG(!vertFileStream.fail(), "Failed to open vertex shader");
+
+    std::stringstream fragStringBuffer;
+    std::stringstream vertStringBuffer;
+
+    fragStringBuffer << fragFileStream.rdbuf();
+    vertStringBuffer << vertFileStream.rdbuf();
+
+    auto vertexShader = std::make_unique<Shader>(GL_VERTEX_SHADER, vertStringBuffer.str().c_str());
+    auto fragmentShader = std::make_unique<Shader>(GL_FRAGMENT_SHADER, fragStringBuffer.str().c_str());
+
+    fragFileStream.close();
+    vertFileStream.close();
+
+    shader = std::make_unique<ShaderProgram>(std::move(vertexShader), std::move(fragmentShader));
 
     for (int i = 0; i < maxVertex; i++) {
         vertices[i] = QuadVertex{
@@ -50,7 +76,13 @@ void BatchRenderer::pushQuad(Quad quad) {
     quads.push_back(quad);
 }
 
-void BatchRenderer::draw() {
+void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
+    Renderer::clear();
+
+    shader->bind();
+    shader->setMat4("view", glm::value_ptr(camera->getView()));
+    shader->setMat4("projection", glm::value_ptr(camera->getProjection()));
+
     std::array<glm::vec2, vertexPerQuad> defaultPositions = {
         glm::vec2{-0.5f, -0.5f},
         glm::vec2{0.5f, -0.5f},
@@ -74,7 +106,7 @@ void BatchRenderer::draw() {
 
             vertices[vertexIndex].position.x = currentPosition.x;
             vertices[vertexIndex].position.y = currentPosition.y;
-        
+
             vertices[vertexIndex].color.r = quad.color.r * 255;
             vertices[vertexIndex].color.g = quad.color.g * 255;
             vertices[vertexIndex].color.b = quad.color.b * 255;
@@ -89,13 +121,17 @@ void BatchRenderer::draw() {
             vertexBuffer->bind();
             vertexBuffer->bufferSubData(&vertices[0], 0, vertexIndex * sizeof(QuadVertex));
 
-            Renderer::draw(indexPerQuad * vertexIndex / 4);
+            Renderer::draw(indexPerQuad * vertexIndex / vertexPerQuad);
+
+            // vertexBuffer->unbind();
 
             vertexArrayBuffer->unbind();
 
             vertexIndex = 0;
         }
     }
+
+    // shader->unbind();
 
     quads.clear();
 }
