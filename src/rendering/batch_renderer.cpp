@@ -10,9 +10,8 @@
 #include "assertion.h"
 #include "error.h"
 #include "quad.h"
-#include "shader.h"
 #include "renderer.h"
-
+#include "shader.h"
 
 BatchRenderer::BatchRenderer() {
     vertexBuffer = std::make_unique<VertexBuffer>();
@@ -43,6 +42,7 @@ BatchRenderer::BatchRenderer() {
         vertices[i] = QuadVertex{
             glm::vec2(),
             glm::vec4(1.0f),
+            glm::vec2(),
         };
     }
     std::array<unsigned int, maxIndex> indices;
@@ -69,6 +69,7 @@ BatchRenderer::BatchRenderer() {
 
     vertexArrayBuffer->setupAttributePointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)0);
     vertexArrayBuffer->setupAttributePointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, color));
+    vertexArrayBuffer->setupAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, uv));
     vertexArrayBuffer->unbind();
 }
 
@@ -88,6 +89,13 @@ void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
         glm::vec2{0.5f, -0.5f},
         glm::vec2{0.5f, 0.5f},
         glm::vec2{-0.5f, 0.5f},
+    };
+
+    std::array<glm::vec2, 4> defaultUvMapping = {
+        glm::vec2{0.0f, 0.0f},
+        glm::vec2{1.0f, 0.0f},
+        glm::vec2{1.0f, 1.0f},
+        glm::vec2{0.0f, 1.0f},
     };
 
     int vertexIndex = 0;
@@ -112,6 +120,9 @@ void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
             vertices[vertexIndex].color.b = quad.color.b * 255;
             vertices[vertexIndex].color.a = quad.color.a * 255;
 
+            vertices[vertexIndex].uv.x = defaultUvMapping[i].x;
+            vertices[vertexIndex].uv.y = defaultUvMapping[i].y;
+
             vertexIndex++;
         }
 
@@ -123,7 +134,7 @@ void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
 
             Renderer::draw(indexPerQuad * vertexIndex / vertexPerQuad);
 
-            // vertexBuffer->unbind();
+            vertexBuffer->unbind();
 
             vertexArrayBuffer->unbind();
 

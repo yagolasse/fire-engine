@@ -23,6 +23,18 @@
             "environment": [],
             "MIMode": "lldb",
             "preLaunchTask": "Build"
+        },
+        {
+            "name": "(Linux) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/fire-engine",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/",
+            "environment": [],
+            "miDebuggerPath": "/usr/bin/gdb",
+            "preLaunchTask": "Build"
         }
     ]
 }

@@ -13,7 +13,7 @@ void Renderer::init(GLADloadproc loadProcedure) {
     glEnable(GL_DEPTH_TEST);
     // glEnable(GL_DITHER);
 
-    // glViewport(0, 0, 1280, 720);
+    glViewport(0, 0, 1280, 720);
 }
 
 void Renderer::setClearColor() {

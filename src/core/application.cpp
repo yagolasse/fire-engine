@@ -4,6 +4,7 @@
 
 #include "debug_ui.h"
 #include "renderer.h"
+#include "script.h"
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -24,9 +25,15 @@ Application::Application() {
 
 void Application::run() {
 
+    Script script;
+
+    script.start();
+
     std::shared_ptr<OrthographicCamera> camera =
-        std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 720.0f, 0.0f, 0.01f, 1000.0f);
-        
+        std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);
+
+    std::unique_ptr<Texture> texture = std::make_unique<Texture>("../resources/awesomeface.png");
+
     double frameTime = glfwGetTime();
 
     while(!window->shouldClose()) {
@@ -38,19 +45,35 @@ void Application::run() {
         
         DebugUi::beginFrame(); // TODO: Move into scene
 
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 30; j++) {
-                Quad quad1{
-                    {
-                        glm::vec2{5.0f, 5.0f}, // Scale
-                        glm::vec2{j * 8.0f + 10, i * 8.0f + 10}, // Position
-                        0.0f // Rotation
-                    },
-                    glm::vec4(glm::vec3((float)i/800.0f , (float)j/200.0f, 0.5f), 1.0f) // Color
-                };
-                batchRenderer->pushQuad(quad1);
-            }
-        }
+        script.update(deltaTime - frameTime);
+
+        Renderer::makeTextureActive(1);
+        texture->bind();
+
+        // for (int i = 0; i < 30; i++) {
+        //     for (int j = 0; j < 30; j++) {
+        //         Quad quad1{
+        //             {
+        //                 glm::vec2{30.0f, 30.0f}, // Scale
+        //                 glm::vec2{j * 20.0f + 10, i * 20.0f + 10}, // Position
+        //                 0.0f // Rotation
+        //             },
+        //             glm::vec4(glm::vec3((float)i/800.0f , (float)j/200.0f, 0.5f), 1.0f) // Color
+        //         };
+        //         batchRenderer->pushQuad(quad1);
+        //     }
+        // }
+
+        Quad quad1{
+            {
+                glm::vec2{128.0f, 128.0f}, // Scale
+                glm::vec2{640.0f, 360.0f}, // Position
+                0.0f // Rotation
+            },
+            glm::vec4(1.0f) // Color
+        };
+
+        batchRenderer->pushQuad(quad1);
 
         ImGui::Text("%.2f ms", (deltaTime - frameTime) * 1000.0); // TODO: Move into scene
 

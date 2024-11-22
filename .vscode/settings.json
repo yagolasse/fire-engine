@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "C:/Projects/fire-engine",
+    "cmake.sourceDirectory": "/home/yagolasse/Documents/GitHub/fire-engine",
     "files.associations": {
         "*.arb": "json",
         "atomic": "cpp",
@@ -87,6 +87,23 @@
         "deque": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "any": "cpp",
+        "*.tcc": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "memory_resource": "cpp",
+        "numeric": "cpp",
+        "future": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "span": "cpp",
+        "stdfloat": "cpp",
+        "stop_token": "cpp",
+        "text_encoding": "cpp",
+        "thread": "cpp",
+        "cinttypes": "cpp"
     }
 }

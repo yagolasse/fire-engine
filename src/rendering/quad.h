@@ -16,4 +16,5 @@ struct Quad {
 struct QuadVertex {
     glm::vec2 position;
     glm::i8vec4 color;
+    glm::vec2 uv;
 };
