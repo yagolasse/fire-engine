@@ -13,8 +13,6 @@ void Renderer::init(GLADloadproc loadProcedure) {
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
-
-    glViewport(0, 0, 1280, 720);
 }
 
 void Renderer::setClearColor() {
@@ -31,4 +29,8 @@ void Renderer::draw(int elementCount) {
 
 void Renderer::makeTextureActive(int index) {
     glActiveTexture(GL_TEXTURE0 + index);
+}
+
+void Renderer::setViewport(int x, int y, int width, int height) {
+    glViewport(x, y, width, height);
 }

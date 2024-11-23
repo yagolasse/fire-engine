@@ -9,4 +9,5 @@ class Renderer {
     static void clear();
     static void draw(int elementCount);
     static void makeTextureActive(int index);
+    static void setViewport(int x, int y, int width, int height);
 };

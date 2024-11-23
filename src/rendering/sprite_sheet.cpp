@@ -9,18 +9,18 @@ SpriteSheet::SpriteSheet(std::shared_ptr<Texture> texture, int spriteWidth, int 
 }
 
 std::array<glm::vec2, 4> SpriteSheet::getUVMappingForRegion(int frameIndex) {
-    const float tw = float(spriteWidth) / textureWidth;
-    const float th = float(spriteHeight) / textureHeight;
-    const int numPerRow = textureWidth / spriteWidth;
-    const float tx = (frameIndex % numPerRow) * tw;
-    const float ty = (frameIndex / numPerRow + 1) * th;
-    
-    std::cout << tx << ":" << ty << std::endl;
+    float spriteWidthPercent = (float)spriteWidth / textureWidth;
+    float spriteHeightPercent = (float)spriteHeight / textureHeight;
+
+    int spritesPerRow = textureWidth / spriteWidth;
+
+    float spriteX = (frameIndex % spritesPerRow) * spriteWidthPercent;
+    float spriteY = (frameIndex / spritesPerRow) * spriteHeightPercent;
 
     return std::array<glm::vec2, 4>{
-        glm::vec2{tx, ty},
-        glm::vec2{tx + tw, ty},
-        glm::vec2{tx + tw, ty + th},
-        glm::vec2{tx, ty + th},
+        glm::vec2{spriteX, spriteY},
+        glm::vec2{spriteX + spriteWidthPercent, spriteY},
+        glm::vec2{spriteX + spriteWidthPercent, spriteY + spriteHeightPercent},
+        glm::vec2{spriteX, spriteY + spriteHeightPercent},
     };
 }

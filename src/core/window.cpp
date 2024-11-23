@@ -40,6 +40,10 @@ Window::Window(int width, int height, const char* title) {
 
     glfwMakeContextCurrent(handle);
 
+    glfwSetFramebufferSizeCallback(handle, [](GLFWwindow *windowHandle, int width, int height) {
+        Renderer::setViewport(0, 0, width, height);
+    });
+
     glfwSwapInterval(0);
 
     glfwShowWindow(handle);
