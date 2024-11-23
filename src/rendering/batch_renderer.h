@@ -4,7 +4,6 @@
 #include <array>
 #include <vector>
 
-#include "camera.h"
 #include "element_array_buffer.h"
 #include "orthographic_camera.h"
 #include "quad.h"

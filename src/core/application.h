@@ -2,12 +2,14 @@
 
 #include <memory>
 
-#include "window.h"
+#include "asset_loader.h"
 #include "batch_renderer.h"
+#include "window.h"
 
 class Application {
    private:
     std::unique_ptr<Window> window;
+    std::unique_ptr<AssetLoader> assetLoader;
     std::unique_ptr<BatchRenderer> batchRenderer;
 
    public:

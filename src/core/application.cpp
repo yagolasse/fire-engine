@@ -17,14 +17,15 @@ Application::Application() {
     Renderer::init((GLADloadproc)glfwGetProcAddress);
     Renderer::setClearColor();
 
-    DebugUi::init(window->getHandle()); // TODO: Move into scene
+    DebugUi::init(window->getHandle());  // TODO: Move into scene
 
     // Lastly, GPU buffers
     batchRenderer = std::make_unique<BatchRenderer>();
+
+    assetLoader = std::make_unique<AssetLoader>();
 }
 
 void Application::run() {
-
     Script script;
 
     script.start();
@@ -32,18 +33,18 @@ void Application::run() {
     std::shared_ptr<OrthographicCamera> camera =
         std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);
 
-    std::unique_ptr<Texture> texture = std::make_unique<Texture>("../resources/awesomeface.png");
+    std::shared_ptr<Texture> texture = assetLoader->loadTexture("../resources/awesomeface.png");
 
     double frameTime = glfwGetTime();
 
-    while(!window->shouldClose()) {
+    while (!window->shouldClose()) {
         double deltaTime = glfwGetTime();
 
         window->pollEvents();
 
         /// App Code
-        
-        DebugUi::beginFrame(); // TODO: Move into scene
+
+        DebugUi::beginFrame();  // TODO: Move into scene
 
         script.update(deltaTime - frameTime);
 
@@ -66,27 +67,27 @@ void Application::run() {
 
         Quad quad1{
             {
-                glm::vec2{128.0f, 128.0f}, // Scale
-                glm::vec2{640.0f, 360.0f}, // Position
-                0.0f // Rotation
+                glm::vec2{128.0f, 128.0f},  // Scale
+                glm::vec2{640.0f, 360.0f},  // Position
+                0.0f                        // Rotation
             },
-            glm::vec4(1.0f) // Color
+            glm::vec4(1.0f)  // Color
         };
 
         batchRenderer->pushQuad(quad1);
 
-        ImGui::Text("%.2f ms", (deltaTime - frameTime) * 1000.0); // TODO: Move into scene
+        ImGui::Text("%.2f ms", (deltaTime - frameTime) * 1000.0);  // TODO: Move into scene
 
         /// End App Code
-        
+
         batchRenderer->draw(camera);
 
-        DebugUi::draw(); // TODO: Move into scene
+        DebugUi::draw();  // TODO: Move into scene
 
         window->swapBuffers();
 
         frameTime = deltaTime;
     }
 
-    DebugUi::dispose(); // TODO: Move into scene
+    DebugUi::dispose();  // TODO: Move into scene
 }
