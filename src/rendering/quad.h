@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <glm.hpp>
 
 struct Transform {
@@ -11,6 +12,7 @@ struct Transform {
 struct Quad {
     Transform transform;
     glm::vec4 color;
+    std::array<glm::vec2, 4> uv;
 };
 
 struct QuadVertex {

@@ -18,4 +18,12 @@ class Texture {
     inline unsigned int getHandle() const {
         return handle;
     }
+
+    inline int getWidth() const {
+        return width;
+    }
+
+    inline int getHeight() const {
+        return height;
+    }
 };

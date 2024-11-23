@@ -1,9 +1,9 @@
 #include "renderer.h"
 
+#include <glad/glad.h>
+
 #include <iostream>
 #include <vec4.hpp>
-
-#include <glad/glad.h>
 
 #include "assertion.h"
 
@@ -11,7 +11,8 @@ void Renderer::init(GLADloadproc loadProcedure) {
     ASSERT_MSG(gladLoadGLLoader(loadProcedure), "Could not initialize Glad/load GL!");
 
     glEnable(GL_DEPTH_TEST);
-    // glEnable(GL_DITHER);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
 
     glViewport(0, 0, 1280, 720);
 }

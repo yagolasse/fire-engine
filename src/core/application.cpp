@@ -2,9 +2,12 @@
 
 #include <imgui.h>
 
+#include <iostream>
+
 #include "debug_ui.h"
 #include "renderer.h"
 #include "script.h"
+#include "sprite_sheet.h"
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -33,9 +36,12 @@ void Application::run() {
     std::shared_ptr<OrthographicCamera> camera =
         std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);
 
-    std::shared_ptr<Texture> texture = assetLoader->loadTexture("../resources/awesomeface.png");
+    SpriteSheet spriteSheet(assetLoader->loadTexture("simpleSpace_tilesheet.png"), 64, 64);
 
     double frameTime = glfwGetTime();
+
+    int spriteIndex = 0;
+    double accumulator = 0;
 
     while (!window->shouldClose()) {
         double deltaTime = glfwGetTime();
@@ -48,8 +54,19 @@ void Application::run() {
 
         script.update(deltaTime - frameTime);
 
+        accumulator += deltaTime - frameTime;
+
+        if (accumulator > 1) {
+            accumulator = 0;
+            std::cout << spriteIndex << std::endl;
+            spriteIndex++;
+            if (spriteIndex == 8 * 6) {
+                spriteIndex = 0;
+            }
+        }
+
         Renderer::makeTextureActive(1);
-        texture->bind();
+        spriteSheet.bindTexture();
 
         // for (int i = 0; i < 30; i++) {
         //     for (int j = 0; j < 30; j++) {
@@ -67,11 +84,12 @@ void Application::run() {
 
         Quad quad1{
             {
-                glm::vec2{128.0f, 128.0f},  // Scale
-                glm::vec2{640.0f, 360.0f},  // Position
-                0.0f                        // Rotation
+                glm::vec2{spriteSheet.getSpriteWidth(), spriteSheet.getSpriteHeight()},  // Scale
+                glm::vec2{640.0f, 360.0f},                                               // Position
+                0.0f                                                                     // Rotation
             },
-            glm::vec4(1.0f)  // Color
+            glm::vec4(1.0f),  // Color
+            spriteSheet.getUVMappingForRegion(spriteIndex),
         };
 
         batchRenderer->pushQuad(quad1);

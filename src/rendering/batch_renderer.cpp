@@ -120,8 +120,8 @@ void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
             vertices[vertexIndex].color.b = quad.color.b * 255;
             vertices[vertexIndex].color.a = quad.color.a * 255;
 
-            vertices[vertexIndex].uv.x = defaultUvMapping[i].x;
-            vertices[vertexIndex].uv.y = defaultUvMapping[i].y;
+            vertices[vertexIndex].uv.x = quad.uv[i].x;
+            vertices[vertexIndex].uv.y = quad.uv[i].y;
 
             vertexIndex++;
         }
