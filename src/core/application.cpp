@@ -42,6 +42,7 @@ void Application::run() {
 
     int spriteIndex = 0;
     double accumulator = 0;
+    float rotation = 0;
 
     while (!window->shouldClose()) {
         double deltaTime = glfwGetTime();
@@ -65,7 +66,8 @@ void Application::run() {
             }
         }
 
-        Renderer::makeTextureActive(1);
+        rotation += 0.04;
+
         spriteSheet.bindTexture();
 
         // for (int i = 0; i < 30; i++) {
@@ -86,10 +88,11 @@ void Application::run() {
             {
                 glm::vec2{spriteSheet.getSpriteWidth(), spriteSheet.getSpriteHeight()},  // Scale
                 glm::vec2{640.0f, 360.0f},                                               // Position
-                0.0f                                                                     // Rotation
+                rotation                                                                    // Rotation
             },
             glm::vec4(1.0f),  // Color
             spriteSheet.getUVMappingForRegion(spriteIndex),
+            1,
         };
 
         batchRenderer->pushQuad(quad1);

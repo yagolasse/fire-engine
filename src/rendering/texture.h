@@ -4,10 +4,13 @@
 
 class Texture {
    private:
+    static int currentBindingIndex;
+
     unsigned int handle;
     int width;
     int height;
     int channels;
+    int bindingIndex;
 
    public:
     Texture(const char* path);

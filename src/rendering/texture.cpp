@@ -9,6 +9,8 @@
 
 #include "assertion.h"
 
+int Texture::currentBindingIndex = 0;
+
 Texture::Texture(const char* path) {
     glGenTextures(1, &handle);
     glBindTexture(GL_TEXTURE_2D, handle);
@@ -30,6 +32,8 @@ Texture::Texture(const char* path) {
     glGenerateMipmap(GL_TEXTURE_2D);
 
     stbi_image_free((void*)data);
+
+    bindingIndex = ++Texture::currentBindingIndex;
 }
 
 Texture::~Texture() {
@@ -37,5 +41,6 @@ Texture::~Texture() {
 }
 
 void Texture::bind() const {
+    glActiveTexture(GL_TEXTURE0 + bindingIndex);
     glBindTexture(GL_TEXTURE_2D, handle);
 }

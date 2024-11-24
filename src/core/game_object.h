@@ -11,9 +11,9 @@ class GameObject {
 
     void start();
     void update(double delta);
-}
+};
 
 class Sprite : public GameObject {
    public:
     Texture texture;
-}
+};

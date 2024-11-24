@@ -128,7 +128,7 @@ void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
 
         if (vertexIndex == maxVertex || quadIndex == quads.size() - 1) {
             vertexArrayBuffer->bind();
-
+    
             vertexBuffer->bind();
             vertexBuffer->bufferSubData(&vertices[0], 0, vertexIndex * sizeof(QuadVertex));
 
