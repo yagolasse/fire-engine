@@ -8,6 +8,9 @@
 #include "renderer.h"
 #include "script.h"
 #include "sprite_sheet.h"
+#include "texture_storage.h"
+#include "texture.h"
+#include "texture_data.h"
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -36,7 +39,11 @@ void Application::run() {
     std::shared_ptr<OrthographicCamera> camera =
         std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);
 
-    SpriteSheet spriteSheet(assetLoader->loadTexture("simpleSpace_tilesheet.png"), 64, 64);
+    // SpriteSheet spriteSheet(assetLoader->loadTexture("simpleSpace_tilesheet.png"), 64, 64);
+
+    // Texture texture("../resources/awesomeface.png");
+    TextureStorage textureStorage;
+    TextureData texture = textureStorage.loadTexture("../resources/simpleSpace_tilesheet.png");
 
     double frameTime = glfwGetTime();
 
@@ -67,8 +74,9 @@ void Application::run() {
         }
 
         rotation += 0.04;
-
-        spriteSheet.bindTexture();
+        textureStorage.bind();
+        // texture.bind();
+        // spriteSheet.bindTexture();
 
         // for (int i = 0; i < 30; i++) {
         //     for (int j = 0; j < 30; j++) {
@@ -84,17 +92,46 @@ void Application::run() {
         //     }
         // }
 
+        // Quad quad1{
+        //     {
+        //         glm::vec2{spriteSheet.getSpriteWidth(), spriteSheet.getSpriteHeight()},  // Scale
+        //         glm::vec2{640.0f, 360.0f},                                               // Position
+        //         rotation                                                                    // Rotation
+        //     },
+        //     glm::vec4(1.0f),  // Color
+        //     spriteSheet.getUVMappingForRegion(spriteIndex),
+        // };
+
+        // Quad quad1{
+        //     {
+        //         glm::vec2{texture.getWidth(), texture.getHeight()},  // Scale
+        //         glm::vec2{640.0f, 360.0f},                                               // Position
+        //         rotation                                                                    // Rotation
+        //     },
+        //     glm::vec4(1.0f),  // Color
+        //     std::array<glm::vec2, 4>{
+        //         glm::vec2{0.0f, 0.0f},
+        //         glm::vec2{1.0f, 0.0f},
+        //         glm::vec2{1.0f, 1.0f},
+        //         glm::vec2{0.0f, 1.0f},
+        //     },
+        // };
+
+
         Quad quad1{
             {
-                glm::vec2{spriteSheet.getSpriteWidth(), spriteSheet.getSpriteHeight()},  // Scale
+                glm::vec2{texture.width, texture.height},  // Scale
                 glm::vec2{640.0f, 360.0f},                                               // Position
                 rotation                                                                    // Rotation
             },
             glm::vec4(1.0f),  // Color
-            spriteSheet.getUVMappingForRegion(spriteIndex),
-            1,
+            std::array<glm::vec2, 4>{
+                glm::vec2{0.0f, 0.0f},
+                glm::vec2{texture.maxUV.x, 0.0f},
+                glm::vec2{texture.maxUV.x, texture.maxUV.y},
+                glm::vec2{0.0f, texture.maxUV.y},
+            },
         };
-
         batchRenderer->pushQuad(quad1);
 
         ImGui::Text("%.2f ms", (deltaTime - frameTime) * 1000.0);  // TODO: Move into scene

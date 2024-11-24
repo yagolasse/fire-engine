@@ -41,6 +41,7 @@ Texture::~Texture() {
 }
 
 void Texture::bind() const {
-    glActiveTexture(GL_TEXTURE0 + bindingIndex);
+    // glActiveTexture(GL_TEXTURE0 + bindingIndex);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, handle);
 }

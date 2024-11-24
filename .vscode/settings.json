@@ -1,5 +1,8 @@
 {
     "cmake.sourceDirectory": "/home/yagolasse/Documents/GitHub/fire-engine",
+    "cmake.debugConfig": {
+        "type": "lldb"
+    },
     "files.associations": {
         "*.arb": "json",
         "atomic": "cpp",

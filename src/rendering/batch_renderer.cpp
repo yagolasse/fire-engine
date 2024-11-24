@@ -81,6 +81,7 @@ void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
     Renderer::clear();
 
     shader->bind();
+    // shader->setInt("textures", 1);
     shader->setMat4("view", glm::value_ptr(camera->getView()));
     shader->setMat4("projection", glm::value_ptr(camera->getProjection()));
 

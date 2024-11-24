@@ -13,12 +13,10 @@ struct Quad {
     Transform transform;
     glm::vec4 color;
     std::array<glm::vec2, 4> uv;
-    std::int8_t textureIndex;
 };
 
 struct QuadVertex {
     glm::vec2 position;
     glm::i8vec4 color;
     glm::vec2 uv;
-    std::int8_t textureIndex;
 };
