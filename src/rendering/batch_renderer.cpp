@@ -67,9 +67,10 @@ BatchRenderer::BatchRenderer() {
     vertexBuffer->bind();
     vertexBuffer->bufferData(nullptr, maxVertex * sizeof(QuadVertex));  // TODO: Change
 
-    vertexArrayBuffer->setupAttributePointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)0);
-    vertexArrayBuffer->setupAttributePointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, color));
-    vertexArrayBuffer->setupAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, uv));
+    vertexArrayBuffer->setupFloatAttributePointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)0);
+    vertexArrayBuffer->setupFloatAttributePointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, color));
+    vertexArrayBuffer->setupFloatAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, uv));
+    vertexArrayBuffer->setupIntegerAttributePointer(3, 1, GL_UNSIGNED_BYTE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, textureIndex));
     vertexArrayBuffer->unbind();
 }
 
@@ -81,7 +82,7 @@ void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
     Renderer::clear();
 
     shader->bind();
-    // shader->setInt("textures", 1);
+    shader->setInt("textures", 0);
     shader->setMat4("view", glm::value_ptr(camera->getView()));
     shader->setMat4("projection", glm::value_ptr(camera->getProjection()));
 
@@ -123,6 +124,8 @@ void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
 
             vertices[vertexIndex].uv.x = quad.uv[i].x;
             vertices[vertexIndex].uv.y = quad.uv[i].y;
+
+            vertices[vertexIndex].textureIndex = quad.textureIndex;
 
             vertexIndex++;
         }

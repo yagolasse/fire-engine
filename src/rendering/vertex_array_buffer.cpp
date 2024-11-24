@@ -18,7 +18,12 @@ void VertexArrayBuffer::unbind() const {
     glBindVertexArray(0);
 }
 
-void VertexArrayBuffer::setupAttributePointer(int index, int size, int type, int normalized, int stride, const void* pointer) const {
+void VertexArrayBuffer::setupFloatAttributePointer(int index, int size, int type, int normalized, int stride, const void* pointer) const {
     glEnableVertexAttribArray(index);
     glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+}
+
+void VertexArrayBuffer::setupIntegerAttributePointer(int index, int size, int type, int stride, const void* pointer) const {
+    glEnableVertexAttribArray(index);
+    glVertexAttribIPointer(index, size, type, stride, pointer);
 }

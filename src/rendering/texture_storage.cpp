@@ -10,9 +10,12 @@
 
 TextureStorage::TextureStorage() : currentIndex(0) {
     glGenTextures(1, &handle);
+
+    glActiveTexture(GL_TEXTURE0);
+
     glBindTexture(GL_TEXTURE_2D_ARRAY, handle);
 
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, maxWidth, maxHeight, maxTextures, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RGBA8, maxWidth, maxHeight, maxTextures);
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 }
@@ -35,6 +38,8 @@ TextureData TextureStorage::loadTexture(std::string path) {
     const stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 
     ASSERT_MSG(data, "Failed to load texture");
+
+    glActiveTexture(GL_TEXTURE0);
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, handle);
 

@@ -45,6 +45,7 @@ void Application::run() {
     TextureStorage textureStorage;
     TextureData texture = textureStorage.loadTexture("../resources/simpleSpace_tilesheet.png");
 
+    TextureData otherTexture = textureStorage.loadTexture("../resources/awesomeface.png");
     double frameTime = glfwGetTime();
 
     int spriteIndex = 0;
@@ -86,7 +87,7 @@ void Application::run() {
         //                 glm::vec2{j * 20.0f + 10, i * 20.0f + 10}, // Position
         //                 0.0f // Rotation
         //             },
-        //             glm::vec4(glm::vec3((float)i/800.0f , (float)j/200.0f, 0.5f), 1.0f) // Color
+        //             glm::vec4(glm::vec3((float)i/800.0f , (float)j/200.0f, 0.5f), 1.0f) ,// Color,
         //         };
         //         batchRenderer->pushQuad(quad1);
         //     }
@@ -100,6 +101,7 @@ void Application::run() {
         //     },
         //     glm::vec4(1.0f),  // Color
         //     spriteSheet.getUVMappingForRegion(spriteIndex),
+        //     0,
         // };
 
         // Quad quad1{
@@ -131,8 +133,27 @@ void Application::run() {
                 glm::vec2{texture.maxUV.x, texture.maxUV.y},
                 glm::vec2{0.0f, texture.maxUV.y},
             },
+            texture.depth,
         };
         batchRenderer->pushQuad(quad1);
+
+        Quad quad2{
+            {
+                glm::vec2{otherTexture.width, otherTexture.height},  // Scale
+                glm::vec2{1280.0f, 720.0f},                                               // Position
+                0.0f                                                                    // Rotation
+            },
+            glm::vec4(1.0f),  // Color
+            std::array<glm::vec2, 4>{
+                glm::vec2{0.0f, 0.0f},
+                glm::vec2{otherTexture.maxUV.x, 0.0f},
+                glm::vec2{otherTexture.maxUV.x, otherTexture.maxUV.y},
+                glm::vec2{0.0f, otherTexture.maxUV.y},
+            },
+            otherTexture.depth,
+        };
+
+        batchRenderer->pushQuad(quad2);
 
         ImGui::Text("%.2f ms", (deltaTime - frameTime) * 1000.0);  // TODO: Move into scene
 
@@ -145,6 +166,8 @@ void Application::run() {
         window->swapBuffers();
 
         frameTime = deltaTime;
+
+        // exit(0);
     }
 
     DebugUi::dispose();  // TODO: Move into scene

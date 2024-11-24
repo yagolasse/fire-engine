@@ -25,10 +25,10 @@ Mesh::Mesh(
     vertexBuffer->bind();
     vertexBuffer->bufferData(&vertices[0], vertices.size() * sizeof(Vertex));
 
-    vertexArrayBuffer->setupAttributePointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-    vertexArrayBuffer->setupAttributePointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-    vertexArrayBuffer->setupAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinate));
-    vertexArrayBuffer->setupAttributePointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    vertexArrayBuffer->setupFloatAttributePointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    vertexArrayBuffer->setupFloatAttributePointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+    vertexArrayBuffer->setupFloatAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinate));
+    vertexArrayBuffer->setupFloatAttributePointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
     vertexArrayBuffer->unbind();
 }
