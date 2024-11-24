@@ -10,7 +10,7 @@ class Application {
    private:
     std::unique_ptr<Window> window;
     std::unique_ptr<AssetLoader> assetLoader;
-    std::unique_ptr<BatchRenderer> batchRenderer;
+    std::shared_ptr<BatchRenderer> batchRenderer;
 
    public:
     Application();

@@ -1,19 +1,22 @@
 #pragma once
 
 #include "quad.h"
-#include "texture.h"
 
 class GameObject {
    public:
     Transform transform;
 
-    GameObject();
+    virtual ~GameObject() = default;
 
-    void start();
-    void update(double delta);
-};
+    virtual void start() { }
+    virtual void update(double delta) { }
 
-class Sprite : public GameObject {
-   public:
-    Texture texture;
+   protected:
+    GameObject() {
+        transform = Transform{
+            glm::vec2{1.0f, 1.0f},
+            glm::vec2{0.0f, 0.0f},
+            0.0f,
+        };
+    }
 };

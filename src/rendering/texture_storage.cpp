@@ -18,6 +18,8 @@ TextureStorage::TextureStorage() : currentIndex(0) {
     glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RGBA8, maxWidth, maxHeight, maxTextures);
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+
+    cache = {};
 }
 
 TextureStorage::~TextureStorage() {
@@ -25,6 +27,10 @@ TextureStorage::~TextureStorage() {
 }
 
 TextureData TextureStorage::loadTexture(std::string path) {
+    if (cache.find(path) != cache.end()) {
+        return cache[path];
+    }
+
     currentIndex++;
 
     std::vector<std::uint32_t> clearData(maxWidth * maxHeight, 0);
@@ -57,12 +63,16 @@ TextureData TextureStorage::loadTexture(std::string path) {
 
     stbi_image_free((void*)data);
 
-    return TextureData{
+    TextureData textureData = TextureData {
         width,
         height,
         currentIndex,
         glm::vec2{(float)width / maxWidth, (float)height / maxHeight},
     };
+
+    cache[path] = textureData;
+
+    return textureData;
 }
 
 void TextureStorage::bind() const {
