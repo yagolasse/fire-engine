@@ -1,6 +1,9 @@
 #include "sprite.h"
 
 #include <glm.hpp>
+#include <string>
+
+#include "texture_storage.h"
 
 Sprite::Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData textureData, int spriteWidth, int spriteHeight)
     : GameObject(),

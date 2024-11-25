@@ -3,6 +3,7 @@
 #include "batch_renderer.h"
 #include "game_object.h"
 #include "texture_data.h"
+#include "texture_storage.h"
 #include "texture_region.h"
 
 class Sprite : public GameObject {

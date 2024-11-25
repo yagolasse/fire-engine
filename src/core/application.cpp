@@ -30,7 +30,7 @@ Application::Application() {
     // Lastly, GPU buffers
     batchRenderer = std::make_shared<BatchRenderer>();
 
-    assetLoader = std::make_unique<AssetLoader>();
+    textureStorage = std::make_shared<TextureStorage>();
 }
 
 void Application::run() {
@@ -41,11 +41,7 @@ void Application::run() {
     std::shared_ptr<OrthographicCamera> camera =
         std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);
 
-    TextureStorage textureStorage;
-
-    TextureData otherTexture = textureStorage.loadTexture("../resources/simpleSpace_tilesheet.png");
-
-    Sprite sprite(batchRenderer, otherTexture, 64, 64);
+    Sprite sprite(batchRenderer, textureStorage->loadTexture("../resources/simpleSpace_tilesheet.png"), 64, 64);
     
     double frameTime = glfwGetTime();
 
@@ -60,7 +56,7 @@ void Application::run() {
 
         script.update(deltaTime - frameTime);
 
-        textureStorage.bind();
+        textureStorage->bind();
         
         sprite.update(deltaTime - frameTime);
 
