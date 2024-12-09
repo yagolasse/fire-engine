@@ -45,7 +45,7 @@ BatchRenderer::BatchRenderer() {
             glm::vec2(),
         };
     }
-    std::array<unsigned int, maxIndex> indices;
+    std::vector<unsigned int> indices(maxIndex);
 
     int index = 0;
 

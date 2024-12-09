@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(LUA_VERSION "lua-5.4.7")
 
+if(APPLE AND UNIX)
 include(ExternalProject)
 
 ExternalProject_Add(lua_project
@@ -22,6 +23,7 @@ ExternalProject_Add(lua_project
 ExternalProject_Get_Property(lua_project BINARY_DIR)
 set(LUA_INCLUDE_DIR ${BINARY_DIR}/src)
 set(LUA_LIBRARIES ${BINARY_DIR}/src/liblua.a)
+endif()
 
 include(FetchContent)
 
@@ -35,10 +37,22 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/g-truc/glm.git
     GIT_TAG 1.0.0
 )
+if(WIN32)
+FetchContent_Declare(
+    lua
+    GIT_REPOSITORY https://github.com/walterschell/Lua.git
+    GIT_TAG v5.4.5
+)
+endif()
 
 FetchContent_MakeAvailable(
     glfw3 glm
 )
+if(WIN32)
+FetchContent_MakeAvailable(
+    lua
+)
+endif()
 
 if(APPLE AND UNIX)
 target_compile_options(glm PRIVATE
@@ -62,7 +76,9 @@ add_custom_target(copy_resources ALL
     COMMENT "Copying resources into binary directory"
 )
 
+if(APPLE AND UNIX)
 add_dependencies(fire-engine copy_resources lua_project)
+endif()
 
 target_include_directories(fire-engine PRIVATE vendor/imgui)
 
@@ -75,6 +91,16 @@ target_include_directories(fire-engine PRIVATE ${glm_SOURCE_DIR}/glm)
 target_include_directories(fire-engine PRIVATE src/core)
 target_include_directories(fire-engine PRIVATE src/rendering)
 
+if(WIN32)
+target_include_directories(fire-engine PRIVATE ${lua_SOURCE_DIR}/lua-5.4.5/include)
+elseif(APPLE AND UNIX)
 target_include_directories(fire-engine PRIVATE ${LUA_INCLUDE_DIR})
+endif()
 
-target_link_libraries(fire-engine glfw ${LUA_LIBRARIES} m)
+if(WIN32)
+target_link_libraries(fire-engine lua_static)
+elseif(APPLE AND UNIX)
+target_link_libraries(fire-engine ${LUA_LIBRARIES} m)
+endif()
+
+target_link_libraries(fire-engine glfw)

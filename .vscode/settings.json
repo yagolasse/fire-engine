@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "/home/yagolasse/Documents/GitHub/fire-engine",
+    "cmake.sourceDirectory": "C:/Projects/fire-engine",
     "cmake.debugConfig": {
         "type": "lldb"
     },
