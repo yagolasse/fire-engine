@@ -15,7 +15,7 @@ TextureStorage::TextureStorage() : currentIndex(0) {
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, handle);
 
-    glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RGBA8, maxWidth, maxHeight, maxTextures);
+    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, maxWidth, maxHeight, maxTextures, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
