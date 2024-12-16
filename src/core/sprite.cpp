@@ -1,6 +1,7 @@
 #include "sprite.h"
 
 #include <glm.hpp>
+#include <iostream>
 #include <string>
 
 #include "texture_storage.h"
@@ -14,10 +15,10 @@ Sprite::Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData texture
 }
 
 void Sprite::update(double delta) {
-    batchRenderer->pushQuad(mapToQuad());
-
     transform.position.x += 30 * delta;
     transform.position.y += 30 * delta;
+
+    batchRenderer->pushQuad(mapToQuad());
 }
 
 Quad Sprite::mapToQuad() {
@@ -26,6 +27,6 @@ Quad Sprite::mapToQuad() {
          transform.position, glm::radians(transform.rotationDegrees)},
         glm::vec4(1.0f),
         textureRegion.getUVMappingForRegion(currentSprite),
-        (unsigned char)textureData.depth,
+        (unsigned char)textureData.index,
     };
 }

@@ -5,6 +5,6 @@
 struct TextureData {
     int width;
     int height;
-    int depth;
+    int index;
     glm::vec2 maxUV;
 };

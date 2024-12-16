@@ -109,6 +109,7 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "__tree": "cpp",
-        "execution": "cpp"
+        "execution": "cpp",
+        "filesystem": "cpp"
     }
 }
