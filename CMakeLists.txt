@@ -29,13 +29,13 @@ target_compile_options(glm PRIVATE
 )
 endif()
 
-set(CORE_SOURCE src/core/application.cpp src/core/assertion.cpp src/core/asset_loader.cpp src/core/camera.cpp src/core/orthographic_camera.cpp src/core/debug_ui.cpp src/core/scene.cpp src/core/sprite.cpp src/core/window.cpp)
-set(RENDERING_SOURCE src/rendering/batch_renderer.cpp src/rendering/element_array_buffer.cpp src/rendering/error.cpp src/rendering/error_check.cpp src/rendering/mesh.cpp src/rendering/renderer.cpp src/rendering/shader_program.cpp src/rendering/sprite_sheet.cpp src/rendering/shader.cpp src/rendering/texture.cpp src/rendering/texture_storage.cpp src/rendering/texture_region.cpp src/rendering/vertex_array_buffer.cpp src/rendering/vertex_buffer.cpp)
-
 set(IMGUI_BACKEND vendor/imgui/backends/imgui_impl_glfw.cpp vendor/imgui/backends/imgui_impl_opengl3.cpp)
 set(IMGUI_SOURCE vendor/imgui/imgui_demo.cpp vendor/imgui/imgui_draw.cpp vendor/imgui/imgui_tables.cpp vendor/imgui/imgui_widgets.cpp vendor/imgui/imgui.cpp)
  
-add_executable(fire-engine vendor/glad/src/glad.c ${IMGUI_BACKEND} ${IMGUI_SOURCE} ${CORE_SOURCE} ${RENDERING_SOURCE} src/main.cpp)
+add_subdirectory(src/rendering)
+add_subdirectory(src/core)
+
+add_executable(fire-engine vendor/glad/src/glad.c ${IMGUI_BACKEND} ${IMGUI_SOURCE} src/main.cpp)
 
 add_custom_target(copy_resources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -56,3 +56,7 @@ target_include_directories(fire-engine PRIVATE src/core)
 target_include_directories(fire-engine PRIVATE src/rendering)
 
 target_link_libraries(fire-engine glfw)
+
+target_link_libraries(fire-engine engine-core)
+
+target_link_libraries(fire-engine engine-rendering)

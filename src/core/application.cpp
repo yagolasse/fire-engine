@@ -32,11 +32,14 @@ void Application::run() {
     Scene scene(batchRenderer, textureStorage);
 
     double frameTime = glfwGetTime();
+    double plotCounter = 0;
+    double debugFrameTime = 0;
 
     scene.onStart();
 
     while (!window->shouldClose()) {
         double deltaTime = glfwGetTime();
+        double currentFrameTime = deltaTime - frameTime;
 
         window->pollEvents();
 
@@ -46,9 +49,16 @@ void Application::run() {
 
         textureStorage->bind();
         
-        ImGui::Text("%.2f ms", (deltaTime - frameTime) * 1000.0);  // TODO: Move into scene
+        plotCounter += currentFrameTime;
 
-        scene.onUpdate(deltaTime - frameTime);
+        if (plotCounter > 0.1) {
+            plotCounter = 0.0;
+            debugFrameTime = currentFrameTime;
+        }
+
+        ImGui::Text("%.2f ms", debugFrameTime * 1000.0);  // TODO: Move into scene
+
+        scene.onUpdate(currentFrameTime);
         /// End App Code
 
         DebugUi::draw();  // TODO: Move into scene

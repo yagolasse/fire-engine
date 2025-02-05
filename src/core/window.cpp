@@ -44,13 +44,20 @@ Window::Window(int width, int height, const char* title) {
         Renderer::setViewport(0, 0, width, height);
     });
 
-    glfwSwapInterval(0);
+    //  1 -> 1 Frame V-Sync On
+    //  0 -> V-Sync Off
+    // -1 -> Adaptative Sync On
+
+    glfwSwapInterval(-1);
 
     glfwShowWindow(handle);
 }
 
 Window::~Window() {
     glfwSetErrorCallback(NULL);
+
+    glfwSetFramebufferSizeCallback(handle, NULL);
+
     glfwDestroyWindow(handle);
 
     glfwTerminate();

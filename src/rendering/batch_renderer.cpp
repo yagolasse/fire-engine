@@ -3,7 +3,6 @@
 #include <fstream>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
 #include <iostream>
 #include <sstream>
 
@@ -78,13 +77,13 @@ void BatchRenderer::pushQuad(Quad quad) {
     quads.push_back(quad);
 }
 
-void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
+void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix) {
     Renderer::clear();
 
     shader->bind();
     shader->setInt("textures", 0);
-    shader->setMat4("view", glm::value_ptr(camera->getView()));
-    shader->setMat4("projection", glm::value_ptr(camera->getProjection()));
+    shader->setMat4("view", viewMatrix);
+    shader->setMat4("projection", projectionMatrix);
 
     std::array<glm::vec2, vertexPerQuad> defaultPositions = {
         glm::vec2{-0.5f, -0.5f},

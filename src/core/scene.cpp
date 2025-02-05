@@ -1,5 +1,7 @@
 #include "scene.h"
 
+#include <gtc/type_ptr.hpp>
+
 #include "sprite.h"
 
 Scene::Scene(std::shared_ptr<BatchRenderer> renderer, std::shared_ptr<TextureStorage> textureStorage)
@@ -29,5 +31,5 @@ void Scene::onUpdate(double deltaTime) {
         gameObject->update(deltaTime);
     }
 
-    renderer->draw(camera);
+    renderer->draw(glm::value_ptr(camera->getView()), glm::value_ptr(camera->getProjection()));
 }

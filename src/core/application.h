@@ -2,7 +2,6 @@
 
 #include <memory>
 
-#include "asset_loader.h"
 #include "batch_renderer.h"
 #include "texture_storage.h"
 #include "window.h"

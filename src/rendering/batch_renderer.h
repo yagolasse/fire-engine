@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "element_array_buffer.h"
-#include "orthographic_camera.h"
 #include "quad.h"
 #include "shader_program.h"
 #include "texture.h"
@@ -32,5 +31,5 @@ class BatchRenderer {
    public:
     BatchRenderer();
     void pushQuad(Quad quad);
-    void draw(std::shared_ptr<OrthographicCamera> camera);
+    void draw(const float *viewMatrix, const float *projectionMatrix);
 };
