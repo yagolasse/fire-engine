@@ -146,7 +146,7 @@ void BatchRenderer::draw(std::shared_ptr<OrthographicCamera> camera) {
         }
     }
 
-    // shader->unbind();
+    shader->unbind();
 
     quads.clear();
 }

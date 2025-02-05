@@ -2,7 +2,6 @@
 
 #include "glad/glad.h"
 
-
 GLenum Error::glCheckError_(const char *file, int line)
 {
     GLenum errorCode;

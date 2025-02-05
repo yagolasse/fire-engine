@@ -8,7 +8,8 @@ Scene::Scene(std::shared_ptr<BatchRenderer> renderer, std::shared_ptr<TextureSto
         std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);
 
     gameObjects.push_back(
-        new Sprite(renderer, textureStorage->loadTexture("../resources/simpleSpace_tilesheet.png"), 64, 64));
+        new Sprite(renderer, textureStorage->loadTexture("../resources/simpleSpace_tilesheet.png"), 64, 64)
+    );
 }
 
 Scene::~Scene() {
