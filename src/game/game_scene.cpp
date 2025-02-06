@@ -6,22 +6,26 @@
 #include "texture_data.h"
 #include "texture_storage.h"
 
-void GameScene::onStart() {
+void GameScene::start() {
     TextureData* textureData = textureStorage->loadTexture("../resources/simpleSpace_tilesheet.png");
 
-    gameObjects.push_back(
-        new Ship(renderer, textureData, 64, 64)
-    );
-
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 5000; i++) {
         gameObjects.push_back(
             new Star(renderer, textureData, 64, 64)
         );      
     }
+    
+    gameObjects.push_back(
+        new Ship(renderer, textureData, 64, 64)
+    );
 
-    Scene::onStart();
+    Scene::start();
 }
 
-void GameScene::onUpdate(double deltaTime) {
-    Scene::onUpdate(deltaTime);
+void GameScene::update(double deltaTime) {
+    Scene::update(deltaTime);
+}
+
+void GameScene::render() {
+    Scene::render();
 }

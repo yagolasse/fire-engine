@@ -19,16 +19,18 @@ Scene::~Scene() {
     }
 }
 
-void Scene::onStart() {
+void Scene::start() {
     for (GameObject* gameObject : gameObjects) {
         gameObject->start();
     }
 }
 
-void Scene::onUpdate(double deltaTime) {
+void Scene::update(double deltaTime) {
     for (GameObject* gameObject : gameObjects) {
         gameObject->update(deltaTime);
     }
+}
 
+void Scene::render() {
     renderer->draw(glm::value_ptr(camera->getView()), glm::value_ptr(camera->getProjection()));
 }

@@ -6,6 +6,7 @@ class GameScene : public Scene {
    public:
     using Scene::Scene;
 
-    void onStart() override;
-    void onUpdate(double deltaTime) override;
+    void start() override;
+    void update(double deltaTime) override;
+    void render() override;
 };

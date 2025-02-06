@@ -46,7 +46,7 @@ void Application::run() {
     double plotCounter = 0;
     double debugFrameTime = 0;
 
-    scene->onStart();
+    scene->start();
 
     while (!window->shouldClose()) {
         double deltaTime = glfwGetTime();
@@ -69,8 +69,10 @@ void Application::run() {
 
         ImGui::Text("%.2f ms", debugFrameTime * 1000.0);  // TODO: Move into scene
 
-        scene->onUpdate(currentFrameTime);
+        scene->update(currentFrameTime);
         /// End App Code
+
+        scene->render();
 
         DebugUi::draw();  // TODO: Move into scene
 

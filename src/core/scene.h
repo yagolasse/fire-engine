@@ -18,6 +18,7 @@ class Scene {
    public:
     Scene(std::shared_ptr<BatchRenderer> renderer, std::shared_ptr<TextureStorage> textureStorage);
     ~Scene();
-    virtual void onStart();
-    virtual void onUpdate(double deltaTime);
+    virtual void start();
+    virtual void update(double deltaTime);
+    virtual void render();
 };
