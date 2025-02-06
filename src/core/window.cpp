@@ -8,7 +8,13 @@
 #include "assertion.h"
 #include "renderer.h"
 
+int Window::width;
+int Window::height;
+
 Window::Window(int width, int height, const char* title) {
+    Window::width = width;
+    Window::height = height;
+
     glfwSetErrorCallback(Window::errorCallback);
 
     ASSERT_MSG(glfwInit(), "Could not initialize GLFW!");
@@ -40,8 +46,10 @@ Window::Window(int width, int height, const char* title) {
 
     glfwMakeContextCurrent(handle);
 
-    glfwSetFramebufferSizeCallback(handle, [](GLFWwindow *windowHandle, int width, int height) {
-        Renderer::setViewport(0, 0, width, height);
+    glfwSetFramebufferSizeCallback(handle, [](GLFWwindow* windowHandle, int newWidth, int newHeight) {
+        Window::width = newWidth;
+        Window::height = newHeight;
+        Renderer::setViewport(0, 0, newWidth, newHeight);
     });
 
     //  1 -> 1 Frame V-Sync On
@@ -77,4 +85,16 @@ void Window::pollEvents() const {
 
 bool Window::shouldClose() const {
     return glfwWindowShouldClose(handle);
+}
+
+GLFWwindow* Window::getHandle() const {
+    return handle;
+}
+
+int Window::getWidth() {
+    return width;
+}
+
+int Window::getHeight() {
+    return width;
 }

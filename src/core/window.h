@@ -1,10 +1,12 @@
 #pragma once
 
-struct GLFWwindow;
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 class Window {
    private:
     GLFWwindow* handle;
+    static int width, height;
 
     static void errorCallback(int errorCode, const char* description);
 
@@ -16,7 +18,8 @@ class Window {
     void pollEvents() const;
     bool shouldClose() const;
 
-    inline GLFWwindow* getHandle() const {
-        return handle;
-    }
+    GLFWwindow* getHandle() const;
+
+    static int getWidth();
+    static int getHeight();
 };

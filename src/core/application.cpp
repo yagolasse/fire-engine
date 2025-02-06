@@ -6,6 +6,7 @@
 
 #include "batch_renderer.h"
 #include "debug_ui.h"
+#include "input.h"
 #include "renderer.h"
 #include "scene.h"
 #include "texture_storage.h"
@@ -17,6 +18,8 @@
 Application::Application() {
     // First, window context
     window = new Window(1280, 720, "Fire Engine");
+
+    Input::init(window->getHandle());
 
     // Then, graphics API
     Renderer::init((GLADloadproc)glfwGetProcAddress);
