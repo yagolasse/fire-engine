@@ -24,7 +24,7 @@ class Sprite : public GameObject {
     int currentSprite;
 
     Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData* textureData, int spriteWidth, int spriteHeight);
-    ~Sprite();
-    void start() override;
-    void update(double delta) override;
+    virtual ~Sprite();
+    virtual void start() override;
+    virtual void update(double delta) override;
 };
