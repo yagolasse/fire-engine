@@ -2,18 +2,24 @@
 
 #include <memory>
 
-#include "batch_renderer.h"
-#include "texture_storage.h"
-#include "window.h"
+class Scene;
+class Window;
+class BatchRenderer;
+class TextureStorage;
 
 class Application {
    private:
-    std::unique_ptr<Window> window;
+    Window* window;
+    
+   protected:
+    Scene* scene;
     std::shared_ptr<BatchRenderer> batchRenderer;
     std::shared_ptr<TextureStorage> textureStorage;
 
    public:
     Application();
+    virtual ~Application();
 
-    void run();
+    virtual void init();
+    virtual void run();
 };

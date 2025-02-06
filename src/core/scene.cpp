@@ -2,16 +2,16 @@
 
 #include <gtc/type_ptr.hpp>
 
+#include "batch_renderer.h"
+#include "game_object.h"
+#include "orthographic_camera.h"
 #include "sprite.h"
+#include "texture_storage.h"
+
 
 Scene::Scene(std::shared_ptr<BatchRenderer> renderer, std::shared_ptr<TextureStorage> textureStorage)
-    : renderer(renderer) {
-    camera =
-        std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);
-
-    gameObjects.push_back(
-        new Sprite(renderer, textureStorage->loadTexture("../resources/simpleSpace_tilesheet.png"), 64, 64)
-    );
+    : renderer(renderer), textureStorage(textureStorage) {
+    camera = std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);
 }
 
 Scene::~Scene() {

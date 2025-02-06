@@ -1,17 +1,21 @@
 #pragma once
 
-#include "batch_renderer.h"
+#include <memory>
+
 #include "game_object.h"
-#include "texture_data.h"
-#include "texture_storage.h"
-#include "texture_region.h"
+
+class BatchRenderer;
+class TextureData;
+class TextureStorage;
+class TextureRegion;
+class Quad;
 
 class Sprite : public GameObject {
    private:
     int spriteWidth;
     int spriteHeight;
-    TextureData textureData;
-    TextureRegion textureRegion;
+    TextureData& textureData;
+    TextureRegion* textureRegion;
     std::shared_ptr<BatchRenderer> batchRenderer;
 
     Quad mapToQuad();
@@ -19,6 +23,8 @@ class Sprite : public GameObject {
    public:
     int currentSprite;
 
-    Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData textureData, int spriteWidth, int spriteHeight);
+    Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData& textureData, int spriteWidth, int spriteHeight);
+    ~Sprite();
+    void start() override;
     void update(double delta) override;
 };

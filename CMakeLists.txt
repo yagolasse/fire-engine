@@ -34,6 +34,7 @@ set(IMGUI_SOURCE vendor/imgui/imgui_demo.cpp vendor/imgui/imgui_draw.cpp vendor/
  
 add_subdirectory(src/rendering)
 add_subdirectory(src/core)
+add_subdirectory(src/game)
 
 add_executable(fire-engine vendor/glad/src/glad.c ${IMGUI_BACKEND} ${IMGUI_SOURCE} src/main.cpp)
 
@@ -54,9 +55,12 @@ target_include_directories(fire-engine PRIVATE ${glm_SOURCE_DIR}/glm)
 
 target_include_directories(fire-engine PRIVATE src/core)
 target_include_directories(fire-engine PRIVATE src/rendering)
+target_include_directories(fire-engine PRIVATE src/game)
 
-target_link_libraries(fire-engine glfw)
+# target_link_libraries(fire-engine glfw)
 
 target_link_libraries(fire-engine engine-core)
 
 target_link_libraries(fire-engine engine-rendering)
+
+target_link_libraries(fire-engine game)
