@@ -9,5 +9,6 @@ target_include_directories(game PRIVATE ${glm_SOURCE_DIR}/glm)
 target_link_libraries(game glfw)
 
 target_link_libraries(game engine-core)
+target_link_libraries(game engine-rendering)
 
 # target_include_directories(game PRIVATE ../../vendor/glad/include)

@@ -11,7 +11,7 @@ class TextureRegion;
 class Quad;
 
 class Sprite : public GameObject {
-   private:
+   protected:
     int spriteWidth;
     int spriteHeight;
     TextureData* textureData;

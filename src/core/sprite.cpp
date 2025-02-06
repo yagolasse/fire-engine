@@ -13,7 +13,7 @@
 
 Sprite::Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData* textureData, int spriteWidth,
                int spriteHeight)
-    : currentSprite(47),
+    : currentSprite(0),
       textureData(textureData),
       batchRenderer(batchRenderer),
       textureRegion(new TextureRegion(textureData, spriteWidth, spriteHeight)) {
