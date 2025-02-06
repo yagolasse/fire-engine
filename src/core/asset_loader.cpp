@@ -1,5 +1,7 @@
 #include "asset_loader.h"
 
+#include "texture.h"
+
 AssetLoader::AssetLoader() : textures({}) {
 }
 

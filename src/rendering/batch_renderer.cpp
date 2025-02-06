@@ -7,10 +7,16 @@
 #include <sstream>
 
 #include "assertion.h"
+#include "element_array_buffer.h"
 #include "error.h"
 #include "quad.h"
 #include "renderer.h"
 #include "shader.h"
+#include "shader_program.h"
+#include "texture.h"
+#include "vertex.h"
+#include "vertex_array_buffer.h"
+#include "vertex_buffer.h"
 
 BatchRenderer::BatchRenderer() {
     vertexBuffer = std::make_unique<VertexBuffer>();
@@ -66,10 +72,13 @@ BatchRenderer::BatchRenderer() {
     vertexBuffer->bind();
     vertexBuffer->bufferData(nullptr, maxVertex * sizeof(QuadVertex));  // TODO: Change
 
-    vertexArrayBuffer->setupFloatAttributePointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)0);
-    vertexArrayBuffer->setupFloatAttributePointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, color));
-    vertexArrayBuffer->setupFloatAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, uv));
-    vertexArrayBuffer->setupIntegerAttributePointer(3, 1, GL_UNSIGNED_BYTE, sizeof(QuadVertex), (void*)offsetof(QuadVertex, textureIndex));
+    vertexArrayBuffer->setupFloatAttributePointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void *)0);
+    vertexArrayBuffer->setupFloatAttributePointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(QuadVertex),
+                                                  (void *)offsetof(QuadVertex, color));
+    vertexArrayBuffer->setupFloatAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex),
+                                                  (void *)offsetof(QuadVertex, uv));
+    vertexArrayBuffer->setupIntegerAttributePointer(3, 1, GL_UNSIGNED_BYTE, sizeof(QuadVertex),
+                                                    (void *)offsetof(QuadVertex, textureIndex));
     vertexArrayBuffer->unbind();
 }
 
@@ -131,7 +140,7 @@ void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix)
 
         if (vertexIndex == maxVertex || quadIndex == quads.size() - 1) {
             vertexArrayBuffer->bind();
-    
+
             vertexBuffer->bind();
             vertexBuffer->bufferSubData(&vertices[0], 0, vertexIndex * sizeof(QuadVertex));
 

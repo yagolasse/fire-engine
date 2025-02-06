@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "assertion.h"
+#include "texture_data.h"
 
 TextureStorage::TextureStorage() : currentIndex(0) {
     glGenTextures(1, &handle);
@@ -15,7 +16,8 @@ TextureStorage::TextureStorage() : currentIndex(0) {
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, handle);
 
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, maxWidth, maxHeight, maxTextures, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, maxWidth, maxHeight, maxTextures, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+                 NULL);
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 

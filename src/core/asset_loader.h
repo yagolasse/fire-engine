@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "texture.h"
+class Texture;
 
 class AssetLoader {
    private:

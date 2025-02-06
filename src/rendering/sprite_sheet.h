@@ -4,7 +4,7 @@
 #include <memory>
 #include <glm.hpp>
 
-#include "texture.h"
+class Texture;
 
 class SpriteSheet {
    private:
@@ -29,7 +29,5 @@ class SpriteSheet {
     }
 
     // TODO: Remove later
-    inline void bindTexture() const {
-        texture->bind();
-    }
+    inline void bindTexture() const;
 };

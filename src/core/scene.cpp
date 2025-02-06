@@ -8,7 +8,6 @@
 #include "sprite.h"
 #include "texture_storage.h"
 
-
 Scene::Scene(std::shared_ptr<BatchRenderer> renderer, std::shared_ptr<TextureStorage> textureStorage)
     : renderer(renderer), textureStorage(textureStorage) {
     camera = std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);

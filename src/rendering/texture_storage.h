@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <string>
 
-#include "texture_data.h"
+class TextureData;
 
 class TextureStorage {
    private:

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "texture.h"
+
 SpriteSheet::SpriteSheet(std::shared_ptr<Texture> texture, int spriteWidth, int spriteHeight)
     : texture(texture), spriteWidth(spriteWidth), spriteHeight(spriteHeight) {
     textureWidth = texture->getWidth();
@@ -23,4 +25,8 @@ std::array<glm::vec2, 4> SpriteSheet::getUVMappingForRegion(int frameIndex) {
         glm::vec2{spriteX + spriteWidthPercent, spriteY + spriteHeightPercent},
         glm::vec2{spriteX, spriteY + spriteHeightPercent},
     };
+}
+
+inline void SpriteSheet::bindTexture() const {
+    texture->bind();
 }
