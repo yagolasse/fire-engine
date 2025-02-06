@@ -7,7 +7,7 @@
 void GameScene::onStart() {
     Scene::onStart();
 
-    TextureData textureData = textureStorage->loadTexture("../resources/simpleSpace_tilesheet.png");
+    TextureData* textureData = textureStorage->loadTexture("../resources/simpleSpace_tilesheet.png");
 
     gameObjects.push_back(
         new Sprite(renderer, textureData, 64, 64)

@@ -13,12 +13,12 @@ class TextureStorage {
     unsigned int handle;
     int currentIndex;
 
-    std::unordered_map<std::string, TextureData> cache;
+    std::unordered_map<std::string, TextureData*> cache;
 
    public:
     TextureStorage();
     ~TextureStorage();
 
-    TextureData loadTexture(std::string path);
+    TextureData* loadTexture(std::string path);
     void bind() const;
 };

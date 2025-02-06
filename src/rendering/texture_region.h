@@ -7,13 +7,13 @@ class TextureData;
 
 class TextureRegion {
    private:
-    TextureData& textureData;
+    TextureData* textureData;
 
     int spriteWidth;
     int spriteHeight;
 
    public:
-    TextureRegion(TextureData& textureData, int spriteWidth, int spriteHeight);
+    TextureRegion(TextureData* textureData, int spriteWidth, int spriteHeight);
     std::array<glm::vec2, 4> getUVMappingForRegion(int frameIndex);
 
     inline int getSpriteWidth() const {

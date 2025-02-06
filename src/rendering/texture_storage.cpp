@@ -1,9 +1,9 @@
 #include "texture_storage.h"
 
+#include <glad/glad.h>
 #include <stb_image.h>
 
-#include <glad/glad.h>
-
+#include <unordered_map>
 #include <vector>
 
 #include "assertion.h"
@@ -23,10 +23,13 @@ TextureStorage::TextureStorage() : currentIndex(0) {
 }
 
 TextureStorage::~TextureStorage() {
+    for (std::pair<const std::string, TextureData*>& it : cache) {
+        delete it.second;
+    }
     glDeleteTextures(1, &handle);
 }
 
-TextureData TextureStorage::loadTexture(std::string path) {
+TextureData* TextureStorage::loadTexture(std::string path) {
     if (cache.find(path) != cache.end()) {
         return cache[path];
     }
@@ -49,7 +52,8 @@ TextureData TextureStorage::loadTexture(std::string path) {
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, handle);
 
-    glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, currentIndex, maxWidth, maxHeight, 1, GL_RGBA, GL_UNSIGNED_BYTE, &clearData[0]);
+    glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, currentIndex, maxWidth, maxHeight, 1, GL_RGBA, GL_UNSIGNED_BYTE,
+                    &clearData[0]);
     glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, currentIndex, width, height, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
     glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -63,7 +67,7 @@ TextureData TextureStorage::loadTexture(std::string path) {
 
     stbi_image_free((void*)data);
 
-    TextureData textureData = TextureData {
+    TextureData* textureData = new TextureData{
         width,
         height,
         currentIndex,

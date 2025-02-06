@@ -2,18 +2,18 @@
 
 #include "texture_data.h"
 
-TextureRegion::TextureRegion(TextureData& textureData, int spriteWidth, int spriteHeight)
+TextureRegion::TextureRegion(TextureData* textureData, int spriteWidth, int spriteHeight)
     : textureData(textureData), spriteWidth(spriteWidth), spriteHeight(spriteHeight) {
 }
 
 std::array<glm::vec2, 4> TextureRegion::getUVMappingForRegion(int frameIndex) {
-    float spriteWidthPercent = (float)spriteWidth / textureData.width;
-    float spriteHeightPercent = (float)spriteHeight / textureData.height;
+    float spriteWidthPercent = (float)spriteWidth / textureData->width;
+    float spriteHeightPercent = (float)spriteHeight / textureData->height;
 
-    spriteWidthPercent *= textureData.maxUV.x;
-    spriteHeightPercent *= textureData.maxUV.y;
+    spriteWidthPercent *= textureData->maxUV.x;
+    spriteHeightPercent *= textureData->maxUV.y;
 
-    int spritesPerRow = textureData.width / spriteWidth;
+    int spritesPerRow = textureData->width / spriteWidth;
 
     float spriteX = (frameIndex % spritesPerRow) * spriteWidthPercent;
     float spriteY = (frameIndex / spritesPerRow) * spriteHeightPercent;
