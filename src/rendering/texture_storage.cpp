@@ -16,8 +16,7 @@ TextureStorage::TextureStorage() : currentIndex(0) {
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, handle);
 
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, maxWidth, maxHeight, maxTextures, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-                 NULL);
+    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, maxWidth, maxHeight, maxTextures, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
@@ -54,8 +53,7 @@ TextureData* TextureStorage::loadTexture(std::string path) {
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, handle);
 
-    glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, currentIndex, maxWidth, maxHeight, 1, GL_RGBA, GL_UNSIGNED_BYTE,
-                    &clearData[0]);
+    glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, currentIndex, maxWidth, maxHeight, 1, GL_RGBA, GL_UNSIGNED_BYTE, &clearData[0]);
     glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, currentIndex, width, height, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
     glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

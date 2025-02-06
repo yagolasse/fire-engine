@@ -1,4 +1,4 @@
-add_library(engine-core application.cpp asset_loader.cpp camera.cpp debug_ui.cpp game_object.cpp input.cpp orthographic_camera.cpp scene.cpp sprite.cpp window.cpp)
+add_library(engine-core application.cpp asset_loader.cpp camera.cpp debug_ui.cpp game_object.cpp input.cpp orthographic_camera.cpp random.cpp scene.cpp sprite.cpp window.cpp)
 
 target_include_directories(engine-core PRIVATE .)
 target_include_directories(engine-core PRIVATE ../rendering)

@@ -96,5 +96,5 @@ int Window::getWidth() {
 }
 
 int Window::getHeight() {
-    return width;
+    return height;
 }

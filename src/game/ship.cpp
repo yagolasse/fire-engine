@@ -5,8 +5,10 @@
 #include "window.h"
 
 void Ship::start() {
-    transform->position.x = Window::getWidth() / 2.0f + 32.0f;
-    transform->position.y = Window::getHeight() / 2.0f + 32.0f;
+    currentSprite = 24;
+
+    transform->position.x = Window::getWidth() / 2.0f;
+    transform->position.y = Window::getHeight() / 2.0f;
 
     Sprite::start();
 }

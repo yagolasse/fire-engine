@@ -73,12 +73,9 @@ BatchRenderer::BatchRenderer() {
     vertexBuffer->bufferData(nullptr, maxVertex * sizeof(QuadVertex));  // TODO: Change
 
     vertexArrayBuffer->setupFloatAttributePointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void *)0);
-    vertexArrayBuffer->setupFloatAttributePointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(QuadVertex),
-                                                  (void *)offsetof(QuadVertex, color));
-    vertexArrayBuffer->setupFloatAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex),
-                                                  (void *)offsetof(QuadVertex, uv));
-    vertexArrayBuffer->setupIntegerAttributePointer(3, 1, GL_UNSIGNED_BYTE, sizeof(QuadVertex),
-                                                    (void *)offsetof(QuadVertex, textureIndex));
+    vertexArrayBuffer->setupFloatAttributePointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, color));
+    vertexArrayBuffer->setupFloatAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, uv));
+    vertexArrayBuffer->setupIntegerAttributePointer(3, 1, GL_UNSIGNED_BYTE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, textureIndex));
     vertexArrayBuffer->unbind();
 }
 
