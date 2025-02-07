@@ -11,9 +11,9 @@
 #include "texture_region.h"
 #include "texture_storage.h"
 
-Sprite::Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData* textureData, int spriteWidth,
-               int spriteHeight)
+Sprite::Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData* textureData, int spriteWidth, int spriteHeight)
     : currentSprite(0),
+      tint(glm::vec4(1.0f)),
       textureData(textureData),
       batchRenderer(batchRenderer),
       textureRegion(new TextureRegion(textureData, spriteWidth, spriteHeight)) {
@@ -34,11 +34,6 @@ void Sprite::update(double delta) {
 Quad Sprite::mapToQuad() {
     glm::vec2 scale = glm::vec2{textureRegion->getSpriteWidth(), textureRegion->getSpriteHeight()} * transform->scale;
     Transform quadTrasnform = {scale, transform->position, glm::radians(transform->rotationDegrees)};
-    
-    return Quad{
-        quadTrasnform,
-        glm::vec4(1.0f),
-        textureRegion->getUVMappingForRegion(currentSprite),
-        (unsigned char)textureData->index,
-    };
+
+    return Quad{quadTrasnform, tint, textureRegion->getUVMappingForRegion(currentSprite), (unsigned char)textureData->index};
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm.hpp>
 #include <memory>
 
 #include "game_object.h"
@@ -14,6 +15,7 @@ class Sprite : public GameObject {
    protected:
     int spriteWidth;
     int spriteHeight;
+    glm::vec4 tint;
     TextureData* textureData;
     TextureRegion* textureRegion;
     std::shared_ptr<BatchRenderer> batchRenderer;

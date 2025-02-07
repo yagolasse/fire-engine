@@ -1,8 +1,10 @@
 #pragma once
 
-struct Transform;
+#include <vector>
 
 #include "input.h"
+
+struct Transform;
 
 class GameObject {
    private:
@@ -18,7 +20,7 @@ class GameObject {
     virtual void start() = 0;
     virtual void update(double delta) = 0;
 
-    bool operator ==(GameObject& other);
+    bool operator==(GameObject& other);
 
     // virtual void onKeyPressed(Input::Key key) = 0;
 };
