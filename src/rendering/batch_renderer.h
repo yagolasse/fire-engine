@@ -16,7 +16,7 @@ class BatchRenderer {
    private:
     static const int indexPerQuad = 6;
     static const int vertexPerQuad = 4;
-    static const int maxQuadsPerDraw = 1000;
+    static const int maxQuadsPerDraw = 1024;
     static const int maxIndex = indexPerQuad * maxQuadsPerDraw;
     static const int maxVertex = vertexPerQuad * maxQuadsPerDraw;
     

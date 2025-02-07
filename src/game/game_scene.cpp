@@ -9,7 +9,7 @@
 void GameScene::start() {
     TextureData* textureData = textureStorage->loadTexture("../resources/simpleSpace_tilesheet.png");
 
-    for (int i = 0; i < 5000; i++) {
+    for (int i = 0; i < 100; i++) {
         gameObjects.push_back(
             new Star(renderer, textureData, 64, 64)
         );      

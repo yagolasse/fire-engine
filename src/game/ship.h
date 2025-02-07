@@ -4,7 +4,7 @@
 
 class Ship : public Sprite {
    private:
-    const float speed = 40.0f;
+    const float speed = 100.0f;
 
    public:
     using Sprite::Sprite;
