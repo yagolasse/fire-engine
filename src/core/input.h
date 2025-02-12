@@ -33,6 +33,8 @@ class Input {
         Y = GLFW_KEY_Y,
         Z = GLFW_KEY_Z,
     };
+    
+    enum class KeyEventType { PRESSED, RELEASED };
 
     static void init(GLFWwindow* windowHandle);
     static void dispose();
@@ -40,9 +42,14 @@ class Input {
     static bool isKeyPressed(Input::Key key);
     static bool isKeyReleased(Input::Key key);
 
+    static void addKeyPressedCallback(void (*callback)(Input::Key, Input::KeyEventType));
+
    private:
     static GLFWwindow* windowHandle;
+    static void (*keyCallback)(Input::Key, Input::KeyEventType);
 
     Input();
     ~Input();
+
+    static void onKeyPressed(GLFWwindow* windowHandle, int key, int scancode, int action, int mods);
 };

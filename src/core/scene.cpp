@@ -19,6 +19,14 @@ Scene::~Scene() {
     }
 }
 
+void Scene::onKeyEvent(Input::Key key, Input::KeyEventType type) {
+    for (GameObject* gameObject : gameObjects) {
+        if (gameObject->onKeyEvent(key, type)) {
+            break;
+        }
+    }
+}
+
 void Scene::start() {
     for (GameObject* gameObject : gameObjects) {
         gameObject->start();

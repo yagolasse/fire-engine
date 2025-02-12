@@ -1,5 +1,7 @@
 #pragma once
 
+#include "input.h"
+
 #include <memory>
 #include <vector>
 
@@ -10,7 +12,7 @@ class TextureStorage;
 
 class Scene {
    protected:
-    std::vector<GameObject *> gameObjects;
+    std::vector<GameObject*> gameObjects;
     std::shared_ptr<BatchRenderer> renderer;
     std::shared_ptr<OrthographicCamera> camera;
     std::shared_ptr<TextureStorage> textureStorage;
@@ -18,6 +20,8 @@ class Scene {
    public:
     Scene(std::shared_ptr<BatchRenderer> renderer, std::shared_ptr<TextureStorage> textureStorage);
     ~Scene();
+
+    virtual void onKeyEvent(Input::Key key, Input::KeyEventType type);
     virtual void start();
     virtual void update(double deltaTime);
     virtual void render();

@@ -14,6 +14,8 @@ class SceneManager {
     static SceneManager* getInstance();
     static void disposeInstance();
 
+    Scene* getCurrentScene();
+
     void replaceScene(Scene* newScene);
     void startScene();
     void runSceneUpdate(double delta);

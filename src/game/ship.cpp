@@ -40,3 +40,12 @@ void Ship::update(double delta) {
 
     Sprite::update(delta);
 }
+
+bool Ship::onKeyEvent(Input::Key key, Input::KeyEventType type) {
+    if (key == Input::Key::F) {
+        transform->rotationDegrees += 15.0f;
+        return true;
+    }
+
+    return false;
+}

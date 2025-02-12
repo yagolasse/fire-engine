@@ -6,6 +6,7 @@
 
 #include "batch_renderer.h"
 #include "game_object.h"
+#include "input.h"
 #include "quad.h"
 #include "texture_data.h"
 #include "texture_region.h"
@@ -33,7 +34,7 @@ void Sprite::update(double delta) {
 
 Quad Sprite::mapToQuad() {
     glm::vec2 scale = glm::vec2{textureRegion->getSpriteWidth(), textureRegion->getSpriteHeight()} * transform->scale;
-    Transform quadTrasnform = {scale, transform->position, glm::radians(transform->rotationDegrees)};
+    Transform quadTrasnform = {scale, transform->position, transform->rotationDegrees};
 
     return Quad{quadTrasnform, tint, textureRegion->getUVMappingForRegion(currentSprite), (unsigned char)textureData->index};
 }

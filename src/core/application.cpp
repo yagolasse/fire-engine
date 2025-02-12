@@ -22,6 +22,10 @@ Application::Application() {
 
     Input::init(window->getHandle());
 
+    Input::addKeyPressedCallback([](Input::Key key, Input::KeyEventType type) {
+        SceneManager::getInstance()->getCurrentScene()->onKeyEvent(key, type);
+    });
+
     // Then, graphics API
     Renderer::init((GLADloadproc)glfwGetProcAddress);
     Renderer::setClearColor();

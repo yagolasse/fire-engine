@@ -16,6 +16,10 @@ void SceneManager::disposeInstance() {
     delete instance;
 }
 
+Scene* SceneManager::getCurrentScene() {
+    return currentScene;
+}
+
 SceneManager::SceneManager() {
     currentScene = nullptr;
 }
