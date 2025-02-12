@@ -9,6 +9,7 @@
 #include "input.h"
 #include "renderer.h"
 #include "scene.h"
+#include "scene_manager.h"
 #include "texture_storage.h"
 #include "window.h"
 
@@ -34,7 +35,8 @@ Application::Application() {
 }
 
 Application::~Application() {
-    delete scene;
+    SceneManager::disposeInstance();
+
     delete window;
 }
 
@@ -46,7 +48,7 @@ void Application::run() {
     double plotCounter = 0;
     double debugFrameTime = 0;
 
-    scene->start();
+    SceneManager::getInstance()->startScene();
 
     while (!window->shouldClose()) {
         double deltaTime = glfwGetTime();
@@ -69,10 +71,10 @@ void Application::run() {
 
         ImGui::Text("%.2f ms", debugFrameTime * 1000.0);  // TODO: Move into scene
 
-        scene->update(currentFrameTime);
+        SceneManager::getInstance()->runSceneUpdate(currentFrameTime);
         /// End App Code
 
-        scene->render();
+        SceneManager::getInstance()->runSceneRender();
 
         DebugUi::draw();  // TODO: Move into scene
 

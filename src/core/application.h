@@ -12,7 +12,6 @@ class Application {
     Window* window;
     
    protected:
-    Scene* scene;
     std::shared_ptr<BatchRenderer> batchRenderer;
     std::shared_ptr<TextureStorage> textureStorage;
 

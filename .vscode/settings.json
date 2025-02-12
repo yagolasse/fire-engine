@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "/Users/yagolasse/Documents/Projects/fire-engine/build/_deps/glm-src",
+    "cmake.sourceDirectory": "C:/Projects/fire-engine",
     "cmake.debugConfig": {
         "type": "lldb"
     },
