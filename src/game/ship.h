@@ -6,7 +6,8 @@ struct InputEvent;
 
 class Ship : public Sprite {
    private:
-    const float speed = 100.0f;
+    const float speed = 180.0f;
+    const float rotationSpeed = 50.0f;
 
    public:
     using Sprite::Sprite;
