@@ -9,8 +9,10 @@ struct Transform;
 
 class GameObject {
    private:
-    int id;
     static long count;
+
+   protected:
+    int id;
 
    public:
     Transform* transform;

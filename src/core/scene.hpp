@@ -13,6 +13,7 @@ class TextureStorage;
 
 class Scene {
    protected:
+    std::vector<int> removalStack;
     std::vector<GameObject*> gameObjects;
     std::shared_ptr<BatchRenderer> renderer;
     std::shared_ptr<OrthographicCamera> camera;
@@ -26,6 +27,8 @@ class Scene {
     virtual void start();
     virtual void update(double deltaTime);
     virtual void render();
+
+    virtual void requestGameObjectRemoval(int id);
 };
 
 #endif

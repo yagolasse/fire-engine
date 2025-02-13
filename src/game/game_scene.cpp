@@ -1,5 +1,6 @@
 #include "game_scene.hpp"
 
+#include "bullet.hpp"
 #include "game_object.hpp"
 #include "ship.hpp"
 #include "star.hpp"
@@ -17,6 +18,10 @@ void GameScene::start() {
     
     gameObjects.push_back(
         new Ship(renderer, textureData, 64, 64)
+    );
+
+    gameObjects.push_back(
+        new Bullet(renderer, textureData, 64, 64)
     );
 
     Scene::start();

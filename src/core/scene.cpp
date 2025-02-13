@@ -34,6 +34,12 @@ void Scene::start() {
 }
 
 void Scene::update(double deltaTime) {
+    for (int it : removalStack) {
+        gameObjects.erase(gameObjects.begin() + it);
+    }
+
+    removalStack.clear();
+
     for (GameObject* gameObject : gameObjects) {
         gameObject->update(deltaTime);
     }
@@ -41,4 +47,8 @@ void Scene::update(double deltaTime) {
 
 void Scene::render() {
     renderer->draw(glm::value_ptr(camera->getView()), glm::value_ptr(camera->getProjection()));
+}
+
+void Scene::requestGameObjectRemoval(int id) {
+    removalStack.push_back(id);
 }
