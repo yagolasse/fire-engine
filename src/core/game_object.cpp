@@ -1,7 +1,7 @@
-#include "game_object.h"
+#include "game_object.hpp"
 
-#include "input.h"
-#include "quad.h"
+#include "input.hpp"
+#include "quad.hpp"
 
 long GameObject::count = 0;
 

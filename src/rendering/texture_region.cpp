@@ -1,6 +1,6 @@
-#include "texture_region.h"
+#include "texture_region.hpp"
 
-#include "texture_data.h"
+#include "texture_data.hpp"
 
 TextureRegion::TextureRegion(TextureData* textureData, int spriteWidth, int spriteHeight)
     : textureData(textureData), spriteWidth(spriteWidth), spriteHeight(spriteHeight) {

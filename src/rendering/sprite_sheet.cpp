@@ -1,8 +1,8 @@
-#include "sprite_sheet.h"
+#include "sprite_sheet.hpp"
 
 #include <iostream>
 
-#include "texture.h"
+#include "texture.hpp"
 
 SpriteSheet::SpriteSheet(std::shared_ptr<Texture> texture, int spriteWidth, int spriteHeight)
     : texture(texture), spriteWidth(spriteWidth), spriteHeight(spriteHeight) {

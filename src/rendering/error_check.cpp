@@ -1,4 +1,4 @@
-#include "error_check.h"
+#include "error_check.hpp"
 
 #include <glad/glad.h>
 

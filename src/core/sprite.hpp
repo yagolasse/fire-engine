@@ -1,0 +1,35 @@
+#ifndef SPRITE_HPP
+#define SPRITE_HPP
+
+#include <glm.hpp>
+#include <memory>
+
+#include "game_object.hpp"
+
+class BatchRenderer;
+class TextureData;
+class TextureStorage;
+class TextureRegion;
+class Quad;
+
+class Sprite : public GameObject {
+   protected:
+    int spriteWidth;
+    int spriteHeight;
+    glm::vec4 tint;
+    TextureData* textureData;
+    TextureRegion* textureRegion;
+    std::shared_ptr<BatchRenderer> batchRenderer;
+
+    Quad mapToQuad();
+
+   public:
+    int currentSprite;
+
+    Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData* textureData, int spriteWidth, int spriteHeight);
+    virtual ~Sprite();
+    virtual void start() override;
+    virtual void update(double delta) override;
+};
+
+#endif

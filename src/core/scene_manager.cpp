@@ -1,7 +1,7 @@
-#include "scene_manager.h"
+#include "scene_manager.hpp"
 
-#include "assertion.h"
-#include "scene.h"
+#include "assertion.hpp"
+#include "scene.hpp"
 
 SceneManager* SceneManager::instance = nullptr;
 

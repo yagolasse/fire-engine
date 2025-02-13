@@ -1,4 +1,4 @@
-#include "texture.h"
+#include "texture.hpp"
 
 #include <iostream>
 
@@ -7,7 +7,7 @@
 
 #include <glad/glad.h>
 
-#include "assertion.h"
+#include "assertion.hpp"
 
 int Texture::currentBindingIndex = 0;
 

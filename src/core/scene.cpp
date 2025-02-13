@@ -1,12 +1,12 @@
-#include "scene.h"
+#include "scene.hpp"
 
 #include <gtc/type_ptr.hpp>
 
-#include "batch_renderer.h"
-#include "game_object.h"
-#include "orthographic_camera.h"
-#include "sprite.h"
-#include "texture_storage.h"
+#include "batch_renderer.hpp"
+#include "game_object.hpp"
+#include "orthographic_camera.hpp"
+#include "sprite.hpp"
+#include "texture_storage.hpp"
 
 Scene::Scene(std::shared_ptr<BatchRenderer> renderer, std::shared_ptr<TextureStorage> textureStorage)
     : renderer(renderer), textureStorage(textureStorage) {

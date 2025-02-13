@@ -1,4 +1,4 @@
-#include "batch_renderer.h"
+#include "batch_renderer.hpp"
 
 #include <fstream>
 #include <glm.hpp>
@@ -6,17 +6,17 @@
 #include <iostream>
 #include <sstream>
 
-#include "assertion.h"
-#include "element_array_buffer.h"
-#include "error.h"
-#include "quad.h"
-#include "renderer.h"
-#include "shader.h"
-#include "shader_program.h"
-#include "texture.h"
-#include "vertex.h"
-#include "vertex_array_buffer.h"
-#include "vertex_buffer.h"
+#include "assertion.hpp"
+#include "element_array_buffer.hpp"
+#include "error.hpp"
+#include "quad.hpp"
+#include "renderer.hpp"
+#include "shader.hpp"
+#include "shader_program.hpp"
+#include "texture.hpp"
+#include "vertex.hpp"
+#include "vertex_array_buffer.hpp"
+#include "vertex_buffer.hpp"
 
 BatchRenderer::BatchRenderer() {
     vertexBuffer = std::make_unique<VertexBuffer>();

@@ -1,4 +1,4 @@
-#include "element_array_buffer.h"
+#include "element_array_buffer.hpp"
 
 #include <glad/glad.h>
 

@@ -1,4 +1,4 @@
-#include "debug_ui.h"
+#include "debug_ui.hpp"
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>

@@ -1,6 +1,6 @@
-#include "error.h"
+#include "error.hpp"
 
-#include "glad/glad.h"
+#include <glad/glad.h>
 
 GLenum Error::glCheckError_(const char *file, int line)
 {

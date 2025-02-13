@@ -1,12 +1,12 @@
-#include "shader_program.h"
+#include "shader_program.hpp"
 
 #include <memory>
 #include <iostream>
 
 #include <glad/glad.h>
 
-#include "shader.h"
-#include "error.h"
+#include "shader.hpp"
+#include "error.hpp"
 
 ShaderProgram::ShaderProgram(std::unique_ptr<Shader> vertexShader, std::unique_ptr<Shader> fragmentShader) {
     handle = glCreateProgram();

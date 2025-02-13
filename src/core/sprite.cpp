@@ -1,16 +1,16 @@
-#include "sprite.h"
+#include "sprite.hpp"
 
 #include <glm.hpp>
 #include <iostream>
 #include <string>
 
-#include "batch_renderer.h"
-#include "game_object.h"
-#include "input.h"
-#include "quad.h"
-#include "texture_data.h"
-#include "texture_region.h"
-#include "texture_storage.h"
+#include "batch_renderer.hpp"
+#include "game_object.hpp"
+#include "input.hpp"
+#include "quad.hpp"
+#include "texture_data.hpp"
+#include "texture_region.hpp"
+#include "texture_storage.hpp"
 
 Sprite::Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData* textureData, int spriteWidth, int spriteHeight)
     : currentSprite(0),

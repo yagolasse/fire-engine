@@ -1,12 +1,12 @@
-#include "renderer.h"
+#include "renderer.hpp"
 
 #include <glad/glad.h>
 
 #include <iostream>
 #include <vec4.hpp>
 
-#include "assertion.h"
-#include "error_check.h"
+#include "assertion.hpp"
+#include "error_check.hpp"
 
 void Renderer::init(GLADloadproc loadProcedure) {
     ASSERT_MSG(gladLoadGLLoader(loadProcedure), "Could not initialize Glad/load GL!");

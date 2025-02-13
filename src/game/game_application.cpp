@@ -1,7 +1,7 @@
-#include <game_application.h>
+#include "game_application.hpp"
 
-#include "game_scene.h"
-#include "scene_manager.h"
+#include "game_scene.hpp"
+#include "scene_manager.hpp"
 
 void GameApplication::init() {
     Application::init();

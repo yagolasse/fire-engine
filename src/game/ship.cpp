@@ -1,10 +1,10 @@
-#include "ship.h"
+#include "ship.hpp"
 
 #include <iostream>
 
-#include "input.h"
-#include "quad.h"
-#include "window.h"
+#include "input.hpp"
+#include "quad.hpp"
+#include "window.hpp"
 
 void Ship::start() {
     currentSprite = 24;

@@ -1,4 +1,4 @@
-#include "texture_storage.h"
+#include "texture_storage.hpp"
 
 #include <glad/glad.h>
 #include <stb_image.h>
@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "assertion.h"
-#include "texture_data.h"
+#include "assertion.hpp"
+#include "texture_data.hpp"
 
 TextureStorage::TextureStorage() : currentIndex(0) {
     glGenTextures(1, &handle);

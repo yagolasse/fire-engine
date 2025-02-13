@@ -1,10 +1,10 @@
-#include "game_scene.h"
+#include "game_scene.hpp"
 
-#include "game_object.h"
-#include "ship.h"
-#include "star.h"
-#include "texture_data.h"
-#include "texture_storage.h"
+#include "game_object.hpp"
+#include "ship.hpp"
+#include "star.hpp"
+#include "texture_data.hpp"
+#include "texture_storage.hpp"
 
 void GameScene::start() {
     TextureData* textureData = textureStorage->loadTexture("../resources/simpleSpace_tilesheet.png");

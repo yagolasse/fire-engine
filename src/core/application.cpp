@@ -1,17 +1,17 @@
-#include "application.h"
+#include "application.hpp"
 
 #include <imgui.h>
 
 #include <iostream>
 
-#include "batch_renderer.h"
-#include "debug_ui.h"
-#include "input.h"
-#include "renderer.h"
-#include "scene.h"
-#include "scene_manager.h"
-#include "texture_storage.h"
-#include "window.h"
+#include "batch_renderer.hpp"
+#include "debug_ui.hpp"
+#include "input.hpp"
+#include "renderer.hpp"
+#include "scene.hpp"
+#include "scene_manager.hpp"
+#include "texture_storage.hpp"
+#include "window.hpp"
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>

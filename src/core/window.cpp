@@ -1,12 +1,12 @@
-#include "window.h"
+#include "window.hpp"
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 #include <iostream>
 
-#include "assertion.h"
-#include "renderer.h"
+#include "assertion.hpp"
+#include "renderer.hpp"
 
 int Window::width;
 int Window::height;

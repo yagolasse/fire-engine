@@ -1,4 +1,4 @@
-#include "orthographic_camera.h"
+#include "orthographic_camera.hpp"
 
 OrthographicCamera::OrthographicCamera(glm::vec3 position, float left, float right, float bottom, float top, float nearZ, float farZ)
     : position(position), left(left), right(right), bottom(bottom), top(top), near(nearZ), far(farZ) {

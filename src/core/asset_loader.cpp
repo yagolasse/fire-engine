@@ -1,6 +1,6 @@
-#include "asset_loader.h"
+#include "asset_loader.hpp"
 
-#include "texture.h"
+#include "texture.hpp"
 
 AssetLoader::AssetLoader() : textures({}) {
 }

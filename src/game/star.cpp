@@ -1,11 +1,11 @@
-#include "star.h"
+#include "star.hpp"
 
 #include <iostream>
 
-#include "assertion.h"
-#include "random.h"
-#include "quad.h"
-#include "window.h"
+#include "assertion.hpp"
+#include "random.hpp"
+#include "quad.hpp"
+#include "window.hpp"
 
 void Star::start() {
     currentSprite = 21;
