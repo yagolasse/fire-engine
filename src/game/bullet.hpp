@@ -5,7 +5,7 @@
 
 class Bullet : public Sprite {
    public:
-    using Sprite::Sprite;
+    Bullet();
 
     void start() override;
     void update(double delta) override;

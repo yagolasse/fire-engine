@@ -14,7 +14,7 @@ class GameObject {
    protected:
     int id;
     bool markedForDeletion = false;
-    
+
    public:
     Transform* transform;
 

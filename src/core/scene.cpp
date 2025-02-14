@@ -26,6 +26,8 @@ void Scene::onKeyEvent(Input::Key key, Input::KeyEventType type) {
 
 void Scene::addObject(std::shared_ptr<GameObject> gameObject) {
     gameObjects.push_back(gameObject);
+
+    gameObject->start();
 }
 
 void Scene::start() {

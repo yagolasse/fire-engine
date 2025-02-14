@@ -60,9 +60,14 @@ void Ship::update(double delta) {
 
 bool Ship::onKeyEvent(Input::Key key, Input::KeyEventType type) {
     if (key == Input::Key::F && shootTime > shootTimeout) {
-        // SceneManager::getInstance()->getCurrentScene()->addObject<Bullet, std::string>("../resources/simpleSpace_tilesheet.png");
+        std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>();
 
-        // shootTime = 0.0f;
+        bullet->transform->position.x = transform->position.x;
+        bullet->transform->position.y = transform->position.y;
+
+        SceneManager::getInstance()->getCurrentScene()->addObject(bullet);
+
+        shootTime = 0.0f;
 
         return true;
     }
