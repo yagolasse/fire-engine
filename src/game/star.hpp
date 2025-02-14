@@ -9,7 +9,7 @@ class Star : public Sprite {
     float speed;
 
    public:
-    using Sprite::Sprite;
+    Star();
 
     void start() override;
     void update(double delta) override;

@@ -8,6 +8,22 @@
 #include "assertion.hpp"
 #include "error_check.hpp"
 
+Renderer* Renderer::instance = nullptr;
+
+Renderer* Renderer::getInstance() {
+    if (instance == nullptr) {
+        instance = new Renderer();
+    }
+    return instance;
+}
+
+void Renderer::disposeInstance() {
+    delete instance;
+}
+
+Renderer::Renderer() {
+}
+
 void Renderer::init(GLADloadproc loadProcedure) {
     ASSERT_MSG(gladLoadGLLoader(loadProcedure), "Could not initialize Glad/load GL!");
 

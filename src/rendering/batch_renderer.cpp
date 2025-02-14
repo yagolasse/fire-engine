@@ -18,7 +18,24 @@
 #include "vertex_array_buffer.hpp"
 #include "vertex_buffer.hpp"
 
+BatchRenderer* BatchRenderer::instance = nullptr;
+
+BatchRenderer *BatchRenderer::getInstance() {
+    if (instance == nullptr) {
+        instance = new BatchRenderer();
+    }
+    return instance;
+}
+
+void BatchRenderer::disposeInstance() {
+    delete instance;
+}
+
 BatchRenderer::BatchRenderer() {
+    
+}
+
+void BatchRenderer::init() {    
     vertexBuffer = std::make_unique<VertexBuffer>();
     vertexArrayBuffer = std::make_unique<VertexArrayBuffer>();
     elementArrayBuffer = std::make_unique<ElementArrayBuffer>();
@@ -84,7 +101,7 @@ void BatchRenderer::pushQuad(Quad quad) {
 }
 
 void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix) {
-    Renderer::clear();
+    Renderer::getInstance()->clear();
 
     shader->bind();
     shader->setInt("textures", 0);
@@ -141,7 +158,7 @@ void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix)
             vertexBuffer->bind();
             vertexBuffer->bufferSubData(&vertices[0], 0, vertexIndex * sizeof(QuadVertex));
 
-            Renderer::draw(indexPerQuad * vertexIndex / vertexPerQuad);
+            Renderer::getInstance()->draw(indexPerQuad * vertexIndex / vertexPerQuad);
 
             vertexBuffer->unbind();
 

@@ -49,7 +49,7 @@ Window::Window(int width, int height, const char* title) {
     glfwSetFramebufferSizeCallback(handle, [](GLFWwindow* windowHandle, int newWidth, int newHeight) {
         Window::width = newWidth;
         Window::height = newHeight;
-        Renderer::setViewport(0, 0, newWidth, newHeight);
+        Renderer::getInstance()->setViewport(0, 0, newWidth, newHeight);
     });
 
     //  1 -> 1 Frame V-Sync On

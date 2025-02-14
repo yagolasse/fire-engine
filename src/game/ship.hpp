@@ -9,9 +9,12 @@ class Ship : public Sprite {
    private:
     const float speed = 180.0f;
     const float rotationSpeed = 50.0f;
+    const float shootTimeout = 0.5f;
+
+    float shootTime = 0.0f;
 
    public:
-    using Sprite::Sprite;
+    Ship();
 
     void start() override;
     void update(double delta) override;

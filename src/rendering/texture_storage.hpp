@@ -8,6 +8,8 @@ class TextureData;
 
 class TextureStorage {
    private:
+    static TextureStorage* instance;
+
     const int maxTextures = 64;
     const int maxWidth = 512;
     const int maxHeight = 512;
@@ -16,9 +18,12 @@ class TextureStorage {
 
     std::unordered_map<std::string, TextureData*> cache;
 
-   public:
     TextureStorage();
     ~TextureStorage();
+
+   public:
+    static TextureStorage* getInstance();
+    static void disposeInstance();
 
     TextureData* loadTexture(std::string path);
     void bind() const;

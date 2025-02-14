@@ -6,49 +6,48 @@
 #include "game_object.hpp"
 #include "orthographic_camera.hpp"
 #include "sprite.hpp"
+#include "texture_data.hpp"
 #include "texture_storage.hpp"
 
-Scene::Scene(std::shared_ptr<BatchRenderer> renderer, std::shared_ptr<TextureStorage> textureStorage)
-    : renderer(renderer), textureStorage(textureStorage) {
+Scene::Scene() {
     camera = std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);
 }
 
 Scene::~Scene() {
-    for (GameObject* gameObject : gameObjects) {
-        delete gameObject;
-    }
 }
 
 void Scene::onKeyEvent(Input::Key key, Input::KeyEventType type) {
-    for (GameObject* gameObject : gameObjects) {
+    for (std::shared_ptr<GameObject> gameObject : gameObjects) {
         if (gameObject->onKeyEvent(key, type)) {
             break;
         }
     }
 }
 
+void Scene::addObject(std::shared_ptr<GameObject> gameObject) {
+    gameObjects.push_back(gameObject);
+}
+
 void Scene::start() {
-    for (GameObject* gameObject : gameObjects) {
+    for (std::shared_ptr<GameObject> gameObject : gameObjects) {
         gameObject->start();
     }
 }
 
 void Scene::update(double deltaTime) {
-    for (int it : removalStack) {
-        gameObjects.erase(gameObjects.begin() + it);
-    }
+    gameObjects.erase(
+        std::remove_if(
+        gameObjects.begin(), gameObjects.end(), [](std::shared_ptr<GameObject> gameObjects) { 
+            return gameObjects->isDeletionQueued(); 
+        }),
+        gameObjects.end()
+    );
 
-    removalStack.clear();
-
-    for (GameObject* gameObject : gameObjects) {
+    for (std::shared_ptr<GameObject> gameObject : gameObjects) {
         gameObject->update(deltaTime);
     }
 }
 
 void Scene::render() {
-    renderer->draw(glm::value_ptr(camera->getView()), glm::value_ptr(camera->getProjection()));
-}
-
-void Scene::requestGameObjectRemoval(int id) {
-    removalStack.push_back(id);
+    BatchRenderer::getInstance()->draw(glm::value_ptr(camera->getView()), glm::value_ptr(camera->getProjection()));
 }

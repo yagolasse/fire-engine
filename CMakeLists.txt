@@ -59,7 +59,7 @@ target_include_directories(fire-engine PRIVATE src/game)
 
 # target_link_libraries(fire-engine glfw)
 
-# target_link_libraries(fire-engine engine-core)
+target_link_libraries(fire-engine engine-core)
 
 target_link_libraries(fire-engine engine-rendering)
 

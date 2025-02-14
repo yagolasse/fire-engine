@@ -15,6 +15,8 @@
 
 class BatchRenderer {
    private:
+    static BatchRenderer* instance;
+
     static const int indexPerQuad = 6;
     static const int vertexPerQuad = 4;
     static const int maxQuadsPerDraw = 1024;
@@ -29,8 +31,13 @@ class BatchRenderer {
     std::unique_ptr<VertexArrayBuffer> vertexArrayBuffer;
     std::unique_ptr<ElementArrayBuffer> elementArrayBuffer;
 
-   public:
     BatchRenderer();
+
+   public:
+    static BatchRenderer* getInstance();
+    static void disposeInstance();
+
+    void init();
     void pushQuad(Quad quad);
     void draw(const float *viewMatrix, const float *projectionMatrix);
 };

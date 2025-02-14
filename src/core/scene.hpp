@@ -1,10 +1,10 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include "input.hpp"
-
 #include <memory>
 #include <vector>
+
+#include "input.hpp"
 
 class GameObject;
 class BatchRenderer;
@@ -13,22 +13,21 @@ class TextureStorage;
 
 class Scene {
    protected:
-    std::vector<int> removalStack;
-    std::vector<GameObject*> gameObjects;
-    std::shared_ptr<BatchRenderer> renderer;
+    std::vector<std::shared_ptr<GameObject>> gameObjects;
+    
     std::shared_ptr<OrthographicCamera> camera;
-    std::shared_ptr<TextureStorage> textureStorage;
 
    public:
-    Scene(std::shared_ptr<BatchRenderer> renderer, std::shared_ptr<TextureStorage> textureStorage);
+    Scene();
     ~Scene();
 
-    virtual void onKeyEvent(Input::Key key, Input::KeyEventType type);
     virtual void start();
     virtual void update(double deltaTime);
     virtual void render();
 
-    virtual void requestGameObjectRemoval(int id);
+    virtual void onKeyEvent(Input::Key key, Input::KeyEventType type);
+
+    virtual void addObject(std::shared_ptr<GameObject> gameObject);
 };
 
 #endif

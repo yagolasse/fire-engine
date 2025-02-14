@@ -9,6 +9,19 @@
 #include "assertion.hpp"
 #include "texture_data.hpp"
 
+TextureStorage* TextureStorage::instance = nullptr;
+
+TextureStorage* TextureStorage::getInstance() {
+    if (instance == nullptr) {
+        instance = new TextureStorage();
+    }
+    return instance;
+}
+
+void TextureStorage::disposeInstance() {
+    delete instance;
+}
+
 TextureStorage::TextureStorage() : currentIndex(0) {
     glGenTextures(1, &handle);
 

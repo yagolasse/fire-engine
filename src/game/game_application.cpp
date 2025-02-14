@@ -6,7 +6,7 @@
 void GameApplication::init() {
     Application::init();
 
-    SceneManager::getInstance()->replaceScene(new GameScene(batchRenderer, textureStorage));
+    SceneManager::getInstance()->replaceScene(new GameScene());
 }
 
 void GameApplication::run() {

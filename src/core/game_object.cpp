@@ -17,6 +17,14 @@ bool GameObject::onKeyEvent(Input::Key key, Input::KeyEventType type) {
     return false;
 }
 
+void GameObject::queueDeletion() {
+    markedForDeletion = true;
+}
+
+bool GameObject::isDeletionQueued() {
+    return markedForDeletion;
+}
+
 bool GameObject::operator==(GameObject& other) {
     return id == other.id;
 }

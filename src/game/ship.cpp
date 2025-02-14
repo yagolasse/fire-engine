@@ -1,10 +1,21 @@
 #include "ship.hpp"
 
 #include <iostream>
+#include <memory>
 
+#include "bullet.hpp"
 #include "input.hpp"
 #include "quad.hpp"
+#include "scene.hpp"
+#include "scene_manager.hpp"
+#include "texture_region.hpp"
+#include "texture_storage.hpp"
 #include "window.hpp"
+
+Ship::Ship() : Sprite() {
+    textureData = TextureStorage::getInstance()->loadTexture("../resources/simpleSpace_tilesheet.png");
+    textureRegion = new TextureRegion(textureData, 64, 64);
+}
 
 void Ship::start() {
     currentSprite = 24;
@@ -42,14 +53,19 @@ void Ship::update(double delta) {
         transform->position += velocity * speed * (float)delta;
     }
 
+    shootTime += delta;
+
     Sprite::update(delta);
 }
 
 bool Ship::onKeyEvent(Input::Key key, Input::KeyEventType type) {
-    // if (key == Input::Key::F) {
-    //     transform->rotationDegrees += 15.0f;
-    //     return true;
-    // }
+    if (key == Input::Key::F && shootTime > shootTimeout) {
+        // SceneManager::getInstance()->getCurrentScene()->addObject<Bullet, std::string>("../resources/simpleSpace_tilesheet.png");
+
+        // shootTime = 0.0f;
+
+        return true;
+    }
 
     return false;
 }

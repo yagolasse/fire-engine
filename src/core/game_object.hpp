@@ -13,7 +13,8 @@ class GameObject {
 
    protected:
     int id;
-
+    bool markedForDeletion = false;
+    
    public:
     Transform* transform;
 
@@ -23,6 +24,9 @@ class GameObject {
     virtual void start() = 0;
     virtual void update(double delta) = 0;
     virtual bool onKeyEvent(Input::Key key, Input::KeyEventType type);
+
+    virtual void queueDeletion();
+    virtual bool isDeletionQueued();
 
     bool operator==(GameObject& other);
 };

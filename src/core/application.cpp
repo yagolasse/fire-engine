@@ -27,19 +27,20 @@ Application::Application() {
     });
 
     // Then, graphics API
-    Renderer::init((GLADloadproc)glfwGetProcAddress);
-    Renderer::setClearColor();
+    Renderer::getInstance()->init((GLADloadproc)glfwGetProcAddress);
+    Renderer::getInstance()->setClearColor();
 
     DebugUi::init(window->getHandle());  // TODO: Move into scene
 
     // Lastly, GPU buffers
-    batchRenderer = std::make_shared<BatchRenderer>();
-
-    textureStorage = std::make_shared<TextureStorage>();
+    BatchRenderer::getInstance()->init();
 }
 
 Application::~Application() {
     SceneManager::disposeInstance();
+    BatchRenderer::disposeInstance();
+    TextureStorage::disposeInstance();
+    Renderer::disposeInstance();
 
     delete window;
 }
@@ -64,7 +65,7 @@ void Application::run() {
 
         DebugUi::beginFrame();  // TODO: Move into scene
 
-        textureStorage->bind();
+        TextureStorage::getInstance()->bind();
 
         plotCounter += currentFrameTime;
 

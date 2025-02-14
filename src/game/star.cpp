@@ -5,7 +5,14 @@
 #include "assertion.hpp"
 #include "random.hpp"
 #include "quad.hpp"
+#include "texture_region.hpp"
+#include "texture_storage.hpp"
 #include "window.hpp"
+
+Star::Star() {
+    textureData = TextureStorage::getInstance()->loadTexture("../resources/simpleSpace_tilesheet.png");
+    textureRegion = new TextureRegion(textureData, 64, 64);
+}
 
 void Star::start() {
     currentSprite = 21;

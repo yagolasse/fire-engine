@@ -1,5 +1,7 @@
 #include "game_scene.hpp"
 
+#include <memory>
+
 #include "bullet.hpp"
 #include "game_object.hpp"
 #include "ship.hpp"
@@ -8,21 +10,11 @@
 #include "texture_storage.hpp"
 
 void GameScene::start() {
-    TextureData* textureData = textureStorage->loadTexture("../resources/simpleSpace_tilesheet.png");
-
     for (int i = 0; i < 100; i++) {
-        gameObjects.push_back(
-            new Star(renderer, textureData, 64, 64)
-        );      
+        gameObjects.push_back(std::make_shared<Star>());      
     }
     
-    gameObjects.push_back(
-        new Ship(renderer, textureData, 64, 64)
-    );
-
-    gameObjects.push_back(
-        new Bullet(renderer, textureData, 64, 64)
-    );
+    gameObjects.push_back(std::make_shared<Ship>());
 
     Scene::start();
 }

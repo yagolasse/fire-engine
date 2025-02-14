@@ -12,12 +12,7 @@
 #include "texture_region.hpp"
 #include "texture_storage.hpp"
 
-Sprite::Sprite(std::shared_ptr<BatchRenderer> batchRenderer, TextureData* textureData, int spriteWidth, int spriteHeight)
-    : currentSprite(0),
-      tint(glm::vec4(1.0f)),
-      textureData(textureData),
-      batchRenderer(batchRenderer),
-      textureRegion(new TextureRegion(textureData, spriteWidth, spriteHeight)) {
+Sprite::Sprite() : GameObject(), currentSprite(0), tint(glm::vec4(1.0f)) {
 }
 
 Sprite::~Sprite() {
@@ -29,7 +24,7 @@ void Sprite::start() {
 }
 
 void Sprite::update(double delta) {
-    batchRenderer->pushQuad(mapToQuad());
+    BatchRenderer::getInstance()->pushQuad(mapToQuad());
 }
 
 Quad Sprite::mapToQuad() {
