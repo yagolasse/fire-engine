@@ -7,7 +7,6 @@
 #include "game_object.hpp"
 
 class TextureData;
-class TextureStorage;
 class TextureRegion;
 class Quad;
 

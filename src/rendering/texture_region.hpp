@@ -4,7 +4,7 @@
 #include <array>
 #include <glm.hpp>
 
-class TextureData;
+#include "texture_data.hpp"
 
 class TextureRegion {
    private:
