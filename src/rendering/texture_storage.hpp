@@ -26,6 +26,7 @@ class TextureStorage {
     static void disposeInstance();
 
     TextureData* loadTexture(std::string path);
+    void init();
     void bind() const;
 };
 

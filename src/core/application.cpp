@@ -34,6 +34,7 @@ Application::Application() {
 
     // Lastly, GPU buffers
     BatchRenderer::getInstance()->init();
+    TextureStorage::getInstance()->init();
 }
 
 Application::~Application() {

@@ -8,8 +8,8 @@ struct InputEvent;
 class Ship : public Sprite {
    private:
     const float speed = 180.0f;
-    const float rotationSpeed = 50.0f;
-    const float shootTimeout = 0.5f;
+    const float rotationSpeed = 100.0f;
+    const float shootTimeout = 0.2f;
 
     float shootTime = 0.0f;
 

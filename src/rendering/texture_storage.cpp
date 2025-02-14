@@ -23,17 +23,6 @@ void TextureStorage::disposeInstance() {
 }
 
 TextureStorage::TextureStorage() : currentIndex(0) {
-    glGenTextures(1, &handle);
-
-    glActiveTexture(GL_TEXTURE0);
-
-    glBindTexture(GL_TEXTURE_2D_ARRAY, handle);
-
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, maxWidth, maxHeight, maxTextures, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-
-    glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
-
-    cache = {};
 }
 
 TextureStorage::~TextureStorage() {
@@ -90,6 +79,20 @@ TextureData* TextureStorage::loadTexture(std::string path) {
     cache[path] = textureData;
 
     return textureData;
+}
+
+void TextureStorage::init() {
+    glGenTextures(1, &handle);
+
+    glActiveTexture(GL_TEXTURE0);
+
+    glBindTexture(GL_TEXTURE_2D_ARRAY, handle);
+
+    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, maxWidth, maxHeight, maxTextures, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+    glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+
+    cache = {};
 }
 
 void TextureStorage::bind() const {

@@ -23,12 +23,13 @@ void Bullet::start() {
 }
 
 void Bullet::update(double delta) {
-    if (transform->position.y > Window::getHeight()) {
+    if (transform->position.y > Window::getHeight() || transform->position.y < 0
+    || transform->position.x > Window::getWidth() || transform->position.x < 0) {
         queueDeletion();
         return;
     }
 
-    transform->position.y += 100.0f * delta;
+    transform->position += direction * speed * (float)delta;
 
     Sprite::update(delta);
 }

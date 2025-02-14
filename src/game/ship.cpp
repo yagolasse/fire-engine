@@ -62,8 +62,12 @@ bool Ship::onKeyEvent(Input::Key key, Input::KeyEventType type) {
     if (key == Input::Key::F && shootTime > shootTimeout) {
         std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>();
 
-        bullet->transform->position.x = transform->position.x;
-        bullet->transform->position.y = transform->position.y;
+        float rad = glm::radians(transform->rotationDegrees + 90);
+
+        glm::vec2 direction{glm::cos(rad), glm::sin(rad)};
+
+        bullet->direction = direction;
+        bullet->transform->position = transform->position + direction * 28.0f;
 
         SceneManager::getInstance()->getCurrentScene()->addObject(bullet);
 
