@@ -1,9 +1,11 @@
 #include "batch_renderer.hpp"
 
+#include <filesystem>
 #include <fstream>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <iostream>
+#include <string>
 #include <sstream>
 
 #include "assertion.hpp"
@@ -46,8 +48,8 @@ void BatchRenderer::init() {
     vertexArrayBuffer = new VertexArrayBuffer();
     elementArrayBuffer = new ElementArrayBuffer();
 
-    std::ifstream fragFileStream("../resources/quad_fragment_shader.glsl");
-    std::ifstream vertFileStream("../resources/quad_vertex_shader.glsl");
+    std::ifstream fragFileStream("resources/quad_fragment_shader.glsl");
+    std::ifstream vertFileStream("resources/quad_vertex_shader.glsl");
 
     ASSERT_MSG(!fragFileStream.fail(), "Failed to open fragment shader");
     ASSERT_MSG(!vertFileStream.fail(), "Failed to open vertex shader");

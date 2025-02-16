@@ -36,7 +36,7 @@ add_subdirectory(rendering)
 add_subdirectory(core)
 add_subdirectory(src/game)
 
-add_executable(fire-engine vendor/glad/src/glad.c ${IMGUI_BACKEND} ${IMGUI_SOURCE} src/main.cpp)
+add_executable(fire-engine ${IMGUI_BACKEND} ${IMGUI_SOURCE} src/main.cpp)
 
 add_custom_target(copy_resources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -46,9 +46,6 @@ add_custom_target(copy_resources ALL
 )
 
 target_include_directories(fire-engine PRIVATE vendor/imgui)
-
-target_include_directories(fire-engine PRIVATE vendor/glad/include)
-target_include_directories(fire-engine PRIVATE vendor/stb/include)
 
 target_include_directories(fire-engine PRIVATE ${glfw_SOURCE_DIR}/include)
 target_include_directories(fire-engine PRIVATE ${glm_SOURCE_DIR}/glm)
