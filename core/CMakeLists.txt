@@ -6,7 +6,7 @@ target_include_directories(engine-core PRIVATE ../rendering)
 target_include_directories(engine-core PRIVATE ${glfw_SOURCE_DIR}/include)
 target_include_directories(engine-core PRIVATE ${glm_SOURCE_DIR}/glm)
 
-target_include_directories(engine-core PRIVATE ../../vendor/imgui)
-target_include_directories(engine-core PRIVATE ../../vendor/glad/include)
+target_include_directories(engine-core PRIVATE ../vendor/imgui)
+# target_include_directories(engine-core PRIVATE ../vendor/glad/include)
 
 target_link_libraries(engine-core glfw)

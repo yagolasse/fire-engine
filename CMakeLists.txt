@@ -32,8 +32,8 @@ endif()
 set(IMGUI_BACKEND vendor/imgui/backends/imgui_impl_glfw.cpp vendor/imgui/backends/imgui_impl_opengl3.cpp)
 set(IMGUI_SOURCE vendor/imgui/imgui_demo.cpp vendor/imgui/imgui_draw.cpp vendor/imgui/imgui_tables.cpp vendor/imgui/imgui_widgets.cpp vendor/imgui/imgui.cpp)
  
-add_subdirectory(src/rendering)
-add_subdirectory(src/core)
+add_subdirectory(rendering)
+add_subdirectory(core)
 add_subdirectory(src/game)
 
 add_executable(fire-engine vendor/glad/src/glad.c ${IMGUI_BACKEND} ${IMGUI_SOURCE} src/main.cpp)
@@ -53,7 +53,7 @@ target_include_directories(fire-engine PRIVATE vendor/stb/include)
 target_include_directories(fire-engine PRIVATE ${glfw_SOURCE_DIR}/include)
 target_include_directories(fire-engine PRIVATE ${glm_SOURCE_DIR}/glm)
 
-target_include_directories(fire-engine PRIVATE src/core)
+target_include_directories(fire-engine PRIVATE core)
 target_include_directories(fire-engine PRIVATE src/rendering)
 target_include_directories(fire-engine PRIVATE src/game)
 

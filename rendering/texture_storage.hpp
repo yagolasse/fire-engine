@@ -8,6 +8,8 @@ class TextureData;
 
 class TextureStorage {
    private:
+    const std::string resourcesPath = "../resources/";
+    
     static TextureStorage* instance;
 
     const int maxTextures = 64;

@@ -2,5 +2,5 @@ add_library(engine-rendering assertion.cpp batch_renderer.cpp element_array_buff
 
 target_include_directories(engine-rendering PRIVATE ${glm_SOURCE_DIR}/glm)
 
-target_include_directories(engine-rendering PRIVATE ../../vendor/glad/include)
-target_include_directories(engine-rendering PRIVATE ../../vendor/stb/include)
+target_include_directories(engine-rendering PRIVATE ../vendor/glad/include)
+target_include_directories(engine-rendering PRIVATE ../vendor/stb/include)

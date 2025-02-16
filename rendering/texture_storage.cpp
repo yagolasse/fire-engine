@@ -47,7 +47,7 @@ TextureData* TextureStorage::loadTexture(std::string path) {
     int height;
     int channels;
 
-    const stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+    const stbi_uc* data = stbi_load((resourcesPath + path).c_str(), &width, &height, &channels, 0);
 
     ASSERT_MSG(data, "Failed to load texture");
 

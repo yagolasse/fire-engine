@@ -1,8 +1,6 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 
-#include <glad/glad.h>
-
 class Texture {
    private:
     static int currentBindingIndex;

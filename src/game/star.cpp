@@ -10,7 +10,7 @@
 #include "window.hpp"
 
 Star::Star() {
-    textureData = TextureStorage::getInstance()->loadTexture("../resources/simpleSpace_tilesheet.png");
+    textureData = TextureStorage::getInstance()->loadTexture("simpleSpace_tilesheet.png");
     textureRegion = new TextureRegion(textureData, 64, 64);
 }
 

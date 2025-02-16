@@ -5,13 +5,12 @@
 #include <array>
 #include <vector>
 
-#include "element_array_buffer.hpp"
 #include "quad.hpp"
-#include "shader_program.hpp"
-#include "texture.hpp"
-#include "vertex.hpp"
-#include "vertex_array_buffer.hpp"
-#include "vertex_buffer.hpp"
+
+class ShaderProgram;
+class VertexBuffer;
+class VertexArrayBuffer;
+class ElementArrayBuffer;
 
 class BatchRenderer {
    private:
@@ -26,12 +25,13 @@ class BatchRenderer {
     std::vector<Quad> quads;
     std::array<QuadVertex, maxVertex> vertices;
 
-    std::unique_ptr<ShaderProgram> shader;
-    std::unique_ptr<VertexBuffer> vertexBuffer;
-    std::unique_ptr<VertexArrayBuffer> vertexArrayBuffer;
-    std::unique_ptr<ElementArrayBuffer> elementArrayBuffer;
+    ShaderProgram* shader;
+    VertexBuffer* vertexBuffer;
+    VertexArrayBuffer* vertexArrayBuffer;
+    ElementArrayBuffer* elementArrayBuffer;
 
     BatchRenderer();
+    ~BatchRenderer();
 
    public:
     static BatchRenderer* getInstance();

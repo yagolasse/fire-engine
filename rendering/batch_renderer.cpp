@@ -32,13 +32,19 @@ void BatchRenderer::disposeInstance() {
 }
 
 BatchRenderer::BatchRenderer() {
-    
+}
+
+BatchRenderer::~BatchRenderer() {
+    delete shader;
+    delete elementArrayBuffer;
+    delete vertexArrayBuffer;
+    delete vertexBuffer;
 }
 
 void BatchRenderer::init() {    
-    vertexBuffer = std::make_unique<VertexBuffer>();
-    vertexArrayBuffer = std::make_unique<VertexArrayBuffer>();
-    elementArrayBuffer = std::make_unique<ElementArrayBuffer>();
+    vertexBuffer = new VertexBuffer();
+    vertexArrayBuffer = new VertexArrayBuffer();
+    elementArrayBuffer = new ElementArrayBuffer();
 
     std::ifstream fragFileStream("../resources/quad_fragment_shader.glsl");
     std::ifstream vertFileStream("../resources/quad_vertex_shader.glsl");
@@ -58,7 +64,7 @@ void BatchRenderer::init() {
     fragFileStream.close();
     vertFileStream.close();
 
-    shader = std::make_unique<ShaderProgram>(std::move(vertexShader), std::move(fragmentShader));
+    shader = new ShaderProgram(std::move(vertexShader), std::move(fragmentShader));
 
     for (int i = 0; i < maxVertex; i++) {
         vertices[i] = QuadVertex{

@@ -24,7 +24,7 @@ void Renderer::disposeInstance() {
 Renderer::Renderer() {
 }
 
-void Renderer::init(GLADloadproc loadProcedure) {
+void Renderer::init(LoadProcedure loadProcedure) {
     ASSERT_MSG(gladLoadGLLoader(loadProcedure), "Could not initialize Glad/load GL!");
 
     std::cout << glGetString(GL_VERSION) << std::endl;

@@ -27,7 +27,7 @@ Application::Application() {
     });
 
     // Then, graphics API
-    Renderer::getInstance()->init((GLADloadproc)glfwGetProcAddress);
+    Renderer::getInstance()->init((LoadProcedure)glfwGetProcAddress);
     Renderer::getInstance()->setClearColor();
 
     DebugUi::init(window->getHandle());  // TODO: Move into scene
