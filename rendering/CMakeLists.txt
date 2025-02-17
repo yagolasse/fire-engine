@@ -22,7 +22,7 @@ endif()
 add_custom_target(copy_rendering_resources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_CURRENT_SOURCE_DIR}/resources
-    ${RUNTIME_OUTPUT_DIRECTORY}/resources
+    ${PROJECT_BINARY_DIR}/resources
     COMMENT "Copying resources into binary directory"
 )
 

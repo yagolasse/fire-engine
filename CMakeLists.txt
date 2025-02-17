@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.28.3)
+cmake_minimum_required(VERSION 3.31.1 FATAL_ERROR)
+cmake_policy(VERSION 3.31.1)
 
 project(fire-engine LANGUAGES CXX C)
 
@@ -15,19 +16,17 @@ FetchContent_Declare(
 FetchContent_Declare(
     glm
     GIT_REPOSITORY https://github.com/g-truc/glm.git
-    GIT_TAG 1.0.0
+    GIT_TAG 1.0.1
 )
 
 FetchContent_MakeAvailable(
     glfw3 glm
 )
 
-if(APPLE AND UNIX)
 target_compile_options(glm PRIVATE
     -Wno-c++98-compat 
     -Wno-c++98-compat-pedantic
 )
-endif()
 
 set(IMGUI_BACKEND vendor/imgui/backends/imgui_impl_glfw.cpp vendor/imgui/backends/imgui_impl_opengl3.cpp)
 set(IMGUI_SOURCE vendor/imgui/imgui_demo.cpp vendor/imgui/imgui_draw.cpp vendor/imgui/imgui_tables.cpp vendor/imgui/imgui_widgets.cpp vendor/imgui/imgui.cpp)
