@@ -32,7 +32,6 @@ Application::Application() {
 
     DebugUi::init(window->getHandle());  // TODO: Move into scene
 
-    // Lastly, GPU buffers
     BatchRenderer::getInstance()->init();
     TextureStorage::getInstance()->init();
 }
