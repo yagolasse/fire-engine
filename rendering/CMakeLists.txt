@@ -1,4 +1,4 @@
-add_library(engine-rendering vendor/glad/src/glad.c src/assertion.cpp src/batch_renderer.cpp src/element_array_buffer.cpp src/error.cpp src/error_check.cpp src/renderer.cpp src/shader_program.cpp src/sprite_sheet.cpp src/shader.cpp src/texture.cpp src/texture_storage.cpp src/texture_region.cpp src/vertex_array_buffer.cpp src/vertex_buffer.cpp)
+add_library(engine-rendering STATIC vendor/glad/src/glad.c src/assertion.cpp src/batch_renderer.cpp src/element_array_buffer.cpp src/error.cpp src/error_check.cpp src/renderer.cpp src/shader_program.cpp src/sprite_sheet.cpp src/shader.cpp src/texture.cpp src/texture_storage.cpp src/texture_region.cpp src/vertex_array_buffer.cpp src/vertex_buffer.cpp)
 
 include(FetchContent)
 
