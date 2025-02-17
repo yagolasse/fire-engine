@@ -12,12 +12,10 @@ FetchContent_MakeAvailable(
     glm
 )
 
-if(APPLE AND UNIX)
 target_compile_options(glm PRIVATE
     -Wno-c++98-compat 
     -Wno-c++98-compat-pedantic
 )
-endif()
 
 add_custom_target(copy_rendering_resources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -26,7 +24,7 @@ add_custom_target(copy_rendering_resources ALL
     COMMENT "Copying resources into binary directory"
 )
 
-target_include_directories(engine-rendering PRIVATE ${glm_SOURCE_DIR}/glm)
+target_include_directories(engine-rendering PUBLIC ${glm_SOURCE_DIR}/glm)
 
 target_include_directories(engine-rendering PRIVATE vendor/glad/include)
 target_include_directories(engine-rendering PRIVATE vendor/stb/include)

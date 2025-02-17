@@ -8,7 +8,7 @@ class TextureData;
 
 class TextureStorage {
    private:
-    const std::string resourcesPath = "../resources/";
+    const char* resourcesPath = "resources/";
     
     static TextureStorage* instance;
 
