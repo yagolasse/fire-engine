@@ -27,6 +27,8 @@ class Sprite : public GameObject {
     virtual ~Sprite();
     virtual void start() override;
     virtual void update(double delta) override;
+    virtual void setTexture(const char* resource);
+    virtual void setTileSize(int width, int height);
 };
 
 #endif

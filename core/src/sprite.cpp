@@ -27,6 +27,17 @@ void Sprite::update(double delta) {
     BatchRenderer::getInstance()->pushQuad(mapToQuad());
 }
 
+void Sprite::setTexture(const char* resource) {
+    textureData = TextureStorage::getInstance()->loadTexture(resource);
+}
+
+void Sprite::setTileSize(int width, int height) {
+    if(textureRegion) {
+        delete textureRegion;
+    }
+    textureRegion = new TextureRegion(textureData, 64, 64);
+}
+
 Quad Sprite::mapToQuad() {
     glm::vec2 scale = glm::vec2{textureRegion->getSpriteWidth(), textureRegion->getSpriteHeight()} * transform->scale;
     Transform quadTrasnform = {scale, transform->position, transform->rotationDegrees};

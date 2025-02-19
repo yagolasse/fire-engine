@@ -5,13 +5,11 @@
 #include "quad.hpp"
 #include "scene.hpp"
 #include "scene_manager.hpp"
-#include "texture_region.hpp"
-#include "texture_storage.hpp"
 #include "window.hpp"
 
 Bullet::Bullet() {
-    textureData = TextureStorage::getInstance()->loadTexture("simpleSpace_tilesheet.png");
-    textureRegion = new TextureRegion(textureData, 64, 64);
+    setTexture("simpleSpace_tilesheet.png");
+    setTileSize(64, 64);
 }
 
 void Bullet::start() {
