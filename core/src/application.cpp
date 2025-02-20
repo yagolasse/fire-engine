@@ -49,34 +49,32 @@ void Application::init() {
 }
 
 void Application::run() {
-    double frameTime = glfwGetTime();
-    double plotCounter = 0;
-    double debugFrameTime = 0;
-
     SceneManager::getInstance()->startScene();
 
+    double previousTime = glfwGetTime();
+    double accumulator = 0.0;
+    const double fixedTimeStep = 1.0 / 60.0; // Target update rate: 60 updates per second
+
     while (!window->shouldClose()) {
-        double deltaTime = glfwGetTime();
-        double currentFrameTime = deltaTime - frameTime;
+
+        DebugUi::beginFrame();  // TODO: Move into scene
+        
+        double currentTime = glfwGetTime();
+        double deltaTime = currentTime - previousTime;
+        previousTime = currentTime;
+
+        // Accumulate the elapsed time
+        accumulator += deltaTime;
 
         window->pollEvents();
 
-        /// App Code
-
-        DebugUi::beginFrame();  // TODO: Move into scene
-
-        TextureStorage::getInstance()->bind();
-
-        plotCounter += currentFrameTime;
-
-        if (plotCounter > 0.1) {
-            plotCounter = 0.0;
-            debugFrameTime = currentFrameTime;
+        while (accumulator >= fixedTimeStep) {
+            SceneManager::getInstance()->runSceneUpdate(fixedTimeStep);
+            accumulator -= fixedTimeStep;
         }
 
-        ImGui::Text("%.2f ms", debugFrameTime * 1000.0);  // TODO: Move into scene
+        ImGui::Text("%.2f ms", deltaTime * 1000.0);  // TODO: Move into scene
 
-        SceneManager::getInstance()->runSceneUpdate(currentFrameTime);
         /// End App Code
 
         SceneManager::getInstance()->runSceneRender();
@@ -84,9 +82,34 @@ void Application::run() {
         DebugUi::draw();  // TODO: Move into scene
 
         window->swapBuffers();
-
-        frameTime = deltaTime;
     }
 
     DebugUi::dispose();  // TODO: Move into scene
 }
+
+/*
+// The amount of time we want to simulate each step, in milliseconds
+// (written as implicit frame-rate)
+timeDelta = 1000/30
+timeAccumulator = 0
+while ( game should run )
+{
+  timeSimulatedThisIteration = 0
+  startTime = currentTime()
+
+  while ( timeAccumulator >= timeDelta )
+  {
+    stepGameState( timeDelta )
+    timeAccumulator -= timeDelta
+    timeSimulatedThisIteration += timeDelta
+  }
+
+  stepAnimation( timeSimulatedThisIteration )
+
+  renderFrame() // OpenGL frame drawing code goes here
+
+  handleUserInput()
+
+  timeAccumulator += currentTime() - startTime 
+}
+  */

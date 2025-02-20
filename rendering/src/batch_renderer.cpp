@@ -16,6 +16,7 @@
 #include "shader.hpp"
 #include "shader_program.hpp"
 #include "texture.hpp"
+#include "texture_storage.hpp"
 #include "vertex.hpp"
 #include "vertex_array_buffer.hpp"
 #include "vertex_buffer.hpp"
@@ -102,6 +103,8 @@ void BatchRenderer::init() {
     vertexArrayBuffer->setupFloatAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, uv));
     vertexArrayBuffer->setupIntegerAttributePointer(3, 1, GL_UNSIGNED_BYTE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, textureIndex));
     vertexArrayBuffer->unbind();
+
+    TextureStorage::getInstance()->bind();
 }
 
 void BatchRenderer::pushQuad(Quad quad) {
