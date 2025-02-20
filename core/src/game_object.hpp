@@ -23,6 +23,7 @@ class GameObject {
 
     virtual void start() = 0;
     virtual void update(double delta) = 0;
+    virtual void render();
     virtual bool onKeyEvent(Input::Key key, Input::KeyEventType type);
 
     virtual void queueDeletion();

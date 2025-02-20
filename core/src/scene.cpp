@@ -51,5 +51,9 @@ void Scene::update(double deltaTime) {
 }
 
 void Scene::render() {
+    for (std::shared_ptr<GameObject> gameObject : gameObjects) {
+        gameObject->render();
+    }
+
     BatchRenderer::getInstance()->draw(glm::value_ptr(camera->getView()), glm::value_ptr(camera->getProjection()));
 }

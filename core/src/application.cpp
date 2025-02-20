@@ -30,7 +30,7 @@ Application::Application() {
     Renderer::getInstance()->init((LoadProcedure)glfwGetProcAddress);
     Renderer::getInstance()->setClearColor();
 
-    DebugUi::init(window->getHandle());  // TODO: Move into scene
+    DebugUi::init(window->getHandle());
 
     BatchRenderer::getInstance()->init();
     TextureStorage::getInstance()->init();
@@ -73,18 +73,16 @@ void Application::run() {
             accumulator -= fixedTimeStep;
         }
 
-        ImGui::Text("%.2f ms", deltaTime * 1000.0);  // TODO: Move into scene
-
-        /// End App Code
-
+        ImGui::Text("%.2f ms", deltaTime * 1000.0); 
+        
         SceneManager::getInstance()->runSceneRender();
 
-        DebugUi::draw();  // TODO: Move into scene
+        DebugUi::draw();
 
         window->swapBuffers();
     }
 
-    DebugUi::dispose();  // TODO: Move into scene
+    DebugUi::dispose();
 }
 
 /*

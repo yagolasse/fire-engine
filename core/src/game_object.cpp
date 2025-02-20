@@ -13,6 +13,9 @@ GameObject::~GameObject() {
     delete transform;
 }
 
+void GameObject::render() {
+}
+
 bool GameObject::onKeyEvent(Input::Key key, Input::KeyEventType type) {
     return false;
 }

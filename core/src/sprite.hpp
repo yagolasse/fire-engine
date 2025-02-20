@@ -15,8 +15,8 @@ class Sprite : public GameObject {
     int spriteWidth;
     int spriteHeight;
     glm::vec4 tint;
-    TextureData* textureData;
-    TextureRegion* textureRegion;
+    TextureData* textureData = nullptr;
+    TextureRegion* textureRegion = nullptr;
 
     Quad mapToQuad();
 
@@ -27,6 +27,7 @@ class Sprite : public GameObject {
     virtual ~Sprite();
     virtual void start() override;
     virtual void update(double delta) override;
+    virtual void render() override;
     virtual void setTexture(const char* resource);
     virtual void setTileSize(int width, int height);
 };

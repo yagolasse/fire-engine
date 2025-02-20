@@ -24,11 +24,14 @@ void Sprite::start() {
 }
 
 void Sprite::update(double delta) {
-    BatchRenderer::getInstance()->pushQuad(mapToQuad());
 }
 
 void Sprite::setTexture(const char* resource) {
     textureData = TextureStorage::getInstance()->loadTexture(resource);
+}
+
+void Sprite::render() {
+    BatchRenderer::getInstance()->pushQuad(mapToQuad());
 }
 
 void Sprite::setTileSize(int width, int height) {
