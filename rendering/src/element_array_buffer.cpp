@@ -19,5 +19,5 @@ void ElementArrayBuffer::unbind() const {
 }
 
 void ElementArrayBuffer::bufferData(const unsigned int* data, GLsizeiptr size) const {
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 }

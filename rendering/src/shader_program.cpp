@@ -1,15 +1,31 @@
 #include "shader_program.hpp"
 
-#include <memory>
-#include <iostream>
-
 #include <glad/glad.h>
 
-#include "shader.hpp"
-#include "error.hpp"
+#include <iostream>
+#include <memory>
 
-ShaderProgram::ShaderProgram(std::unique_ptr<Shader> vertexShader, std::unique_ptr<Shader> fragmentShader) {
+#include "error.hpp"
+#include "shader.hpp"
+
+ShaderProgram::ShaderProgram() {
     handle = glCreateProgram();
+}
+
+void ShaderProgram::bind() const {
+    glUseProgram(handle);
+}
+
+void ShaderProgram::unbind() const {
+    glUseProgram(0);
+}
+
+void ShaderProgram::linkShader(const std::string& vertexSource, const std::string& fragmentSource) const {
+    Shader* vertexShader = new Shader(Shader::Type::VERTEX);
+    Shader* fragmentShader = new Shader(Shader::Type::FRAGMENT);
+
+    vertexShader->compile(vertexSource);
+    fragmentShader->compile(fragmentSource);
 
     glAttachShader(handle, vertexShader->getHandle());
     glAttachShader(handle, fragmentShader->getHandle());
@@ -23,14 +39,9 @@ ShaderProgram::ShaderProgram(std::unique_ptr<Shader> vertexShader, std::unique_p
         glGetProgramInfoLog(handle, 512, NULL, infoLog);
         std::cerr << "Error linking shader program: " << infoLog << std::endl;
     }
-}
 
-void ShaderProgram::bind() const {
-    glUseProgram(handle);
-}
-
-void ShaderProgram::unbind() const {
-    glUseProgram(0);
+    delete vertexShader;
+    delete fragmentShader;
 }
 
 void ShaderProgram::setBool(const char* name, bool value) const {

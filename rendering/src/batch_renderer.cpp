@@ -1,18 +1,20 @@
 #include "batch_renderer.hpp"
 
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <string>
 
 #include "assertion.hpp"
 #include "element_array_buffer.hpp"
 #include "error.hpp"
 #include "quad.hpp"
 #include "renderer.hpp"
+#include "resource_loader.hpp"
 #include "shader.hpp"
 #include "shader_program.hpp"
 #include "texture.hpp"
@@ -21,7 +23,7 @@
 #include "vertex_array_buffer.hpp"
 #include "vertex_buffer.hpp"
 
-BatchRenderer* BatchRenderer::instance = nullptr;
+BatchRenderer *BatchRenderer::instance = nullptr;
 
 BatchRenderer *BatchRenderer::getInstance() {
     if (instance == nullptr) {
@@ -44,30 +46,17 @@ BatchRenderer::~BatchRenderer() {
     delete vertexBuffer;
 }
 
-void BatchRenderer::init() {    
+void BatchRenderer::init() {
     vertexBuffer = new VertexBuffer();
     vertexArrayBuffer = new VertexArrayBuffer();
     elementArrayBuffer = new ElementArrayBuffer();
 
-    std::ifstream fragFileStream("resources/quad_fragment_shader.glsl");
-    std::ifstream vertFileStream("resources/quad_vertex_shader.glsl");
+    std::string vertexString = ResourceLoader::readStringFromFile("resources/quad_vertex_shader.glsl");
+    std::string fragmentString = ResourceLoader::readStringFromFile("resources/quad_fragment_shader.glsl");
 
-    ASSERT_MSG(!fragFileStream.fail(), "Failed to open fragment shader");
-    ASSERT_MSG(!vertFileStream.fail(), "Failed to open vertex shader");
+    shader = new ShaderProgram();
 
-    std::stringstream fragStringBuffer;
-    std::stringstream vertStringBuffer;
-
-    fragStringBuffer << fragFileStream.rdbuf();
-    vertStringBuffer << vertFileStream.rdbuf();
-
-    auto vertexShader = std::make_unique<Shader>(GL_VERTEX_SHADER, vertStringBuffer.str().c_str());
-    auto fragmentShader = std::make_unique<Shader>(GL_FRAGMENT_SHADER, fragStringBuffer.str().c_str());
-
-    fragFileStream.close();
-    vertFileStream.close();
-
-    shader = new ShaderProgram(std::move(vertexShader), std::move(fragmentShader));
+    shader->linkShader(vertexString.c_str(), fragmentString.c_str());
 
     for (int i = 0; i < maxVertex; i++) {
         vertices[i] = QuadVertex{
@@ -112,8 +101,10 @@ void BatchRenderer::pushQuad(Quad quad) {
 }
 
 void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix) {
+    auto start = std::chrono::high_resolution_clock::now();
+
     Renderer::getInstance()->clear();
-    
+
     TextureStorage::getInstance()->bind();
 
     shader->bind();
@@ -166,6 +157,8 @@ void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix)
         }
 
         if (vertexIndex == maxVertex || quadIndex == quads.size() - 1) {
+            auto midPoint = std::chrono::high_resolution_clock::now();
+
             vertexArrayBuffer->bind();
 
             vertexBuffer->bind();
@@ -178,10 +171,18 @@ void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix)
             vertexArrayBuffer->unbind();
 
             vertexIndex = 0;
+
+            std::cout << "Pre draw calc " << std::chrono::duration<double>(midPoint - start).count() << std::endl;
+            std::cout << "Post draw calc "
+                      << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - midPoint).count()
+                      << std::endl;
         }
     }
 
     shader->unbind();
 
     quads.clear();
+
+    std::cout << "Total draw time "
+              << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << std::endl;
 }

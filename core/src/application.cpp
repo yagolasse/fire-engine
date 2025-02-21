@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 
+#include <chrono>
 #include <iostream>
 
 #include "batch_renderer.hpp"
@@ -69,11 +70,14 @@ void Application::run() {
         window->pollEvents();
 
         while (accumulator >= fixedTimeStep) {
+            auto before = std::chrono::high_resolution_clock::now();
             SceneManager::getInstance()->runSceneUpdate(fixedTimeStep);
             accumulator -= fixedTimeStep;
+            std::cout << "Scene update " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - before).count() << std::endl;
         }
 
         ImGui::Text("%.2f ms", deltaTime * 1000.0); 
+        ImGui::Text("%.0f FPS", 1.0 / deltaTime); 
         
         SceneManager::getInstance()->runSceneRender();
 
@@ -84,30 +88,3 @@ void Application::run() {
 
     DebugUi::dispose();
 }
-
-/*
-// The amount of time we want to simulate each step, in milliseconds
-// (written as implicit frame-rate)
-timeDelta = 1000/30
-timeAccumulator = 0
-while ( game should run )
-{
-  timeSimulatedThisIteration = 0
-  startTime = currentTime()
-
-  while ( timeAccumulator >= timeDelta )
-  {
-    stepGameState( timeDelta )
-    timeAccumulator -= timeDelta
-    timeSimulatedThisIteration += timeDelta
-  }
-
-  stepAnimation( timeSimulatedThisIteration )
-
-  renderFrame() // OpenGL frame drawing code goes here
-
-  handleUserInput()
-
-  timeAccumulator += currentTime() - startTime 
-}
-  */

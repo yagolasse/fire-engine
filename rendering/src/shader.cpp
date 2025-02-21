@@ -5,10 +5,17 @@
 
 #include <glad/glad.h>
 
-Shader::Shader(GLenum type, const GLchar* source) {
-    handle = glCreateShader(type);
+Shader::Shader(Type type) {
+    handle = glCreateShader((GLenum)type);
+}
 
-    glShaderSource(handle, 1, &source, NULL);
+Shader::~Shader() {
+    glDeleteShader(handle);
+}
+
+void Shader::compile(const std::string& source) const {
+    const char * cStrSource = source.c_str();
+    glShaderSource(handle, 1, &cStrSource, NULL);
     glCompileShader(handle);
 
     GLint success;
@@ -19,8 +26,4 @@ Shader::Shader(GLenum type, const GLchar* source) {
         glGetShaderInfoLog(handle, 512, NULL, infoLog);
         std::cerr << "Error compiling shader: " << infoLog << std::endl;
     }
-}
-
-Shader::~Shader() {
-    glDeleteShader(handle);
 }

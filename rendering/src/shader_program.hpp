@@ -1,9 +1,9 @@
 #ifndef SHADER_PROGRAM_HPP
 #define SHADER_PROGRAM_HPP
 
-#include <glm.hpp>
 #include <glad/glad.h>
 
+#include <glm.hpp>
 #include <memory>
 
 class Shader;
@@ -13,11 +13,13 @@ class ShaderProgram {
     GLuint handle;
 
    public:
-    ShaderProgram(std::unique_ptr<Shader> vertexShader, std::unique_ptr<Shader> fragmentShader);
+    ShaderProgram();
     ~ShaderProgram();
 
     void bind() const;
     void unbind() const;
+
+    void linkShader(const std::string& vertexSource, const std::string& fragmentSource) const;
 
     void setBool(const char* name, bool value) const;
     void setInt(const char* name, int value) const;
