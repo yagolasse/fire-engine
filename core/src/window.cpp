@@ -56,7 +56,7 @@ Window::Window(int width, int height, const char* title) {
     //  0 -> V-Sync Off
     // -1 -> Adaptative Sync On
 
-    glfwSwapInterval(0);
+    glfwSwapInterval(1);
 
     glfwShowWindow(handle);
 }

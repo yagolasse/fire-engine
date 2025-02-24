@@ -173,9 +173,7 @@ void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix)
             vertexIndex = 0;
 
             std::cout << "Pre draw calc " << std::chrono::duration<double>(midPoint - start).count() << std::endl;
-            std::cout << "Post draw calc "
-                      << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - midPoint).count()
-                      << std::endl;
+            std::cout << "Post draw calc " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - midPoint).count() << std::endl;
         }
     }
 
@@ -183,6 +181,5 @@ void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix)
 
     quads.clear();
 
-    std::cout << "Total draw time "
-              << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << std::endl;
+    std::cout << "Total draw time " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << std::endl;
 }
