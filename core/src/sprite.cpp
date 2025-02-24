@@ -38,7 +38,7 @@ void Sprite::setTileSize(int width, int height) {
     if(textureRegion) {
         delete textureRegion;
     }
-    textureRegion = new TextureRegion(textureData, 64, 64);
+    textureRegion = new TextureRegion(textureData, width, height);
 }
 
 Quad Sprite::mapToQuad() {
