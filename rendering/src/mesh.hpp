@@ -2,6 +2,7 @@
 #define MESH_HPP
 
 #include <glm.hpp>
+#include <vector>
 
 class ShaderProgram;
 class VertexBuffer;
@@ -10,10 +11,6 @@ class ElementArrayBuffer;
 
 struct MeshVertex {
     glm::vec3 position;
-    glm::vec2 uv;
-    glm::vec3 normal;
-    glm::i8vec4 color;
-    glm::uint8_t textureIndex;
 };
 
 class Mesh {
@@ -23,11 +20,14 @@ class Mesh {
     VertexArrayBuffer* vertexArrayBuffer;
     ElementArrayBuffer* elementArrayBuffer;
 
+    std::vector<MeshVertex> vertices;
+
    public:
     Mesh();
     ~Mesh();
 
     void init();
+    void draw();
 };
 
 #endif
