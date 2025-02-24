@@ -1,5 +1,7 @@
 #include "scene.hpp"
 
+#include <vector>
+
 #include <gtc/type_ptr.hpp>
 
 #include "batch_renderer.hpp"
@@ -37,13 +39,23 @@ void Scene::start() {
 }
 
 void Scene::update(double deltaTime) {
+    #ifdef __linux__
+    for (auto it = gameObjects.begin(); it != gameObjects.end(); /* Nothing */) {
+        if ((*it)->isDeletionQueued()) {
+            it = gameObjects.erase(it);
+        } else {
+            ++it;
+        }
+    }
+    #else
     gameObjects.erase(
         std::remove_if(
-        gameObjects.begin(), gameObjects.end(), [](std::shared_ptr<GameObject> gameObjects) { 
-            return gameObjects->isDeletionQueued(); 
+        gameObjects.begin(), gameObjects.end(), [](std::shared_ptr<GameObject> gameObject) { 
+            return gameObject->isDeletionQueued(); 
         }),
         gameObjects.end()
     );
+    #endif
 
     for (std::shared_ptr<GameObject> gameObject : gameObjects) {
         gameObject->update(deltaTime);
