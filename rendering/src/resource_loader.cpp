@@ -10,7 +10,7 @@
 std::string ResourceLoader::readStringFromFile(std::string resource) {
     std::ifstream resourceStream(resource);
 
-    ASSERT_MSG(!resourceStream.fail(), "Failed to open file shader");
+    ASSERT_MSG(!resourceStream.fail(), "Failed to open shader file");
 
     std::stringstream resourceBuffer;
 

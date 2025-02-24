@@ -2,6 +2,9 @@
 
 #include <imgui.h>
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 #include <chrono>
 #include <iostream>
 
@@ -13,9 +16,6 @@
 #include "scene_manager.hpp"
 #include "texture_storage.hpp"
 #include "window.hpp"
-
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
 
 Application::Application() {
     // First, window context
@@ -56,6 +56,9 @@ void Application::run() {
     double accumulator = 0.0;
     const double fixedTimeStep = 1.0 / 60.0; // Target update rate: 60 updates per second
 
+    double displayAccumulator = 0.1;
+    double lastDeltaTime;
+
     while (!window->shouldClose()) {
 
         DebugUi::beginFrame();  // TODO: Move into scene
@@ -73,11 +76,19 @@ void Application::run() {
             auto before = std::chrono::high_resolution_clock::now();
             SceneManager::getInstance()->runSceneUpdate(fixedTimeStep);
             accumulator -= fixedTimeStep;
-            std::cout << "Scene update " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - before).count() << std::endl;
+            auto deltaCount = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - before);
+            std::cout << "Scene update " << deltaCount.count() << std::endl;
         }
 
-        ImGui::Text("%.2f ms", deltaTime * 1000.0); 
-        ImGui::Text("%.0f FPS", 1.0 / deltaTime); 
+        displayAccumulator -= deltaTime;
+
+        if (displayAccumulator < 0) {
+            displayAccumulator = 0.1;
+            lastDeltaTime = deltaTime;
+        }
+
+        ImGui::Text("%.2f ms", lastDeltaTime * 1000.0); 
+        ImGui::Text("%.0f FPS", 1.0 / lastDeltaTime); 
         
         SceneManager::getInstance()->runSceneRender();
 
