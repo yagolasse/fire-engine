@@ -33,14 +33,11 @@ Application::Application() {
     Renderer::getInstance()->setClearColor();
 
     DebugUi::init(window->getHandle());
-
-    // BatchRenderer::getInstance()->init();
     TextureStorage::getInstance()->init();
 }
 
 Application::~Application() {
     SceneManager::disposeInstance();
-    // BatchRenderer::disposeInstance();
     TextureStorage::disposeInstance();
     Renderer::disposeInstance();
 
@@ -51,11 +48,7 @@ void Application::init() {
 }
 
 void Application::run() {
-    // SceneManager::getInstance()->startScene();
-
-    Mesh mesh;
-
-    mesh.init();
+    SceneManager::getInstance()->startScene();
 
     double previousTime = glfwGetTime();
     double accumulator = 0.0;
@@ -77,15 +70,10 @@ void Application::run() {
 
         window->pollEvents();
 
-        // while (accumulator >= fixedTimeStep) {
-        //     auto before = std::chrono::high_resolution_clock::now();
-        //     // SceneManager::getInstance()->runSceneUpdate(fixedTimeStep);
-        //     accumulator -= fixedTimeStep;
-        //     auto deltaCount = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - before);
-        //     // std::cout << "Scene update " << deltaCount.count() << std::endl;
-        // }
-
-        mesh.draw();
+        while (accumulator >= fixedTimeStep) {
+            SceneManager::getInstance()->runSceneUpdate(fixedTimeStep);
+            accumulator -= fixedTimeStep;
+        }
 
         displayAccumulator -= deltaTime;
 
@@ -97,7 +85,7 @@ void Application::run() {
         ImGui::Text("%.2f ms", lastDeltaTime * 1000.0); 
         ImGui::Text("%.0f FPS", 1.0 / lastDeltaTime); 
         
-        // SceneManager::getInstance()->runSceneRender();
+        SceneManager::getInstance()->runSceneRender();
 
         DebugUi::draw();
 

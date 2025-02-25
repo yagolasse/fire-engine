@@ -3,25 +3,41 @@
 
 #include <glm.hpp>
 
-class Camera {
-   private:
+struct PerspectiveData {
     float fieldOfViewRadians;
     float aspectRatio;
     float nearClip;
     float farClip;
+};
+
+struct OrthographicData {
+    float left;
+    float right;
+    float bottom;
+    float top;
+    float nearZ;
+    float farZ;
+};
+
+class Camera {
+   private:
+    PerspectiveData perspective;
+    OrthographicData orthographic;
 
     glm::vec3 position;
     glm::mat4 view;
     glm::mat4 projection;
 
+    const glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    const glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+
    public:
-    Camera(glm::vec3 position, float fovRadians, float aspectRatio, float nearClip, float farClip);
-    Camera(glm::vec3 position, float left, float right, float top, float bottom, float near, float far);
-    ~Camera();
+    Camera(glm::vec3 position);
 
     void setPosition(glm::vec3 newPosition);
-    void updatePerspective(float fovRadians, float aspectRatio, float nearClip, float farClip);
-    void updateOrthographic(float left, float right, float bottom, float top, float near, float far);
+
+    void update(PerspectiveData newPerspective);
+    void update(OrthographicData newOrthographic);
 
     inline const glm::vec3 getPosition() const {
         return position;

@@ -8,14 +8,14 @@
 
 class GameObject;
 class BatchRenderer;
-class OrthographicCamera;
+class Camera;
 class TextureStorage;
 
 class Scene {
    protected:
     std::vector<std::shared_ptr<GameObject>> gameObjects;
     
-    std::shared_ptr<OrthographicCamera> camera;
+    std::shared_ptr<Camera> camera;
 
    public:
     Scene();

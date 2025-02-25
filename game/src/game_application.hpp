@@ -5,8 +5,12 @@
 
 class GameApplication : public Application {
    public:
+    GameApplication();
+    ~GameApplication();
+
     void init() override;
-    void run() override;
+    
+    using Application::run;
 };
 
 #endif

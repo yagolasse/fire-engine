@@ -1,18 +1,18 @@
 #include "scene.hpp"
 
+#include <gtc/type_ptr.hpp>
 #include <vector>
 
-#include <gtc/type_ptr.hpp>
-
 #include "batch_renderer.hpp"
+#include "camera.hpp"
 #include "game_object.hpp"
-#include "orthographic_camera.hpp"
 #include "sprite.hpp"
 #include "texture_data.hpp"
 #include "texture_storage.hpp"
 
 Scene::Scene() {
-    camera = std::make_shared<OrthographicCamera>(glm::vec3{0.0f, 0.0f, 3.0f}, 0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f);
+    camera = std::make_shared<Camera>(glm::vec3{0.0f, 0.0f, 3.0f});
+    camera->update(OrthographicData{0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f});
 }
 
 Scene::~Scene() {
@@ -39,7 +39,7 @@ void Scene::start() {
 }
 
 void Scene::update(double deltaTime) {
-    #ifdef __linux__
+#ifdef __linux__
     for (auto it = gameObjects.begin(); it != gameObjects.end(); /* Nothing */) {
         if ((*it)->isDeletionQueued()) {
             it = gameObjects.erase(it);
@@ -47,15 +47,16 @@ void Scene::update(double deltaTime) {
             ++it;
         }
     }
-    #else
+#else
     gameObjects.erase(
         std::remove_if(
-        gameObjects.begin(), gameObjects.end(), [](std::shared_ptr<GameObject> gameObject) { 
-            return gameObject->isDeletionQueued(); 
-        }),
-        gameObjects.end()
-    );
-    #endif
+            gameObjects.begin(), 
+            gameObjects.end(),
+            [](std::shared_ptr<GameObject> gameObject) { 
+                return gameObject->isDeletionQueued(); 
+            }),
+        gameObjects.end());
+#endif
 
     for (std::shared_ptr<GameObject> gameObject : gameObjects) {
         gameObject->update(deltaTime);
