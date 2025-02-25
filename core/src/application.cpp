@@ -73,11 +73,8 @@ void Application::run() {
         window->pollEvents();
 
         while (accumulator >= fixedTimeStep) {
-            auto before = std::chrono::high_resolution_clock::now();
             SceneManager::getInstance()->runSceneUpdate(fixedTimeStep);
             accumulator -= fixedTimeStep;
-            auto deltaCount = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - before);
-            std::cout << "Scene update " << deltaCount.count() << std::endl;
         }
 
         displayAccumulator -= deltaTime;
