@@ -91,6 +91,11 @@ void BatchRenderer::init() {
     vertexArrayBuffer->setupFloatAttributePointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, color));
     vertexArrayBuffer->setupFloatAttributePointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, uv));
     vertexArrayBuffer->setupIntegerAttributePointer(3, 1, GL_UNSIGNED_BYTE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, textureIndex));
+
+    vertexBuffer->unbind();
+
+    elementArrayBuffer->unbind();
+
     vertexArrayBuffer->unbind();
 
     TextureStorage::getInstance()->bind();
@@ -101,8 +106,6 @@ void BatchRenderer::pushQuad(Quad quad) {
 }
 
 void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix) {
-    auto start = std::chrono::high_resolution_clock::now();
-
     Renderer::getInstance()->clear();
 
     TextureStorage::getInstance()->bind();
@@ -161,6 +164,8 @@ void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix)
 
             vertexArrayBuffer->bind();
 
+            elementArrayBuffer->bind();
+
             vertexBuffer->bind();
             vertexBuffer->bufferSubData(&vertices[0], 0, vertexIndex * sizeof(QuadVertex));
 
@@ -168,18 +173,15 @@ void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix)
 
             vertexBuffer->unbind();
 
+            elementArrayBuffer->unbind();
+
             vertexArrayBuffer->unbind();
 
             vertexIndex = 0;
-
-            std::cout << "Pre draw calc " << std::chrono::duration<double>(midPoint - start).count() << std::endl;
-            std::cout << "Post draw calc " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - midPoint).count() << std::endl;
         }
     }
 
     shader->unbind();
 
     quads.clear();
-
-    std::cout << "Total draw time " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count() << std::endl;
 }
