@@ -13,7 +13,10 @@ void Camera::setPosition(glm::vec3 newPosition) {
     view = glm::lookAt(newPosition, cameraFront + newPosition, cameraUp);
 }
 
-void Camera::update(PerspectiveData newPerspective) {
+void Camera::update(double delta) {
+}
+
+void Camera::updateProjection(PerspectiveData newPerspective) {
     perspective = newPerspective;
 
     projection = glm::perspective(
@@ -24,7 +27,7 @@ void Camera::update(PerspectiveData newPerspective) {
     );
 }
 
-void Camera::update(OrthographicData newOrthographic) {
+void Camera::updateProjection(OrthographicData newOrthographic) {
     orthographic = newOrthographic;
 
     projection = glm::ortho(

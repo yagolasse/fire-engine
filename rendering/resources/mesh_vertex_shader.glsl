@@ -2,9 +2,18 @@
 
 layout (location = 0) in vec3 aPos;
 
+uniform mat4 view;
+uniform mat4 projection;
+
+uniform mat4 translation;
+uniform mat4 rotation;
+uniform mat4 scaling;
+
 out vec3 outPos;
 
 void main() {
-    gl_Position = vec4(aPos, 1.0);
+    mat4 model = translation * rotation * scaling;
+    vec4 transform = model * vec4(aPos, 1.0);
+    gl_Position = projection * view * transform;
     outPos = aPos;
 }

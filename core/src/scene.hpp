@@ -15,7 +15,7 @@ class Scene {
    protected:
     std::vector<std::shared_ptr<GameObject>> gameObjects;
     
-    std::shared_ptr<Camera> camera;
+    Camera* camera;
 
    public:
     Scene();

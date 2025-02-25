@@ -1,10 +1,12 @@
 #include "scene.hpp"
 
+#include <memory>
 #include <vector>
 
 #include "batch_renderer.hpp"
 #include "camera.hpp"
 #include "game_object.hpp"
+#include "renderer.hpp"
 #include "sprite.hpp"
 #include "texture_data.hpp"
 #include "texture_storage.hpp"
@@ -13,6 +15,7 @@ Scene::Scene() {
 }
 
 Scene::~Scene() {
+    delete camera;
 }
 
 void Scene::onKeyEvent(Input::Key key, Input::KeyEventType type) {
@@ -54,6 +57,8 @@ void Scene::update(double deltaTime) {
             }),
         gameObjects.end());
 #endif
+
+    camera->update(deltaTime);
 
     for (std::shared_ptr<GameObject> gameObject : gameObjects) {
         gameObject->update(deltaTime);

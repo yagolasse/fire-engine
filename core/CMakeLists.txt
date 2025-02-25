@@ -1,4 +1,4 @@
-add_library(engine-core STATIC src/application.cpp src/asset_loader.cpp src/camera.cpp src/debug_ui.cpp src/game_object.cpp src/input.cpp src/random.cpp src/scene.cpp src/scene_manager.cpp src/sprite.cpp src/window.cpp)
+add_library(engine-core STATIC src/application.cpp src/asset_loader.cpp src/debug_ui.cpp src/game_object.cpp src/input.cpp src/random.cpp src/scene.cpp src/scene_manager.cpp src/sprite.cpp src/window.cpp)
 
 include(FetchContent)
 

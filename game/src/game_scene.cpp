@@ -13,8 +13,8 @@
 #include "texture_storage.hpp"
 
 GameScene::GameScene() {
-    camera = std::make_shared<Camera>(glm::vec3{0.0f, 0.0f, 3.0f});
-    camera->update(OrthographicData{0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f});
+    camera = new Camera(glm::vec3{0.0f, 0.0f, 3.0f});
+    camera->updateProjection(OrthographicData{0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f});
 }
 
 void GameScene::start() {

@@ -20,12 +20,12 @@ struct OrthographicData {
 };
 
 class Camera {
-   private:
+   protected:
     PerspectiveData perspective;
     OrthographicData orthographic;
 
-    glm::vec3 position;
     glm::mat4 view;
+    glm::vec3 position;
     glm::mat4 projection;
 
     const glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -36,8 +36,10 @@ class Camera {
 
     void setPosition(glm::vec3 newPosition);
 
-    void update(PerspectiveData newPerspective);
-    void update(OrthographicData newOrthographic);
+    virtual void update(double delta);
+
+    void updateProjection(PerspectiveData newPerspective);
+    void updateProjection(OrthographicData newOrthographic);
 
     inline const glm::vec3 getPosition() const {
         return position;

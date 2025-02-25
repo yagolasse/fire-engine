@@ -1,4 +1,4 @@
-add_library(game-3d STATIC src/game_application_3d.cpp src/game_scene_3d.cpp)
+add_library(game-3d STATIC src/custom_3d_camera.cpp src/game_application_3d.cpp src/game_scene_3d.cpp)
 
 add_custom_target(copy_resources_voxel_game ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory

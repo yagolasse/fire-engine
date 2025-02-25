@@ -4,10 +4,13 @@
 #include <glm.hpp>
 #include <vector>
 
+class Camera;
 class ShaderProgram;
 class VertexBuffer;
 class VertexArrayBuffer;
 class ElementArrayBuffer;
+
+struct Transform3D;
 
 struct MeshVertex {
     glm::vec3 position;
@@ -15,6 +18,7 @@ struct MeshVertex {
 
 class Mesh {
    private:
+    Transform3D* transform;
     ShaderProgram* shader;
     VertexBuffer* vertexBuffer;
     VertexArrayBuffer* vertexArrayBuffer;
@@ -27,7 +31,7 @@ class Mesh {
     ~Mesh();
 
     void init();
-    void draw();
+    void draw(Camera* camera);
 };
 
 #endif

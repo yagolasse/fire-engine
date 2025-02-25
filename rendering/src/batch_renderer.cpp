@@ -106,8 +106,6 @@ void BatchRenderer::pushQuad(Quad quad) {
 }
 
 void BatchRenderer::draw(const float *viewMatrix, const float *projectionMatrix) {
-    Renderer::getInstance()->clear();
-
     TextureStorage::getInstance()->bind();
 
     shader->bind();

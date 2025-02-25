@@ -84,6 +84,8 @@ void Application::run() {
 
         ImGui::Text("%.2f ms", lastDeltaTime * 1000.0); 
         ImGui::Text("%.0f FPS", 1.0 / lastDeltaTime); 
+
+        Renderer::getInstance()->clear();   
         
         SceneManager::getInstance()->runSceneRender();
 

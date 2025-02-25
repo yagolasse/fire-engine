@@ -3,15 +3,15 @@
 #include <glm.hpp>
 #include <memory>
 
-#include "camera.hpp"
+#include "custom_3d_camera.hpp"
 #include "game_object.hpp"
 #include "mesh.hpp"
 #include "texture_data.hpp"
 #include "texture_storage.hpp"
 
 VoxelGameScene::VoxelGameScene() {
-    camera = std::make_shared<Camera>(glm::vec3{0.0f,0.0f,3.0f});
-    camera->update(PerspectiveData{glm::radians(70.0f), 1280.0f / 720.0f, 0.1f, 1000.0f});
+    camera = new Custom3DCamera(glm::vec3{0.0f,0.0f,3.0f});
+    camera->updateProjection(PerspectiveData{glm::radians(70.0f), 1280.0f / 720.0f, 0.1f, 1000.0f});
 
     mesh = new Mesh();
 }
@@ -31,7 +31,7 @@ void VoxelGameScene::update(double deltaTime) {
 }
 
 void VoxelGameScene::render() {
-    mesh->draw();
+    mesh->draw(camera);
 
     Scene::render();
 }
