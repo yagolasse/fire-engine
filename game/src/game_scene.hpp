@@ -5,7 +5,7 @@
 
 class GameScene : public Scene {
    public:
-    using Scene::Scene;
+    GameScene();
 
     void start() override;
     void update(double deltaTime) override;

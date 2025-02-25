@@ -12,16 +12,31 @@ set(IMGUI_SOURCE vendor/imgui/imgui_demo.cpp vendor/imgui/imgui_draw.cpp vendor/
 add_subdirectory(rendering)
 add_subdirectory(core)
 add_subdirectory(game)
+add_subdirectory(game_3d)
 
-add_executable(fire-engine ${IMGUI_BACKEND} ${IMGUI_SOURCE} src/main.cpp)
+add_executable(ship-game ${IMGUI_BACKEND} ${IMGUI_SOURCE} game/main.cpp)
 
-target_include_directories(fire-engine PRIVATE vendor/imgui)
+target_include_directories(ship-game PRIVATE vendor/imgui)
 
-target_include_directories(fire-engine PRIVATE core/src)
-target_include_directories(fire-engine PRIVATE game/src)
+target_include_directories(ship-game PRIVATE core/src)
+target_include_directories(ship-game PRIVATE game/src)
 
-target_link_libraries(fire-engine engine-core)
+target_link_libraries(ship-game engine-core)
 
-target_link_libraries(fire-engine engine-rendering)
+target_link_libraries(ship-game engine-rendering)
 
-target_link_libraries(fire-engine game)
+target_link_libraries(ship-game game)
+
+add_executable(voxel-game ${IMGUI_BACKEND} ${IMGUI_SOURCE} game_3d/main.cpp)
+
+target_include_directories(voxel-game PRIVATE vendor/imgui)
+
+target_include_directories(voxel-game PRIVATE core/src)
+target_include_directories(voxel-game PRIVATE game/src)
+
+target_link_libraries(voxel-game engine-core)
+
+target_link_libraries(voxel-game engine-rendering)
+
+target_link_libraries(voxel-game game-3d)
+

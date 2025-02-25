@@ -1,6 +1,5 @@
 #include "scene.hpp"
 
-#include <gtc/type_ptr.hpp>
 #include <vector>
 
 #include "batch_renderer.hpp"
@@ -11,8 +10,6 @@
 #include "texture_storage.hpp"
 
 Scene::Scene() {
-    camera = std::make_shared<Camera>(glm::vec3{0.0f, 0.0f, 3.0f});
-    camera->update(OrthographicData{0.0f, 1280.0f, 0.0f, 720.0f, 0.01f, 1000.0f});
 }
 
 Scene::~Scene() {
@@ -67,6 +64,4 @@ void Scene::render() {
     for (std::shared_ptr<GameObject> gameObject : gameObjects) {
         gameObject->render();
     }
-
-    BatchRenderer::getInstance()->draw(glm::value_ptr(camera->getView()), glm::value_ptr(camera->getProjection()));
 }

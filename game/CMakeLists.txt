@@ -1,6 +1,6 @@
 add_library(game STATIC src/bullet.cpp src/game_application.cpp src/game_scene.cpp src/ship.cpp src/star.cpp)
 
-add_custom_target(copy_resources ALL
+add_custom_target(copy_resources_game ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_CURRENT_SOURCE_DIR}/resources
     ${PROJECT_BINARY_DIR}/resources
